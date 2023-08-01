@@ -135,9 +135,9 @@ def sort_new_face(new_face_path):
 
 def main():
     
-    # fetch_fake_faces(count=500)
+    # fetch_fake_faces(count=1000)
 
-    # cluster_faces(unsorted_directory="faces", num_clusters=30)
+    # cluster_faces(unsorted_directory="unsorted faces", num_clusters=30)
 
     sort_new_face(new_face_path="./yotam.jpeg")
 
