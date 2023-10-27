@@ -1,6 +1,9 @@
 from flask import Blueprint, request, jsonify, session
 from utils.db.db_models import users
+from utils.music.spotify import convert_playlist
 from utils.db.database import db
+import requests
+import json
 from flask_login import current_user, login_user, logout_user, login_required
 
 music_bp = Blueprint('music', __name__)
@@ -15,7 +18,8 @@ def submit_music():
     # Get the email and music data from the request
     data = request.get_json()
     email = user.email
-    music = data.get('music')
+    music = convert_playlist(data.get('music'))
+    # music = ['song1', 'song2', 'song3']
 
     print(f'email = {email}')
     print(f'music = {music}')

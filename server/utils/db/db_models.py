@@ -16,8 +16,9 @@ class users(db.Model, UserMixin):
 
     face_vector = db.Column(ARRAY(db.String(255)))
     liked_faces = db.Column(ARRAY(db.String(255)))
-    liked_reels = db.Column(ARRAY(db.String(255)))
-    liked_songs = db.Column(ARRAY(db.String(255)))
+    noped_faces = db.Column(ARRAY(db.String(255)))
+    liked_reels = db.Column(JSON)
+    liked_songs = db.Column(JSON)
 
     filters = db.Column(JSON)
 

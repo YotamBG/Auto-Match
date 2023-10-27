@@ -2,7 +2,7 @@ from faker import Faker
 import random
 from utils.db.db_models import db, users  # Import the necessary database models
 
-def generate_fake_users():
+def generate_fake_users0():
     fake = Faker()
 
     # Define lists of interests and songs for generating liked_reels and liked_songs
@@ -49,4 +49,4 @@ def generate_fake_users():
     session.close()
 
 if __name__ == "__main__":
-    generate_fake_users()
+    generate_fake_users0()

@@ -68,6 +68,38 @@ def train_face(user_id, yes_faces_names, no_faces_names):
     accuracy = classifier.score(X_test, y_test)
     print("Model Accuracy:", accuracy)
 
+# def dynamic_train_face(user_id, folder_name, yes_faces_names, no_faces_names):
+#     labels = []  # List to store the labels (interest: 1 for yes, 0 for no)
+#     face_vectors = []  # List to store the face encodings
+#     print('dynamic_train_face!')
+
+#     # Load and encode faces from the "yes-faces" folder
+#     face_vectors.extend(load_faces_from_folder(f'new-faces/{folder_name}', yes_faces_names, 1, labels))
+
+#     # Load and encode faces from the "no-faces" folder
+#     face_vectors.extend(load_faces_from_folder(f'new-faces/{folder_name}', no_faces_names, 0, labels))
+
+#     # Split data into training and testing sets
+#     X_train, X_test, y_train, y_test = train_test_split(face_vectors, labels, test_size=0.2, random_state=42)
+
+#     # Create a Random Forest Classifier
+#     classifier = RandomForestClassifier(n_estimators=50, random_state=42)  # Fine tune this hyperparameter (default n_estimators=100)
+
+#     # Train the model
+#     classifier.fit(X_train, y_train)
+
+#     # Create the user-specific folder if it doesn't exist
+#     user_folder = create_user_folder(user_id)
+#     print('user_folder:')
+#     print(user_folder)
+
+#     # Save the trained model to the user's folder
+#     model_filename = os.path.join(user_folder, "face_classifier_model.joblib")
+#     joblib.dump(classifier, model_filename)
+
+#     # Evaluate the model
+#     accuracy = classifier.score(X_test, y_test)
+#     print("Model Accuracy:", accuracy)
 def plot_decision_tree(feature_names=None, class_names=None):
     model_filename = "face_classifier_model.joblib"
     classifier = joblib.load(model_filename)

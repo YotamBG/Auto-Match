@@ -18,7 +18,7 @@ function getRandomInt(max) {
 async function fetchImages(page) {
     // await sleep(getRandomInt(10000));
 
-    const link = `https://api.generated.photos/api/frontend/v1/images?page=${page}&per_page=100&age=young-adult&gender=male`;
+    const link = `https://api.generated.photos/api/frontend/v1/images?page=${page}&per_page=100&age=young-adult`;
     console.log(link);
     try {
         const response = await fetch(link, {

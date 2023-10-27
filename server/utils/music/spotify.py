@@ -1,22 +1,45 @@
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
 import json
+from flask import jsonify
+import requests
+import requests
 
-def fetch_liked_songs():
-    # Replace 'your_client_id' and 'your_client_secret' with your actual client ID and client secret from the Spotify Developer Dashboard
-    client_id = 'd98e83fa24b147f68a89da1e76e0690e'
-    client_secret = 'e06ae60fb78b4831a6bc1c99fefbd9b9'
 
-    # Create a Spotipy client with OAuth authentication
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id, client_secret=client_secret, scope="user-library-read", redirect_uri="http://localhost"))
+# Get an access token to access the Spotify API
+def get_access_token(client_id='d98e83fa24b147f68a89da1e76e0690e', client_secret='e06ae60fb78b4831a6bc1c99fefbd9b9'):
+    token_url = 'https://accounts.spotify.com/api/token'
+    payload = {'grant_type': 'client_credentials'}
+    auth = (client_id, client_secret)
+    response = requests.post(token_url, data=payload, auth=auth)
+    
+    if response.status_code == 200:
+        token_data = response.json()
+        return token_data.get('access_token')
+    else:
+        print(f"Failed to obtain an access token. Status Code: {response.status_code}")
+        return None
+    
 
-    # Get the user's liked songs
-    liked_songs = []
-    offset = 0
-    limit = 50
-    while True:
-        results = sp.current_user_saved_tracks(limit=limit, offset=offset)
-        for item in results['items']:
+
+
+
+def convert_playlist(playlist_url):
+    try:
+        liked_songs = []
+
+        # Extract the playlist ID from the URL
+        playlist_id = playlist_url.split('/')[-1]
+
+        # Make a request to the Spotify API to fetch playlist data
+        spotify_api_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks'
+        headers = {
+            'Authorization': f'Bearer {get_access_token()}'
+        }
+        response = requests.get(spotify_api_url, headers=headers)
+
+        playlist_data = json.loads(response.text)
+        # print(playlist_data)
+        tracks = playlist_data['items']
+        for item in tracks:
             track = item['track']
             song_info = {
                 'name': track['name'],
@@ -25,85 +48,14 @@ def fetch_liked_songs():
                 'artist': track['artists'][0]['name']  # Assuming there is only one artist per track
             }
             liked_songs.append(song_info)
-        if len(results['items']) < limit:
-            break
-        offset += limit
+        print('liked_songs:')
+        # print(liked_songs)
+        return liked_songs
 
-    return liked_songs
 
-def write_to_json_file(data):
-    with open('liked_songs.json', 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
-
-def main():
-    try:
-        # Fetch liked songs
-        liked_songs = fetch_liked_songs()
-
-        # Write to the JSON file
-        write_to_json_file(liked_songs)
-        print("Liked songs fetched and saved successfully.")
     except Exception as e:
-        print(f"Error: {e}")
+        print('oops')
+        print(e)
+        return str(e)
+        # return jsonify({'error': str(e)}), 500
 
-if __name__ == "__main__":
-    main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# import spotipy
-# from spotipy.oauth2 import SpotifyOAuth
-# import json
-
-# def fetch_liked_songs():
-#     # Replace 'your_client_id' and 'your_client_secret' with your actual client ID and client secret from the Spotify Developer Dashboard
-#     client_id = 'd98e83fa24b147f68a89da1e76e0690e'
-#     client_secret = 'e06ae60fb78b4831a6bc1c99fefbd9b9'
-
-#     # Create a Spotipy client with OAuth authentication
-#     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id, client_secret=client_secret, scope="user-library-read", redirect_uri="http://localhost"))
-
-#     # Get the user's liked songs
-#     liked_songs = []
-#     offset = 0
-#     limit = 50
-#     while True:
-#         results = sp.current_user_saved_tracks(limit=limit, offset=offset)
-#         liked_songs.extend(results['items'])
-#         if len(results['items']) < limit:
-#             break
-#         offset += limit
-
-#     return liked_songs
-
-# def write_to_json_file(data):
-#     with open('liked_songs.json', 'w', encoding='utf-8') as f:
-#         json.dump(data, f, ensure_ascii=False, indent=4)
-
-# def main():
-#     try:
-#         # Fetch liked songs
-#         liked_songs = fetch_liked_songs()
-
-#         # Write to the JSON file
-#         write_to_json_file(liked_songs)
-#         print("Liked songs fetched and saved successfully.")
-#     except Exception as e:
-#         print(f"Error: {e}")
-
-# if __name__ == "__main__":
-#     main()

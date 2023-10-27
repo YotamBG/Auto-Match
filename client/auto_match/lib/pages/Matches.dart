@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-// import 'dart:convert';
+import 'package:flutter/gestures.dart';
+import 'dart:ui';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:myapp/pages/buttonBar.dart';
+import 'package:myapp/pages/services/api.dart';
+import 'package:myapp/utils.dart';
 
-import '../services/api.dart';
+// Now you can use the 'html' widget in your Flutter app.
 
-class Matches extends StatefulWidget {
-  const Matches({Key? key});
-
+class matches extends StatefulWidget {
   @override
-  _MatchesState createState() => _MatchesState();
+  State<matches> createState() => _matchesState();
 }
 
-class _MatchesState extends State<Matches> {
+class _matchesState extends State<matches> {
   List<Map<String, dynamic>> usersList = [];
   List<bool> selectedFilters = [false, false, false]; // Initial filter states
 
@@ -41,11 +44,17 @@ class _MatchesState extends State<Matches> {
     //     ? 'filters=${selectedFilterNames.join(',')}'
     //     : '';
 
-    final response = await api.dio.get('$url/match-fetch');
+    var response = await api.dio.get('$url/match-fetch-all');
+    // final response = await api.dio.get('$url/match-fetch');
 
-    final responseBody = response.data.toString();
     print(response.data['matches']);
-
+    if (response.data['matches'].length == 0) {
+      print('empty!');
+      var response2 = await api.dio.post(
+          '$url/match-search-all'); // move to button, instiate automatically if match-fetch is empty
+      response = await api.dio.get('$url/match-fetch-all');
+    }
+    final responseBody = response.data.toString();
     if (response.statusCode == 200) {
       // Parse the JSON response
       final jsonData = response.data;
@@ -54,6 +63,7 @@ class _MatchesState extends State<Matches> {
         usersList = (jsonData['matches'] as List<dynamic>).map((match) {
           return {
             'id': match['candidate_user_id'],
+            'name': match['candidate_user_name'],
             'image_url':
                 '$url/pic/${match['candidate_user_id']}/profilePic.png',
             'stats': {
@@ -74,65 +84,76 @@ class _MatchesState extends State<Matches> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('MATCHES'),
-        actions: [
-          ToggleButtons(
-            children: [
-              Icon(Icons.face),
-              Icon(Icons.music_note),
-              Icon(Icons.movie),
-            ],
-            selectedColor: Colors.white,
-            isSelected: selectedFilters,
-            onPressed: (index) {
-              setState(() {
-                selectedFilters[index] = !selectedFilters[index];
-              });
-              // Refetch data when filter toggles change
-              fetchUserData();
+      backgroundColor: Color(0xfffaf4ef),
+      body: Stack(
+        children: [
+          ListView.builder(
+            itemCount: usersList.length,
+            itemBuilder: (context, index) {
+              final user = usersList[index];
+
+              return GestureDetector(
+                onTap: () {
+                  print('clicked user ${user['id']}!');
+                  Navigator.pushNamed(context, '/match', arguments: user['id']);
+                },
+                child: Card(
+                  margin: EdgeInsets.all(30),
+                  child: Container(
+                    // decoration: BoxDecoration(
+                    //   borderRadius: BorderRadius.circular(20),
+                    //   color: Color.fromARGB(133, 217, 217, 217),
+                    // ),
+                    padding: EdgeInsets.all(15),
+                    // margin: EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.network(
+                                  user['image_url'],
+                                  width: 120,
+                                  height: 120,
+                                  fit: BoxFit.cover,
+                                )),
+                            Text(
+                              user['name'].toString(),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Face score: ${user['stats']['face'].toString()}%',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Music score: ${user['stats']['music'].toString()}%',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Reels score: ${user['stats']['reels'].toString()}%',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
             },
           ),
+          MyStickyButtonBar()
         ],
-      ),
-      body: ListView.builder(
-        itemCount: usersList.length,
-        itemBuilder: (context, index) {
-          final user = usersList[index];
-
-          return GestureDetector(
-            onTap: () {
-              print('clicked user ${user['id']}!');
-              Navigator.pushNamed(context, '/userProfile', arguments: user['id']);
-            },
-            child: Container(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Display the image
-                  Image.network(
-                    user['image_url'],
-                    width: 120,
-                    height: 120,
-                    fit: BoxFit.cover,
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    user['id'].toString(),
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    user['stats'].toString(),
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 8),
-                ],
-              ),
-            ),
-          );
-        },
       ),
     );
   }

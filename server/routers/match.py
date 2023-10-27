@@ -146,6 +146,8 @@ def match_fetch():
     try:
         # Get the current user's ID using Flask-Login's current_user
         current_user_id = current_user.id
+        # current_user_id = 53
+        # current_user = users.query.filter_by(id=current_user_id).first()
 
         # Get the current user's filters
         current_user_filters = current_user.filters
@@ -185,6 +187,7 @@ def match_fetch():
             serialized_match = {
                 'current_user_id': match.current_user_id,
                 'candidate_user_id': match.candidate_user_id,
+                'candidate_user_name': users.query.filter_by(id=match.candidate_user_id).first().name,
                 'face_match_percent': match.face_match_percent,
                 'music_match_percent': match.songs_match_percent,
                 'reels_match_percent': match.reels_match_percent,
@@ -225,3 +228,182 @@ def checkMatch(matches, filters):
             valid_matches.append(match)
 
     return valid_matches
+
+
+
+
+
+
+@match_bp.route('/match-fetch-all', methods=['GET'])
+def match_fetch_all():
+    try:
+        # Get the current user's ID using Flask-Login's current_user
+        current_user_id = current_user.id
+        # current_user_id = 53
+        # current_user = users.query.filter_by(id=current_user_id).first()
+
+        # Get the current user's filters
+        # current_user_filters = current_user.filters
+
+        # # Filter only the filters marked with 1 or 2 (bonus / must)
+        # active_filters = [filter_name for filter_name,
+        #                   filter_value in current_user_filters.items() if filter_value in [1, 2]]
+
+        print('active_filters:')
+        # print(active_filters)
+        # Get all matches for the current user
+        potential_matches = matches.query.filter(
+            matches.current_user_id == current_user_id).all()
+        print('potential_matches:')
+        print(potential_matches)
+
+        # Use the checkMatch function to filter matches based on active_filters
+        # filtered_matches = checkMatch(potential_matches, active_filters)
+        print('filtered_matches:')
+        # print(filtered_matches)
+
+        # verified_matches = []
+        # for match in filtered_matches:
+        #     candidate_user = users.query.filter_by(id=match.candidate_user_id).first()
+        #     candidate_user_filters = candidate_user.filters
+        #     candidate_user_active_filters = [filter_name for filter_name, filter_value in candidate_user_filters.items() if filter_value in [2]]
+        #     Match = matches.query.filter((matches.current_user_id == match.candidate_user_id) &(matches.candidate_user_id == current_user_id)).first()
+        #     reciprocity = checkMatch([Match], candidate_user_active_filters)
+        #     if reciprocity: # if not empty array
+        #         verified_matches.append(match)
+
+        # print('verified_matches:')
+        # dir(verified_matches)
+        # Serialize the filtered matches into a JSON format
+        serialized_matches = []
+        for match in potential_matches:
+            serialized_match = {
+                'current_user_id': match.current_user_id,
+                'candidate_user_id': match.candidate_user_id,
+                'candidate_user_name': users.query.filter_by(id=match.candidate_user_id).first().name,
+                'face_match_percent': match.face_match_percent,
+                'music_match_percent': match.songs_match_percent,
+                'reels_match_percent': match.reels_match_percent,
+                'decision': match.decision
+            }
+            serialized_matches.append(serialized_match)
+
+        return jsonify({'matches': serialized_matches}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': 'An error occurred while fetching matches'}), 500
+
+
+
+@match_bp.route('/match-search-all', methods=['POST'])
+def match_search_all():
+    try:
+        # Retrieve the current user's ID
+        user_id = current_user.id
+
+        # Delete existing matches for the current user
+        matches.query.filter(matches.current_user_id == user_id).delete()
+
+        # Retrieve all candidate IDs (excluding the current user)
+        candidates = users.query.filter(users.id != user_id).all()
+        candidates_ids = [candidate.id for candidate in candidates]
+
+        # Initialize a list to store the analyzed matches
+        analyzed_matches = []
+
+        # Analyze face matches, music matches, and reels matches for all candidates
+        face_match_scores = score_face(user_id, candidates_ids)
+        print('ok')
+        music_match_scores = score_music(user_id, candidates_ids)
+        print('ok2')
+        reels_match_scores = score_reels(user_id, candidates_ids)
+        print('ok3')
+
+        for i, candidate_id in enumerate(candidates_ids):
+            face_match_score = face_match_scores[i]
+            music_match_score = music_match_scores[i]
+            reels_match_score = reels_match_scores[i]
+
+            total_score = (face_match_score +
+                           music_match_score + reels_match_score) / 3
+
+            analyzed_matches.append({
+                'current_user_id': user_id,
+                'candidate_user_id': candidate_id,
+                'face_match_percent': face_match_score,
+                'reels_match_percent': reels_match_score,
+                'songs_match_percent': music_match_score,
+                'total_match_percent': total_score
+            })
+
+        # Save the analyzed matches to the Matches table
+        for match_data in analyzed_matches:
+            match = matches(**match_data)
+            db.session.add(match)
+
+        db.session.commit()
+
+        # Sort the analyzed matches by total score in descending order
+        analyzed_matches.sort(key=lambda x: x['total_match_percent'], reverse=True)
+
+        print('analyzed_matches:')
+        print(analyzed_matches)
+        
+        
+
+        # Return all analyzed matches
+        return jsonify({
+            'message': 'Match search completed successfully',
+            'analyzed_matches': analyzed_matches
+        }), 200
+
+    except Exception as e:
+        print('error:')
+        print(e)
+        return jsonify({'error': str(e)}), 500
+
+
+
+@match_bp.route('/get_match/<int:current_user_id>/<int:candidate_user_id>', methods=['GET'])
+def get_match(current_user_id, candidate_user_id):
+    try:
+        # Search for the match based on current_user_id and candidate_user_id
+        match = matches.query.filter(
+            (matches.current_user_id == current_user_id) &
+            (matches.candidate_user_id == candidate_user_id)
+        ).first()
+
+        if match is None:
+            return jsonify({'error': 'Match not found'}), 404
+
+        # Retrieve the common reels and songs for the current and candidate users
+        current_user = users.query.get(current_user_id)
+        candidate_user = users.query.get(candidate_user_id)
+
+        # Create sets of liked reels and songs for current and candidate users
+        current_user_liked_reels = set(reel['url'] for reel in current_user.liked_reels)
+        current_user_liked_songs = set(song['id'] for song in current_user.liked_songs)
+        candidate_user_liked_reels = set(reel['url'] for reel in candidate_user.liked_reels)
+        candidate_user_liked_songs = set(song['id'] for song in candidate_user.liked_songs)
+
+        # Find common reels and songs
+        common_reels = list(current_user_liked_reels & candidate_user_liked_reels)
+        common_songs = list(current_user_liked_songs & candidate_user_liked_songs)
+
+
+        match_data = {
+            'current_user_id': current_user_id,
+            'candidate_user_id': candidate_user_id,
+            'face_match_percent': match.face_match_percent,
+            'reels_match_percent': match.reels_match_percent,
+            'songs_match_percent': match.songs_match_percent,
+            'total_match_percent': match.total_match_percent,
+            'common_reels': common_reels,
+            'common_songs': common_songs
+        }
+
+        return jsonify(match_data)
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

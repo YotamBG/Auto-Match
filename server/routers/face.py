@@ -10,6 +10,54 @@ import face_recognition
 
 face_bp = Blueprint('face', __name__)
 
+@face_bp.route('/dynamic_submitFaces', methods=['POST'])
+def dynamic_submitFaces():
+    try:
+        id = current_user.id
+        user = users.query.filter_by(id=id).first()
+        jsonData = request.get_json()
+        liked_faces = jsonData.get('likedFaces')
+        noped_faces = jsonData.get('nopedFaces')
+
+        # Initialize liked_faces and noped_faces as empty lists if they are None
+        if user.liked_faces is None:
+            user.liked_faces = []
+        if user.noped_faces is None:
+            user.noped_faces = []
+
+        # Extend the user's liked_faces and noped_faces
+        user.liked_faces = user.liked_faces + liked_faces
+        user.noped_faces = user.noped_faces + noped_faces
+        
+        db.session.commit()
+
+        return jsonify({"message": 'Finished submitting!'}), 200
+
+    except Exception as e:
+        print(f'Error: {str(e)}')
+        return 'Error executing Python script', 500
+
+
+@face_bp.route('/dynamic_train_face', methods=['POST'])
+def dynamic_train_face():
+    try:
+        id = current_user.id
+        user = users.query.filter_by(id=id).first()
+        liked_faces = user.liked_faces
+        noped_faces = user.noped_faces
+
+        # Call the train_face function to train the model
+        train_face(id, liked_faces, noped_faces)
+
+        return jsonify({"message": 'Finished training!'}), 200
+
+    except Exception as e:
+        print(f'Error: {str(e)}')
+        return 'Error executing Python script', 500
+
+
+
+
 @face_bp.route('/submitFaces', methods=['POST'])
 def submit_faces():
     try:
@@ -33,7 +81,7 @@ def submit_faces():
         print(f'Error: {str(e)}')
         return 'Error executing Python script', 500
 
-
+# deprecated?
 @face_bp.route('/score_face', methods=['POST'])
 def score_face():
     try:

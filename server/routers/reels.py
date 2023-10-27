@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, session
 from utils.db.db_models import users
 from utils.db.database import db
 from flask_login import current_user, login_user, logout_user, login_required
+from utils.reels.instagram import fetch_reels
 
 reels_bp = Blueprint('reels', __name__)
 
@@ -15,10 +16,12 @@ def submit_reels():
     # Get the email and reels data from the request
     data = request.get_json()
     email = user.email
-    reels = data.get('reels')
+    ig_username = data.get('username')
+    ig_password = data.get('password')
 
     print(f'email = {email}')
-    print(f'reels = {reels}')
+    print(f'ig_username = {ig_username}')
+    print(f'ig_password = {ig_password}')
 
     try:
         # Find the user by email
@@ -34,7 +37,8 @@ def submit_reels():
             # print(liked_songs)
 
             # Update the 'liked_songs' field with the modified list
-            user.liked_reels = reels
+            # user.liked_reels = ['reel1', 'reel2', 'reel3']
+            user.liked_reels = fetch_reels(ig_username, ig_password)
 
             # Commit the changes to the database
             db.session.commit()

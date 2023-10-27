@@ -15,14 +15,16 @@ os.chdir(script_directory)
 
 # Function to load the trained model from a local file
 def load_trained_model(user_id):
-    file_path = os.path.join('../../storage', str(user_id), 'face_classifier_model.joblib')
+    file_path = os.path.join(
+        '../../storage', str(user_id), 'face_classifier_model.joblib')
     print('file_path:')
     print(file_path)
     return joblib.load(file_path)
 
 # Function to get predicted probability for a new face
 def get_predicted_probability(face_vector, classifier):
-    probability = classifier.predict_proba([face_vector])[0][1]  # Get probability of class 1 (interested)
+    # Get probability of class 1 (interested)
+    probability = classifier.predict_proba([face_vector])[0][1]
     return probability
 
 # Function to classify new faces and return scores
@@ -32,21 +34,29 @@ def score_face(user_id, candidate_ids):
     match_scores = {}
 
     for candidate_id in candidate_ids:
-        # Fetch the appropriate image by candidate ID from the 'storage' folder
-        image_path = os.path.join('../../storage', str(candidate_id), 'profilePic.png')
-        face_image = load_image_file(image_path)
-        face_vector = face_encodings(face_image)[0]
+        try:
+            # Fetch the appropriate image by candidate ID from the 'storage' folder
+            image_path = os.path.join(
+                '../../storage', str(candidate_id), 'profilePic.png')
+            face_image = load_image_file(image_path)
+            face_vector = face_encodings(face_image)[0]
 
-        # Get predicted probability for interest
-        probability = get_predicted_probability(face_vector, classifier)
+            # Get predicted probability for interest
+            probability = get_predicted_probability(face_vector, classifier)
 
-        # Convert probability to a score between 0 and 100
-        score = int(probability * 100)
+            # Convert probability to a score between 0 and 100
+            score = int(probability * 100)
 
-        # Store the match score for the candidate
-        match_scores[candidate_id] = score
+            # Store the match score for the candidate
+            match_scores[candidate_id] = score
+        
+        except Exception as e:
+            print(f"Error scoring face for user {user_id}: {str(e)}")
+            score = 0
+            match_scores[candidate_id] = score
 
-        print(f"Predicted Interest Score for candidate {candidate_id}: {score}")
+        print(
+            f"Predicted Interest Score for candidate {candidate_id}: {score}")
 
     return list(match_scores.values())
 

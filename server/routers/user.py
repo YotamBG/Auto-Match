@@ -1,7 +1,8 @@
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import render_template, redirect, url_for, flash
 from flask import Blueprint, request, jsonify, session
-from utils.db.test_db import generate_fake_users
+from utils.db.generate_example_users import generate_sample_users
+# from utils.db.test_db import generate_fake_users
 from utils.db.db_models import users
 from utils.db.database import db
 
@@ -71,6 +72,7 @@ def profile():
         profile_data = {
             'name': user.name,
             'bio': user.bio,
+            'id': current_user.id,
             'location': user.location,
             'age': user.age,
         }
@@ -90,6 +92,7 @@ def user_profile(user_id):
                 'bio': user.bio,
                 'location': user.location,
                 'age': user.age,
+                'id': user_id,
             }
             return jsonify(profile_data), 200
         else:
@@ -136,11 +139,12 @@ def update_profile():
 
 
 
-@user_bp.route('/generate-example-db', methods=['POST'])
-def generate_example_db():
+@user_bp.route('/generate-example-db/<int:num_users>', methods=['POST'])
+def generate_example_db(num_users):
     try:
         # Generate example fake users and add them to the database
-        generate_fake_users()
+        # generate_fake_users()
+        generate_sample_users(num_users)
         return jsonify({"message": "Example database generated successfully"}), 200
 
     except Exception as e:
