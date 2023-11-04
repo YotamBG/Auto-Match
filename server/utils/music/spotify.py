@@ -21,7 +21,6 @@ def get_access_token(client_id='d98e83fa24b147f68a89da1e76e0690e', client_secret
 
 
 
-
 def convert_playlist(playlist_url):
     try:
         liked_songs = []
@@ -38,7 +37,7 @@ def convert_playlist(playlist_url):
 
         playlist_data = json.loads(response.text)
         # print(playlist_data)
-        tracks = playlist_data['items']
+        tracks = playlist_data['tracks']['items']
         for item in tracks:
             track = item['track']
             song_info = {

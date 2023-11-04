@@ -74,72 +74,6 @@ def match_search():
         return jsonify({'error': str(e)}), 500
 
 
-# @match_bp.route('/match-fetch', methods=['GET'])
-# def match_fetch():
-#     try:
-#         # Get the user's ID from the request or your authentication mechanism
-#         # user_id = request.args.get('user_id')
-#         user_id = current_user.id
-
-#         # Define filters based on query parameters (e.g., 'face', 'music', 'reels')
-#         filters_string = request.args.get('filters', default='', type=str)
-
-#         # Split the filters_string into a list using commas
-#         filters = filters_string.split(',')
-
-#         print(user_id)
-#         print(filters)
-
-#         # Create the base query to fetch matches
-#         base_query = matches.query.filter(
-#             (matches.current_user_id == user_id) &
-#             (matches.decision.is_(None))
-#         )
-
-#         # Initialize a dictionary to map filter names to their corresponding model columns
-#         filter_column_mapping = {
-#             'face': matches.face_match_percent,
-#             'music': matches.songs_match_percent,
-#             'reels': matches.reels_match_percent,
-#         }
-
-#         # Initialize a list of filter conditions
-#         filter_conditions = []
-
-#         # Iterate through selected filters and add conditions to the list
-#         for filter_name in filters:
-#             filter_column = filter_column_mapping.get(filter_name)
-#             if filter_column:
-#                 filter_conditions.append(filter_column >= 50)
-
-#         # Apply the filter conditions as an OR condition
-#         if filter_conditions:
-#             filtered_query = base_query.filter(db.and_(*filter_conditions))
-#         else:
-#             filtered_query = base_query
-
-#         # Execute the query and retrieve the matching results
-#         matches_data = filtered_query.all()
-
-#         # Serialize the matches data into a JSON format
-#         serialized_matches = []
-#         for match in matches_data:
-#             serialized_match = {
-#                 'current_user_id': match.current_user_id,
-#                 'candidate_user_id': match.candidate_user_id,
-#                 'face_match_percent': match.face_match_percent,
-#                 'music_match_percent': match.songs_match_percent,
-#                 'reels_match_percent': match.reels_match_percent,
-#                 'decision': match.decision
-#             }
-#             serialized_matches.append(serialized_match)
-
-#         return jsonify({'matches': serialized_matches}), 200
-
-#     except Exception as e:
-#         print(e)
-#         return jsonify({'error': 'An error occurred while fetching matches'}), 500
-
 
 @match_bp.route('/match-fetch', methods=['GET'])
 def match_fetch():
@@ -242,13 +176,6 @@ def match_fetch_all():
         # current_user_id = 53
         # current_user = users.query.filter_by(id=current_user_id).first()
 
-        # Get the current user's filters
-        # current_user_filters = current_user.filters
-
-        # # Filter only the filters marked with 1 or 2 (bonus / must)
-        # active_filters = [filter_name for filter_name,
-        #                   filter_value in current_user_filters.items() if filter_value in [1, 2]]
-
         print('active_filters:')
         # print(active_filters)
         # Get all matches for the current user
@@ -260,20 +187,7 @@ def match_fetch_all():
         # Use the checkMatch function to filter matches based on active_filters
         # filtered_matches = checkMatch(potential_matches, active_filters)
         print('filtered_matches:')
-        # print(filtered_matches)
 
-        # verified_matches = []
-        # for match in filtered_matches:
-        #     candidate_user = users.query.filter_by(id=match.candidate_user_id).first()
-        #     candidate_user_filters = candidate_user.filters
-        #     candidate_user_active_filters = [filter_name for filter_name, filter_value in candidate_user_filters.items() if filter_value in [2]]
-        #     Match = matches.query.filter((matches.current_user_id == match.candidate_user_id) &(matches.candidate_user_id == current_user_id)).first()
-        #     reciprocity = checkMatch([Match], candidate_user_active_filters)
-        #     if reciprocity: # if not empty array
-        #         verified_matches.append(match)
-
-        # print('verified_matches:')
-        # dir(verified_matches)
         # Serialize the filtered matches into a JSON format
         serialized_matches = []
         for match in potential_matches:
@@ -312,13 +226,31 @@ def match_search_all():
         # Initialize a list to store the analyzed matches
         analyzed_matches = []
 
+        # Initialize the scores arrays with zeros
+        face_match_scores = [0] * len(candidates_ids)
+        music_match_scores = [0] * len(candidates_ids)
+        reels_match_scores = [0] * len(candidates_ids)
+
         # Analyze face matches, music matches, and reels matches for all candidates
-        face_match_scores = score_face(user_id, candidates_ids)
-        print('ok')
-        music_match_scores = score_music(user_id, candidates_ids)
-        print('ok2')
-        reels_match_scores = score_reels(user_id, candidates_ids)
-        print('ok3')
+        try:
+            face_match_scores = score_face(user_id, candidates_ids)
+            print('ok')
+        except Exception as e:
+            print(f'Error in scoring face matches: {str(e)}')
+
+        try:
+            music_match_scores = score_music(user_id, candidates_ids)
+            print('ok2')
+        except Exception as e:
+            print(f'Error in scoring music matches: {str(e)}')
+
+        try:
+            reels_match_scores = score_reels(user_id, candidates_ids)
+            print('ok3')
+        except Exception as e:
+            print(f'Error in scoring reels matches: {str(e)}')
+
+        # add error handling, insert a list of zeros as long as candidates_ids instead when catching
 
         for i, candidate_id in enumerate(candidates_ids):
             face_match_score = face_match_scores[i]
@@ -365,7 +297,7 @@ def match_search_all():
 
 
 
-@match_bp.route('/get_match/<int:current_user_id>/<int:candidate_user_id>', methods=['GET'])
+@match_bp.route('/get-match/<int:current_user_id>/<int:candidate_user_id>', methods=['GET'])
 def get_match(current_user_id, candidate_user_id):
     try:
         # Search for the match based on current_user_id and candidate_user_id
@@ -381,16 +313,27 @@ def get_match(current_user_id, candidate_user_id):
         current_user = users.query.get(current_user_id)
         candidate_user = users.query.get(candidate_user_id)
 
-        # Create sets of liked reels and songs for current and candidate users
-        current_user_liked_reels = set(reel['url'] for reel in current_user.liked_reels)
-        current_user_liked_songs = set(song['id'] for song in current_user.liked_songs)
-        candidate_user_liked_reels = set(reel['url'] for reel in candidate_user.liked_reels)
-        candidate_user_liked_songs = set(song['id'] for song in candidate_user.liked_songs)
+        # Initialize sets for liked reels and songs
+        current_user_liked_reels = set()
+        current_user_liked_songs = set()
+        candidate_user_liked_reels = set()
+        candidate_user_liked_songs = set()
+
+        # Check if the current user has liked reels and songs
+        if current_user.liked_reels:
+            current_user_liked_reels = set(reel['url'] for reel in current_user.liked_reels)
+        if current_user.liked_songs:
+            current_user_liked_songs = set(song['id'] for song in current_user.liked_songs)
+
+        # Check if the candidate user has liked reels and songs
+        if candidate_user.liked_reels:
+            candidate_user_liked_reels = set(reel['url'] for reel in candidate_user.liked_reels)
+        if candidate_user.liked_songs:
+            candidate_user_liked_songs = set(song['id'] for song in candidate_user.liked_songs)
 
         # Find common reels and songs
         common_reels = list(current_user_liked_reels & candidate_user_liked_reels)
         common_songs = list(current_user_liked_songs & candidate_user_liked_songs)
-
 
         match_data = {
             'current_user_id': current_user_id,

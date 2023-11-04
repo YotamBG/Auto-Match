@@ -9,7 +9,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 music_bp = Blueprint('music', __name__)
 
 
-@music_bp.route('/submitMusic', methods=['POST'])
+@music_bp.route('/submit-music', methods=['POST'])
 def submit_music():
     # replace with middleware
     id = current_user.id
@@ -38,7 +38,14 @@ def submit_music():
             # print(liked_songs)
 
             # Update the 'liked_songs' field with the modified list
-            user.liked_songs = music
+            # user.liked_songs = music
+
+            
+            if user.liked_songs is None:
+                user.liked_songs = []
+
+            # Extend the user's liked_songs
+            user.liked_songs = user.liked_songs + music
 
             # Commit the changes to the database
             db.session.commit()

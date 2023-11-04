@@ -7,7 +7,7 @@ from utils.reels.instagram import fetch_reels
 reels_bp = Blueprint('reels', __name__)
 
 
-@reels_bp.route('/submitReels', methods=['POST'])
+@reels_bp.route('/submit-reels', methods=['POST'])
 def submit_reels():
     # replace with middleware
     id = current_user.id
@@ -38,7 +38,13 @@ def submit_reels():
 
             # Update the 'liked_songs' field with the modified list
             # user.liked_reels = ['reel1', 'reel2', 'reel3']
-            user.liked_reels = fetch_reels(ig_username, ig_password)
+            # user.liked_reels = fetch_reels(ig_username, ig_password)
+
+            if user.liked_reels is None:
+                user.liked_reels = []
+
+            # Extend the user's liked_reels
+            user.liked_reels = user.liked_reels + fetch_reels(ig_username, ig_password)
 
             # Commit the changes to the database
             db.session.commit()

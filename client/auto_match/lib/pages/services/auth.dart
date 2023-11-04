@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http; //switch to dio
 // import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'api.dart';
 
 Future<dynamic> signUpReq({
@@ -23,11 +24,10 @@ Future<dynamic> signUpReq({
       "age": age,
     };
     final signUpReq = await http.post(
-      Uri.parse('http://10.0.2.2:5000/signUp'),
+      Uri.parse('${dotenv.env["SERVER_URL"]}/signUp'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(jsonData),
     );
-    
 
     print('Server Response: ${signUpReq.body}');
     final signUpReqResponse = json.decode(signUpReq.body);
@@ -48,26 +48,27 @@ Future<dynamic> signInReq(
     };
 
     final signInReq = await api.dio.post(
-      'http://10.0.2.2:5000/signIn',
+      '${dotenv.env["SERVER_URL"]}/signIn',
       options: Options(headers: {"Content-Type": "application/json"}),
       data: jsonEncode(jsonData),
     );
 
     final signInReqResponse = signInReq.data.toString();
-    print('Server Response: ${signInReqResponse}');
+    print('Server Response: $signInReqResponse');
     return signInReqResponse; // Return the HTTP status code
   } catch (e) {
     print('Error during sign-in: $e');
   }
 }
+
 Future<Map<String, dynamic>> profileReq([int? userID]) async {
   try {
     print('userID:');
     print(userID);
 
     final apiUrl = userID != null
-        ? 'http://10.0.2.2:5000/userProfile/$userID'
-        : 'http://10.0.2.2:5000/myProfile';
+        ? '${dotenv.env["SERVER_URL"]}/user-profile/$userID'
+        : '${dotenv.env["SERVER_URL"]}/my-profile';
 
     final profileReq = await api.dio.get(
       apiUrl,
@@ -82,4 +83,3 @@ Future<Map<String, dynamic>> profileReq([int? userID]) async {
     return {'message': 'error'}; // Return an error message
   }
 }
-

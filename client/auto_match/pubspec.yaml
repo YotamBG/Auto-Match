@@ -1,4 +1,4 @@
-name: myapp
+name: AUTO_MATCH
 description: A exported flutter project from FUNCTION12
 
 
@@ -44,6 +44,7 @@ dependencies:
   dio_cookie_manager: ^3.1.1
   flutter_html_iframe: ^3.0.0-beta.2
   carousel_slider: ^4.2.1
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +73,7 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
+    - lib/.env 
     - assets/page-1/images/logo.png
     - assets/page-1/images/back-arrow.png
     - assets/page-1/images/back-arrow-Qkq.png

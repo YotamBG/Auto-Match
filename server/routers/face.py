@@ -10,8 +10,8 @@ import face_recognition
 
 face_bp = Blueprint('face', __name__)
 
-@face_bp.route('/dynamic_submitFaces', methods=['POST'])
-def dynamic_submitFaces():
+@face_bp.route('/submit-faces', methods=['POST'])
+def submit_faces():
     try:
         id = current_user.id
         user = users.query.filter_by(id=id).first()
@@ -38,8 +38,8 @@ def dynamic_submitFaces():
         return 'Error executing Python script', 500
 
 
-@face_bp.route('/dynamic_train_face', methods=['POST'])
-def dynamic_train_face():
+@face_bp.route('/train-face', methods=['POST'])
+def train_faces():
     try:
         id = current_user.id
         user = users.query.filter_by(id=id).first()
@@ -53,62 +53,11 @@ def dynamic_train_face():
 
     except Exception as e:
         print(f'Error: {str(e)}')
-        return 'Error executing Python script', 500
+        return 'Error executing Python script', 500    
 
 
-
-
-@face_bp.route('/submitFaces', methods=['POST'])
-def submit_faces():
-    try:
-        id = current_user.id
-        user = users.query.filter_by(id=id).first()
-        jsonData = request.get_json()
-        liked_faces = jsonData.get('likedFaces')
-        noped_faces = jsonData.get('nopedFaces')
-
-        # Update the user's liked_faces and noped_faces
-        user.liked_faces = liked_faces
-        # user.noped_faces = noped_faces
-        db.session.commit()
-
-        # Call the train_face function to train the model
-        train_face(id, liked_faces, noped_faces)
-
-        return jsonify({"message": 'Finished training!'}), 200
-
-    except Exception as e:
-        print(f'Error: {str(e)}')
-        return 'Error executing Python script', 500
-
-# deprecated?
-@face_bp.route('/score_face', methods=['POST'])
-def score_face():
-    try:
-        jsonData = request.get_json()
-        print('jsonData', jsonData)
-
-        print('run score_face.py')
-        # Execute Python script
-        subprocess.run(['python', './utils/face/score_face.py'], check=True)
-
-        with open('./utils/face/high_score_faces.json', 'r') as json_file:
-            jsonData2 = json.load(json_file)
-        
-        print('finished running score_face.py')
-        print('jsonData2')
-        print(jsonData2)
-
-        return jsonify(jsonData2), 200
-
-    except Exception as e:
-        print(f'Error: {str(e)}')
-        return 'Error executing Python script', 500
-    
-
-
-@face_bp.route('/submitFace', methods=['POST'])
-def submitFace():
+@face_bp.route('/submit-face', methods=['POST'])
+def submit_face():
     print('ok')
     try:
         # Get the uploaded image file

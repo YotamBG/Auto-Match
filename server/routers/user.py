@@ -63,7 +63,7 @@ def signup():
         return jsonify({"message": "User signup failed", "error": str(e)}), 500
 
 
-@user_bp.route('/myProfile', methods=['GET'])
+@user_bp.route('/my-profile', methods=['GET'])
 def profile():
     try:
         id = current_user.id
@@ -82,7 +82,7 @@ def profile():
         print(e)
         return jsonify({"message": "Not logged in"}), 401
 
-@user_bp.route('/userProfile/<int:user_id>', methods=['GET'])
+@user_bp.route('/user-profile/<int:user_id>', methods=['GET'])
 def user_profile(user_id):
     try:
         user = users.query.get(user_id)
