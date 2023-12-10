@@ -52,13 +52,41 @@ class _Sign_up_musicState extends State<Sign_up_music> {
 
       final musicReqResponse = musicReq.data.toString();
       print('Server Response: $musicReqResponse');
+      //hide loading
+      Navigator.of(context).pop();
+      //move to the next screeen
+      Navigator.pushNamed(context, '/sign_up_filters');
+      
     } catch (e) {
       print(e);
+      print('error!');
+      // show dialog to user - encouraging them to go to the use the manual functions in the training center
+      Navigator.of(context).pop();
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => AlertDialog(
+          content: SizedBox(
+            height: 150,
+            width: 200,
+            child: Column(
+              children: [
+                Text(
+                    'Oops! Please try again or use the training centre later on'),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                    Navigator.pushNamed(context, '/sign_up_filters');
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
     }
-    //hide loading
-    Navigator.of(context).pop();
-    //move to the next screeen
-    Navigator.pushNamed(context, '/sign_up_filters');
   }
 
   @override
@@ -109,21 +137,21 @@ class _Sign_up_musicState extends State<Sign_up_music> {
                       height: 18.33 * fem,
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        0 * fem, 0 * fem, 114 * fem, 21 * fem),
-                    child: Text(
-                      'SIGN UP',
-                      textAlign: TextAlign.center,
-                      style: SafeGoogleFont(
-                        'Playfair Display',
-                        fontSize: 30 * ffem,
-                        fontWeight: FontWeight.w800,
-                        height: 1.3325 * ffem / fem,
-                        color: const Color(0xff000000),
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.fromLTRB(
+                  //       0 * fem, 0 * fem, 114 * fem, 21 * fem),
+                  //   child: Text(
+                  //     'SIGN UP',
+                  //     textAlign: TextAlign.center,
+                  //     style: SafeGoogleFont(
+                  //       'Playfair Display',
+                  //       fontSize: 30 * ffem,
+                  //       fontWeight: FontWeight.w800,
+                  //       height: 1.3325 * ffem / fem,
+                  //       color: const Color(0xff000000),
+                  //     ),
+                  //   ),
+                  // ),
                   Container(
                     margin: EdgeInsets.fromLTRB(
                         12 * fem, 0 * fem, 0 * fem, 17 * fem),

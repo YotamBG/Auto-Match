@@ -104,7 +104,7 @@ class _Sign_up_memoState extends State<Sign_up_memo> {
                 onPressed: () {
                   // Navigator.pushNamed(context, '/sign_up_face_training_1');
                   Navigator.pushNamed(context, '/sign_up_face_training',
-                      arguments: 1);
+                      arguments: {'pageNum': 1, 'lastPageNum': 3});
                 },
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,

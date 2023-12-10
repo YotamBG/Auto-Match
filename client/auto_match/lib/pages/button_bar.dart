@@ -34,6 +34,7 @@ class _MyButtonBarState extends State<MyButtonBar> {
                             const Color.fromARGB(172, 196, 20, 20)),
                     onPressed: () {
                       // Handle button tap
+                      Navigator.pushNamed(context, '/training_centre');
                     },
                     child: const Text('Training center'),
                   ),
@@ -44,6 +45,7 @@ class _MyButtonBarState extends State<MyButtonBar> {
                             const Color.fromARGB(172, 196, 20, 20)),
                     onPressed: () {
                       // Handle button tap
+                      Navigator.pushNamed(context, '/my_profile');
                     },
                     child: const Text('Profile'),
                   ),

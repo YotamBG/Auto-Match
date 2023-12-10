@@ -6,6 +6,8 @@ import 'package:AUTO_MATCH/pages/services/api.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:AUTO_MATCH/pages/services/utils.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
+
 
 import 'package:dio/dio.dart';
 
@@ -31,10 +33,38 @@ class _Sign_up_picState extends State<Sign_up_pic> {
     print('pick image!');
 
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      await cropImage(image.path);
+    }
+    // setState(() {
+    //   imageFile = image;
+    // });
+  }
+  Future<void> cropImage(String imagePath) async {
+  CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
+      sourcePath: imagePath,
+      maxWidth: null,
+      maxHeight: null,
+      aspectRatio: null,
+      aspectRatioPresets: [
+      CropAspectRatioPreset.square,
+      CropAspectRatioPreset.ratio3x2,
+      CropAspectRatioPreset.original,
+      CropAspectRatioPreset.ratio4x3,
+      CropAspectRatioPreset.ratio16x9,
+    ],
+      cropStyle: CropStyle.rectangle,
+      compressFormat: ImageCompressFormat.jpg,
+      compressQuality: 90,
+      uiSettings: null,
+    );
+
+  if (croppedFile != null) {
     setState(() {
-      imageFile = image;
+      imageFile = XFile(croppedFile.path);
     });
   }
+}
 
   Future<void> submitFace() async {
     // Show loading dialog

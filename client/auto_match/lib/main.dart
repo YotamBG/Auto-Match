@@ -1,3 +1,5 @@
+import 'package:AUTO_MATCH/pages/my_profile.dart';
+import 'package:AUTO_MATCH/pages/training_centre.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:AUTO_MATCH/pages/sign_up/sign_up_face_training.dart';
@@ -29,6 +31,8 @@ Future<void> main() async {
         '/sign_up_pic': (context) => const Sign_up_pic(),
         '/sign_up_memo': (context) => const Sign_up_memo(),
         '/sign_up_face_training': (context) => const Sign_up_face_training(),
+        '/training_centre': (context) => const Training_centre(),
+        '/my_profile': (context) => const My_profile(),
       },
     ),
   );

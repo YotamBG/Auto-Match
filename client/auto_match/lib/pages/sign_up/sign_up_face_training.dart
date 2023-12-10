@@ -17,7 +17,7 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
   List<dynamic> selectedImageIds = [];
   List<Map<String, dynamic>> imagesList = [];
   var pageNum;
-  var lastPage = 3;
+  var lastPageNum;
 
   @override
   void initState() {
@@ -32,9 +32,12 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
   }
 
   Future<void> loadPage() async {
-    final pageNumArg = ModalRoute.of(context)!.settings.arguments as int;
+    final argObject = ModalRoute.of(context)!.settings.arguments as dynamic;
+    final pageNumArg = argObject['pageNum'];
+    final lastPageNumArg = argObject['lastPageNum'];
     setState(() {
       pageNum = pageNumArg;
+      lastPageNum = lastPageNumArg;
     });
 
     fetchImageData();
@@ -103,7 +106,7 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
     final submitFacesReqResponse = submitFacesResponse.data.toString();
     print('Server Response: $submitFacesReqResponse');
 
-    if (pageNum == lastPage) {
+    if (pageNum == lastPageNum) {
       // if last
       final trainFaceResponse = await api.dio.post(
         '${dotenv.env["SERVER_URL"]}/train-face',
@@ -118,7 +121,7 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
     } else {
       Navigator.of(context).pop();
       Navigator.pushNamed(context, '/sign_up_face_training',
-          arguments: pageNum + 1);
+          arguments: {'pageNum': pageNum + 1, 'lastPageNum': lastPageNum});
     }
   }
 
@@ -258,7 +261,7 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
                   ),
                   child: Center(
                     child: Text(
-                      pageNum == lastPage ? 'FINISH TRAINING' : 'CONTINUE',
+                      pageNum == lastPageNum ? 'FINISH TRAINING' : 'CONTINUE',
                       textAlign: TextAlign.center,
                       style: SafeGoogleFont(
                         'Playfair Display',
