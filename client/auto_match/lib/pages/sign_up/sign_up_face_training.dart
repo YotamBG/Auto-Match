@@ -131,153 +131,172 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.fromLTRB(30 * fem, 50 * fem, 42 * fem, 55 * fem),
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Color(0xfffaf4ef),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin:
-                  EdgeInsets.fromLTRB(13 * fem, 0 * fem, 0 * fem, 19.33 * fem),
-              width: 210 * fem,
-              height: 124 * fem,
-              child: Image.asset(
-                'assets/page-1/images/logo-2x9.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-            Container(
-              margin:
-                  EdgeInsets.fromLTRB(0 * fem, 0 * fem, 235 * fem, 10 * fem),
-              width: 24 * fem,
-              height: 18.33 * fem,
-              child: Image.asset(
-                'assets/page-1/images/back-arrow-3cD.png',
-                width: 24 * fem,
-                height: 18.33 * fem,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 15 * fem),
-              width: double.infinity,
-              child: Text(
-                'Face training - step $pageNum',
-                textAlign: TextAlign.center,
-                style: SafeGoogleFont(
-                  'Playfair Display',
-                  fontSize: 30 * ffem,
-                  fontWeight: FontWeight.w800,
-                  height: 1.3325 * ffem / fem,
-                  color: const Color(0xff000000),
-                ),
-              ),
-            ),
-            GridView.count(
-              physics: const ScrollPhysics(),
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              crossAxisCount: 3,
-              children: imagesList.map((face) {
-                final isSelected = selectedImageIds.contains(face['id']);
-
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      if (isSelected) {
-                        selectedImageIds.remove(face['id']);
-                      } else {
-                        selectedImageIds.add(face['id']);
-                      }
-                    });
-                    print('selectedImageIds $selectedImageIds');
-                  },
-                  onLongPress: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Dialog(
-                          child: Container(
-                            child: Image.network(
-                              face['image_url'],
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Stack(
-                      children: [
-                        Image.network(
-                          face['image_url'],
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
-                        if (isSelected)
-                          const Positioned(
-                            top: 8,
-                            right: 8,
-                            child: Icon(
-                              Icons.check_circle,
-                              color: Color.fromARGB(207, 31, 64, 149),
-                              size: 32,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(49 * fem, 0 * fem, 48 * fem, 0 * fem),
-              child: TextButton(
-                onPressed: () {
-                  sendDataToServer();
-                },
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                ),
-                child: Container(
-                  width: double.infinity,
-                  height: 38 * fem,
-                  decoration: BoxDecoration(
-                    color: const Color(0xffdee5ed),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xff000000),
-                        offset: Offset(7 * fem, 7 * fem),
-                        blurRadius: 1 * fem,
+        body: SafeArea(
+          child: SingleChildScrollView(
+              child: Container(
+          // signup6PuX (405:275)
+          padding: EdgeInsets.fromLTRB(13 * fem, 33 * fem, 12 * fem, 26 * fem),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Color(0xffffffff),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                // autogroupzfqdgtd (TtqQf4JJjPyVQqqSXazFqd)
+                margin:
+                    EdgeInsets.fromLTRB(13 * fem, 0 * fem, 67 * fem, 16 * fem),
+                width: double.infinity,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      // logoZxR (405:283)
+                      margin: EdgeInsets.fromLTRB(
+                          0 * fem, 0 * fem, 18 * fem, 1 * fem),
+                      width: 51 * fem,
+                      height: 50 * fem,
+                      child: Image.asset(
+                        'assets/page-1/images/logo-JpD.png',
+                        fit: BoxFit.cover,
                       ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      pageNum == lastPageNum ? 'FINISH TRAINING' : 'CONTINUE',
+                    ),
+                    Text(
+                      // definetasteaMj (405:281)
+                      'Define taste',
                       textAlign: TextAlign.center,
                       style: SafeGoogleFont(
-                        'Playfair Display',
-                        fontSize: 20 * ffem,
-                        fontWeight: FontWeight.w800,
-                        height: 1.3325 * ffem / fem,
-                        color: const Color(0xff000000),
+                        'Plus Jakarta Sans',
+                        fontSize: 35 * ffem,
+                        fontWeight: FontWeight.w300,
+                        height: 1.26 * ffem / fem,
+                        color: Color(0xff000000),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                // text6qs (405:282)
+                margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 53 * fem),
+                child: Text(
+                  'Select faces you like',
+                  textAlign: TextAlign.center,
+                  style: SafeGoogleFont(
+                    'Plus Jakarta Sans',
+                    fontSize: 24 * ffem,
+                    fontWeight: FontWeight.w300,
+                    height: 1.26 * ffem / fem,
+                    color: Color(0xff2c2c2c),
+                  ),
+                ),
+              ),
+              GridView.count(
+                physics: const ScrollPhysics(),
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                crossAxisCount: 3,
+                children: imagesList.map((face) {
+                  final isSelected = selectedImageIds.contains(face['id']);
+        
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (isSelected) {
+                          selectedImageIds.remove(face['id']);
+                        } else {
+                          selectedImageIds.add(face['id']);
+                        }
+                      });
+                      print('selectedImageIds $selectedImageIds');
+                    },
+                    onLongPress: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            child: Container(
+                              child: Image.network(
+                                face['image_url'],
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  10.0), // Adjust the radius as needed
+                              border: Border.all(
+                                color: isSelected
+                                    ? Color.fromARGB(255, 44, 44, 44)
+                                    : Colors.white,
+                                width: 2.5, // Adjust the border width as needed
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Use the same radius as in BoxDecoration
+                              child: Image.network(
+                                face['image_url'],
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              Container(
+                // signinbutton87f (405:276)
+                margin: EdgeInsets.fromLTRB(28 * fem, 0 * fem, 32 * fem, 0 * fem),
+                child: TextButton(
+                  onPressed: () {
+                    sendDataToServer();
+                  },
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    height: 71 * fem,
+                    decoration: BoxDecoration(
+                      color: Color(0xff2c2c2c),
+                      borderRadius: BorderRadius.circular(20 * fem),
+                    ),
+                    child: Center(
+                      child: Text(
+                        pageNum == lastPageNum ? 'Finish Training' : 'Continue',
+                        textAlign: TextAlign.center,
+                        style: SafeGoogleFont(
+                          'Plus Jakarta Sans',
+                          fontSize: 24 * ffem,
+                          fontWeight: FontWeight.w500,
+                          height: 1.26 * ffem / fem,
+                          color: Color(0xffffffff),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
+            ],
+          ),
+              ),
             ),
-          ],
-        ),
-      ),
-    ));
+        ));
   }
 }

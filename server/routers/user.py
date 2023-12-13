@@ -25,6 +25,12 @@ def signIn():
     else:
         return jsonify({"message": "Invalid credentials"}), 401
 
+@user_bp.route('/logout', methods=['POST'])
+def logout():
+    # Log the user out
+    logout_user()
+    
+    return jsonify({"message": "User logged out"}), 200
 
 @user_bp.route('/signUp', methods=['POST'])
 def signup():

@@ -1,3 +1,5 @@
+import 'package:AUTO_MATCH/pages/services/utils.dart';
+import 'package:AUTO_MATCH/pages/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:AUTO_MATCH/pages/button_bar.dart';
 import 'package:AUTO_MATCH/pages/services/api.dart';
@@ -35,9 +37,9 @@ class _MatchesState extends State<Matches> {
           '${dotenv.env["SERVER_URL"]}/match-search-all'); // copy to refresh button
       print(searchResponse);
       // get the newly generated matches
-      fetchResponse =
-          await api.dio.get('${dotenv.env["SERVER_URL"]}/match-fetch-all');
     }
+    fetchResponse =
+          await api.dio.get('${dotenv.env["SERVER_URL"]}/match-fetch');
     final responseBody = fetchResponse.data.toString();
 
     if (fetchResponse.statusCode == 200) {
@@ -68,72 +70,186 @@ class _MatchesState extends State<Matches> {
 
   @override
   Widget build(BuildContext context) {
+    double baseWidth = 375;
+    double fem = MediaQuery.of(context).size.width / baseWidth;
+    double ffem = fem * 0.97;
     return Scaffold(
-      backgroundColor: const Color(0xfffaf4ef),
-      body: Stack(
-        children: [
-          ListView.builder(
-            itemCount: usersList.length,
-            itemBuilder: (context, index) {
-              final user = usersList[index];
-
-              return GestureDetector(
-                onTap: () {
-                  print('clicked user ${user['id']}!');
-                  Navigator.pushNamed(context, '/match', arguments: user['id']);
-                },
-                child: Card(
-                  margin: const EdgeInsets.all(30),
-                  child: Container(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.network(
-                                  user['image_url'],
-                                  width: 120,
-                                  height: 120,
-                                  fit: BoxFit.contain,
-                                )),
-                            Text(
-                              user['name'].toString(),
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                          ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            MyTopBar('Matches'),
+            Expanded(
+              child: ListView.builder(
+                itemCount: usersList.length,
+                itemBuilder: (context, index) {
+                  final user = usersList[index];
+      
+                  return GestureDetector(
+                    onTap: () {
+                      print('clicked user ${user['id']}!');
+                      Navigator.pushNamed(context, '/match',
+                          arguments: user['id']);
+                    },
+                    child: Center(
+                      child: Container(
+                        // card1Fj (403:53)
+                        margin: EdgeInsets.fromLTRB(
+                            11 * fem, 0 * fem, 0 * fem, 53.67 * fem),
+                        child: Container(
+                          width: 303 * fem,
+                          height: 415.33 * fem,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20 * fem),
+                          ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                // rectangle5mP (403:54)
+                                left: 0 * fem,
+                                top: 0 * fem,
+                                child: Align(
+                                  child: SizedBox(
+                                    width: 303 * fem,
+                                    height: 410.28 * fem,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(20 * fem),
+                                        color: Color(0xffffffff),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Color(0x3f000000),
+                                            offset: Offset(0 * fem, 4 * fem),
+                                            blurRadius: 2 * fem,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    SizedBox(
+                                      width: 259.12 * fem,
+                                      height: 283.24 * fem,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(20 * fem),
+                                        child: Image.network(
+                                          user['image_url'],
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 80 * fem,
+                                      height: 36 * fem,
+                                      child: Text(
+                                        user['name'].toString(),
+                                        textAlign: TextAlign.center,
+                                        style: SafeGoogleFont(
+                                          'Plus Jakarta Sans',
+                                          fontSize: 28 * ffem,
+                                          fontWeight: FontWeight.w500,
+                                          height: 1.26 * ffem / fem,
+                                          color: Color(0xff2c2c2c),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 300,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Text(
+                                                '${user['stats']['face'].toStringAsFixed(0)}%',
+                                                textAlign: TextAlign.center,
+                                                style: SafeGoogleFont(
+                                                  'Plus Jakarta Sans',
+                                                  fontSize: 20 * ffem,
+                                                  fontWeight: FontWeight.w500,
+                                                  height: 1.26 * ffem / fem,
+                                                  color: Color(0xff2c2c2c),
+                                                ),
+                                              ),
+                                              Text(
+                                                '👀',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 20 * ffem,
+                                                    fontFamily: 'AppleEmoji'),
+                                              )
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text(
+                                                '${user['stats']['reels'].toStringAsFixed(0)}%',
+                                                textAlign: TextAlign.center,
+                                                style: SafeGoogleFont(
+                                                  'Plus Jakarta Sans',
+                                                  fontSize: 20 * ffem,
+                                                  fontWeight: FontWeight.w500,
+                                                  height: 1.26 * ffem / fem,
+                                                  color: Color(0xff2c2c2c),
+                                                ),
+                                              ),
+                                              Text(
+                                                '😂',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 20 * ffem,
+                                                    fontFamily: 'AppleEmoji'),
+                                              )
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text(
+                                                '${user['stats']['music'].toStringAsFixed(0)}%',
+                                                textAlign: TextAlign.center,
+                                                style: SafeGoogleFont(
+                                                  'Plus Jakarta Sans',
+                                                  fontSize: 20 * ffem,
+                                                  fontWeight: FontWeight.w500,
+                                                  height: 1.26 * ffem / fem,
+                                                  color: Color(0xff2c2c2c),
+                                                ),
+                                              ),
+                                              Text(
+                                                '🎵',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 20 * ffem,
+                                                    fontFamily: 'AppleEmoji'),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Face score: ${user['stats']['face'].toString()}%',
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Music score: ${user['stats']['music'].toString()}%',
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Reels score: ${user['stats']['reels'].toString()}%',
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ],
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
-          const MyButtonBar()
-        ],
+                  );
+                },
+              ),
+            ),
+            MyButtonBar('matches')
+          ],
+        ),
       ),
     );
   }

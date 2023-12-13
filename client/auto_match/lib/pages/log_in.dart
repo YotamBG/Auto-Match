@@ -40,181 +40,149 @@ class Log_inState extends State<Log_in> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
     return Scaffold(
-        body: SingleChildScrollView(
-            child: SizedBox(
-      width: double.infinity,
-      child: Container(
-        padding: EdgeInsets.fromLTRB(31 * fem, 34 * fem, 31 * fem, 70 * fem),
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Color(0xfffaf4ef),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0 * fem, 93 * fem),
-              width: 210 * fem,
-              height: 124 * fem,
-              child: Image.asset(
-                'assets/page-1/images/logo-n9X.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 82 * fem),
-              child: Text(
-                'Welcome Back!',
-                textAlign: TextAlign.center,
-                style: SafeGoogleFont(
-                  'Playfair Display',
-                  fontSize: 40 * ffem,
-                  fontWeight: FontWeight.w800,
-                  height: 1.3325 * ffem / fem,
-                  color: const Color(0xff000000),
+        body: SafeArea(
+          child: SingleChildScrollView(
+              child: SizedBox(
+              width: double.infinity,
+              child: Container(
+          // signinBwT (403:28)
+          padding:
+              EdgeInsets.fromLTRB(41 * fem, 20 * fem, 42.53 * fem, 189 * fem),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Color(0xffffffff),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                // logobNu (403:48)
+                margin:
+                    EdgeInsets.fromLTRB(0 * fem, 0 * fem, 1.47 * fem, 43 * fem),
+                width: 132 * fem,
+                height: 130 * fem,
+                child: Image.asset(
+                  'assets/page-1/images/logo-zBf.png',
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
-            Container(
-              padding:
-                  EdgeInsets.fromLTRB(12 * fem, 0 * fem, 12 * fem, 31 * fem),
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Color(0xffffffff),
+              Container(
+                // signin4GV (403:29)
+                margin:
+                    EdgeInsets.fromLTRB(0 * fem, 0 * fem, 2.47 * fem, 63 * fem),
+                child: Text(
+                  'Sign In',
+                  textAlign: TextAlign.center,
+                  style: SafeGoogleFont(
+                    'Plus Jakarta Sans',
+                    fontSize: 40 * ffem,
+                    fontWeight: FontWeight.w300,
+                    height: 1.26 * ffem / fem,
+                    color: Color(0xff000000),
+                  ),
+                ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        0 * fem, 0 * fem, 241 * fem, 9 * fem),
-                    width: 48 * fem,
-                    height: 55 * fem,
-                    child: Image.asset(
-                      'assets/page-1/images/back-arrow-KPf.png',
-                      width: 48 * fem,
-                      height: 55 * fem,
-                    ),
+              Container(
+                // emailinputunu (403:43)
+                margin:
+                    EdgeInsets.fromLTRB(1.47 * fem, 0 * fem, 0 * fem, 39 * fem),
+                width: 290 * fem,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10 * fem),
+                  color: Color(0xfff4f3f3),
+                ),
+                child: TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.fromLTRB(
+                        21.53 * fem, 15 * fem, 21.53 * fem, 17 * fem),
+                    hintText: 'Email',
+                    hintStyle: TextStyle(color: Color(0xffa4a4a4)),
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        0 * fem, 0 * fem, 99 * fem, 47 * fem),
-                    child: Text(
-                      'LOG IN',
-                      textAlign: TextAlign.center,
-                      style: SafeGoogleFont(
-                        'Playfair Display',
-                        fontSize: 30 * ffem,
-                        fontWeight: FontWeight.w800,
-                        height: 1.3325 * ffem / fem,
-                        color: const Color(0xff000000),
-                      ),
-                    ),
+                  style: SafeGoogleFont(
+                    'Plus Jakarta Sans',
+                    fontSize: 19 * ffem,
+                    fontWeight: FontWeight.w400,
+                    height: 1.26 * ffem / fem,
+                    color: Color(0xff000000),
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        42 * fem, 0 * fem, 41 * fem, 12 * fem),
+                ),
+              ),
+              Container(
+                // passwordinputJa9 (403:44)
+                margin:
+                    EdgeInsets.fromLTRB(0 * fem, 0 * fem, 1.47 * fem, 89 * fem),
+                width: 290 * fem,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10 * fem),
+                  color: Color(0xfff4f3f3),
+                ),
+                child: TextField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.fromLTRB(
+                        24 * fem, 15 * fem, 24 * fem, 17 * fem),
+                    hintText: 'Password',
+                    hintStyle: TextStyle(color: Color(0xffa4a4a4)),
+                  ),
+                  style: SafeGoogleFont(
+                    'Plus Jakarta Sans',
+                    fontSize: 19 * ffem,
+                    fontWeight: FontWeight.w400,
+                    height: 1.26 * ffem / fem,
+                    color: Color(0xff000000),
+                  ),
+                ),
+              ),
+              Container(
+                // signinbuttonJiZ (403:31)
+                margin:
+                    EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
+                child: TextButton(
+                  onPressed: () {
+                    signIn();
+                  },
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: Container(
                     width: double.infinity,
+                    height: 71 * fem,
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xff000000)),
+                      color: Color(0xff2c2c2c),
+                      borderRadius: BorderRadius.circular(20 * fem),
                     ),
-                    child: TextField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.fromLTRB(
-                            17.5 * fem, 8 * fem, 17.5 * fem, 11 * fem),
-                        hintText: 'Email',
-                        hintStyle: const TextStyle(color: Color(0xff000000)),
-                      ),
-                      style: SafeGoogleFont(
-                        'Playfair Display',
-                        fontSize: 14 * ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.3325 * ffem / fem,
-                        color: const Color(0xff000000),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        42 * fem, 0 * fem, 41 * fem, 47 * fem),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xff000000)),
-                    ),
-                    child: TextField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.fromLTRB(
-                            12 * fem, 10 * fem, 12 * fem, 9 * fem),
-                        hintText: 'Password',
-                        hintStyle: const TextStyle(color: Color(0xff000000)),
-                      ),
-                      style: SafeGoogleFont(
-                        'Playfair Display',
-                        fontSize: 14 * ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.3325 * ffem / fem,
-                        color: const Color(0xff000000),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        42 * fem, 0 * fem, 41 * fem, 0 * fem),
-                    child: TextButton(
-                      onPressed: () {
-                        signIn();
-                      },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: Container(
-                        width: double.infinity,
-                        height: 38 * fem,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffdee5ed),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xff000000),
-                              offset: Offset(7 * fem, 7 * fem),
-                              blurRadius: 1 * fem,
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            'CONTINUE',
-                            textAlign: TextAlign.center,
-                            style: SafeGoogleFont(
-                              'Playfair Display',
-                              fontSize: 20 * ffem,
-                              fontWeight: FontWeight.w800,
-                              height: 1.3325 * ffem / fem,
-                              color: const Color(0xff000000),
-                            ),
-                          ),
+                    child: Center(
+                      child: Text(
+                        'Sign In',
+                        textAlign: TextAlign.center,
+                        style: SafeGoogleFont(
+                          'Plus Jakarta Sans',
+                          fontSize: 24 * ffem,
+                          fontWeight: FontWeight.w500,
+                          height: 1.26 * ffem / fem,
+                          color: Color(0xffffffff),
                         ),
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
-    )));
+            ],
+          ),
+              ),
+            )),
+        ));
   }
 }

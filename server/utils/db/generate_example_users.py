@@ -188,7 +188,7 @@ def generate_random_liked_reels():
     liked_reels = []
     for persona in persona_groups:
         # Select 3 hashtags randomly
-        selected_hashtags = random.sample(list(persona.values()), 3)
+        selected_hashtags = random.sample(list(persona.values()), 8)
         # Get 5 posts from each hashtag
         posts = [item for sublist in selected_hashtags for item in sublist[:5]]
         # print(posts)
@@ -206,12 +206,12 @@ def generate_random_liked_songs():
     playlist_list = list(groups_data.values())
     
     # Select 3 playlists randomly
-    playlist_groups = random.sample(playlist_list, 5)
+    playlist_groups = random.sample(playlist_list, 4)
 
     liked_songs = []
     for playlist in playlist_groups:
         # Select 9 songs randomly
-        songs = random.sample(playlist, 9)
+        songs = random.sample(playlist, 10)
         print(songs)
         liked_songs+=songs
     
@@ -238,17 +238,16 @@ def generate_random_selected_faces():
 from utils.db.db_models import db, users  # Import the necessary database models
 from random import choice, randint
 from utils.face.train_face import train_face
+from faker import Faker
+
+fake = Faker()
 
 
 # Function to generate and insert sample users
 def generate_sample_users(num_users):
     
-    # List of sample names
-    names = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Hank', 'Ivy', 'Jack',
-             'Katie', 'Liam', 'Mia', 'Noah', 'Olivia', 'Peter', 'Quinn', 'Riley', 'Sophia', 'Tom',
-             'Ursula', 'Victor', 'Wendy', 'Xander', 'Yara', 'Zane']
     for i in range(num_users):
-        name = names[i]
+        name = fake.first_name()
         email = f"{name.lower()}@example.com"
         password = f"{name}123"
         age = randint(20, 35)
@@ -273,7 +272,7 @@ def generate_sample_users(num_users):
             noped_faces=random_selected_faces['noped_faces'],
             liked_reels=random_liked_reels,
             liked_songs=random_liked_songs,
-            filters={'face': 1,'music': 1,'reels': 1}
+            filters={'face': 1,'songs': 1,'reels': 1}
         )
 
         # Add the user to the database

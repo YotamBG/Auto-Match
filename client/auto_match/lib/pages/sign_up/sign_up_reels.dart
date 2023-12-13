@@ -17,6 +17,34 @@ class _Sign_up_reelsState extends State<Sign_up_reels> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  var pop;
+
+  @override
+  void initState() {
+    super.initState();
+    // fetchImageData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadPage();
+  }
+
+  Future<void> loadPage() async {
+    var argObject = ModalRoute.of(context)!.settings.arguments as dynamic;
+    var popArg = argObject['pop'];
+    setState(() {
+      pop = popArg;
+    });
+  }
+
+  // if (pop == true) {
+  //       Navigator.pushNamed(context, '/matches');
+  //     } else {
+  //       Navigator.pushNamed(context, '/');
+  //     }
+
   Future<void> submitReels() async {
     //show loading
     showDialog(
@@ -55,8 +83,11 @@ class _Sign_up_reelsState extends State<Sign_up_reels> {
       final reelsReqResponse = reelsReq.data.toString();
       print('Server Response: $reelsReqResponse');
       // print('reelsReq.statusCode: ${reelsReq.statusCode}');
-      Navigator.pushNamed(context, '/sign_up_music');
-
+      if (pop == true) {
+        Navigator.pushNamed(context, '/matches');
+      } else {
+        Navigator.pushNamed(context, '/sign_up_music');
+      }
     } catch (e) {
       print(e);
       print('error!');
@@ -72,14 +103,33 @@ class _Sign_up_reelsState extends State<Sign_up_reels> {
             child: Column(
               children: [
                 Text(
-                    'Oops! Please try again or use the training centre later on'),
+                    'Oops! Please try again or use the training centre later on',
+                    style: SafeGoogleFont(
+                      'Plus Jakarta Sans',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300,
+                      color: Color(0xff000000),
+                    )),
                 SizedBox(height: 20),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 71, 71, 71),
+                      ),
                   onPressed: () {
                     Navigator.of(context).pop(); // Close the dialog
-                    Navigator.pushNamed(context, '/sign_up_music');
+                    if (pop == true) {
+                      Navigator.pushNamed(context, '/matches');
+                    } else {
+                      Navigator.pushNamed(context, '/sign_up_music');
+                    }
                   },
-                  child: Text('OK'),
+                  child: Text('OK',
+                      style: SafeGoogleFont(
+                        'Plus Jakarta Sans',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      )),
                 ),
               ],
             ),
@@ -100,257 +150,216 @@ class _Sign_up_reelsState extends State<Sign_up_reels> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
     return Scaffold(
-        body: SingleChildScrollView(
-            child: SizedBox(
-      width: double.infinity,
-      child: Container(
-        padding: EdgeInsets.fromLTRB(31 * fem, 33 * fem, 24 * fem, 72 * fem),
+        body: SafeArea(
+      child: SingleChildScrollView(
+          child: SizedBox(
         width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Color(0xfffaf4ef),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 6 * fem, 16 * fem),
-              width: 210 * fem,
-              height: 124 * fem,
-              child: Image.asset(
-                'assets/page-1/images/logo.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(
-                  21 * fem, 20.33 * fem, 36 * fem, 28 * fem),
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Color(0xffffffff),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        0 * fem, 0 * fem, 239 * fem, 25.33 * fem),
-                    width: 24 * fem,
-                    height: 18.33 * fem,
-                    child: Image.asset(
-                      'assets/page-1/images/back-arrow-tth.png',
-                      width: 24 * fem,
-                      height: 18.33 * fem,
-                    ),
-                  ),
-                  // Container(
-                  //   margin: EdgeInsets.fromLTRB(
-                  //       0 * fem, 0 * fem, 111 * fem, 21 * fem),
-                  //   child: Text(
-                  //     'SIGN UP',
-                  //     textAlign: TextAlign.center,
-                  //     style: SafeGoogleFont(
-                  //       'Playfair Display',
-                  //       fontSize: 30 * ffem,
-                  //       fontWeight: FontWeight.w800,
-                  //       height: 1.3325 * ffem / fem,
-                  //       color: const Color(0xff000000),
-                  //     ),
-                  //   ),
-                  // ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        8 * fem, 0 * fem, 0 * fem, 23 * fem),
-                    constraints: BoxConstraints(
-                      maxWidth: 193 * fem,
-                    ),
-                    child: Text(
-                      'CONNECT YOUR INSTAGRAM',
-                      textAlign: TextAlign.center,
-                      style: SafeGoogleFont(
-                        'Playfair Display',
-                        fontSize: 24 * ffem,
-                        fontWeight: FontWeight.w800,
-                        height: 1.3325 * ffem / fem,
-                        color: const Color(0xff1f4095),
+        child: Container(
+          // signup2JR3 (405:161)
+          padding:
+              EdgeInsets.fromLTRB(26 * fem, 33 * fem, 36.5 * fem, 79 * fem),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Color(0xffffffff),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                // autogroupyznt9wT (TtqPWLiURqBhA9fc4kYZnT)
+                margin:
+                    EdgeInsets.fromLTRB(0 * fem, 0 * fem, 39.5 * fem, 47 * fem),
+                width: double.infinity,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      // logoTBT (405:174)
+                      margin: EdgeInsets.fromLTRB(
+                          0 * fem, 0 * fem, 13 * fem, 1 * fem),
+                      width: 51 * fem,
+                      height: 50 * fem,
+                      child: Image.asset(
+                        'assets/page-1/images/logo-v77.png',
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        9 * fem, 0 * fem, 0 * fem, 25 * fem),
-                    constraints: BoxConstraints(
-                      maxWidth: 213 * fem,
-                    ),
-                    child: Text(
-                      'AUTOMATCH uses your Instagram to match you with people who has the same intrests as you',
+                    Text(
+                      // importreelsMXj (405:173)
+                      'Import Reels',
                       textAlign: TextAlign.center,
                       style: SafeGoogleFont(
-                        'Playfair Display',
-                        fontSize: 14 * ffem,
-                        fontWeight: FontWeight.w800,
-                        height: 1.3325 * ffem / fem,
-                        color: const Color(0xff000000),
+                        'Plus Jakarta Sans',
+                        fontSize: 35 * ffem,
+                        fontWeight: FontWeight.w300,
+                        height: 1.26 * ffem / fem,
+                        color: Color(0xff000000),
                       ),
                     ),
+                  ],
+                ),
+              ),
+              Container(
+                // textU6Z (405:175)
+                margin:
+                    EdgeInsets.fromLTRB(21.5 * fem, 0 * fem, 0 * fem, 82 * fem),
+                constraints: BoxConstraints(
+                  maxWidth: 291 * fem,
+                ),
+                child: Text(
+                  'AUTO-MATCH uses your Instagram to match you with people who have the same humor as you',
+                  textAlign: TextAlign.center,
+                  style: SafeGoogleFont(
+                    'Plus Jakarta Sans',
+                    fontSize: 24 * ffem,
+                    fontWeight: FontWeight.w300,
+                    height: 1.26 * ffem / fem,
+                    color: Color(0xff2c2c2c),
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        8 * fem, 0 * fem, 0 * fem, 36 * fem),
-                    width: 255 * fem,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.fromLTRB(
-                              0 * fem, 0 * fem, 0 * fem, 12 * fem),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xff000000)),
-                          ),
-                          child: TextField(
-                            controller: _usernameController,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.fromLTRB(
-                                  14.48 * fem, 11 * fem, 14.48 * fem, 12 * fem),
-                              hintText: 'Username',
-                              hintStyle:
-                                  const TextStyle(color: Color(0xff000000)),
-                            ),
-                            style: SafeGoogleFont(
-                              'Playfair Display',
-                              fontSize: 14 * ffem,
-                              fontWeight: FontWeight.w400,
-                              height: 1.3325 * ffem / fem,
-                              color: const Color(0xff000000),
-                            ),
-                          ),
+                ),
+              ),
+              Container(
+                // emailinputYcD (405:166)
+                margin: EdgeInsets.fromLTRB(
+                    16.47 * fem, 0 * fem, 6.03 * fem, 43 * fem),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10 * fem),
+                  color: Color(0xfff4f3f3),
+                ),
+                child: TextField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.fromLTRB(
+                        23.03 * fem, 17 * fem, 23.03 * fem, 15 * fem),
+                    hintText: 'Username',
+                    hintStyle: TextStyle(color: Color(0xffa4a4a4)),
+                  ),
+                  style: SafeGoogleFont(
+                    'Plus Jakarta Sans',
+                    fontSize: 19 * ffem,
+                    fontWeight: FontWeight.w400,
+                    height: 1.26 * ffem / fem,
+                    color: Color(0xff000000),
+                  ),
+                ),
+              ),
+              Container(
+                // passwordinputMpZ (405:169)
+                margin:
+                    EdgeInsets.fromLTRB(15 * fem, 0 * fem, 7.5 * fem, 62 * fem),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10 * fem),
+                  color: Color(0xfff4f3f3),
+                ),
+                child: TextField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.fromLTRB(
+                        24 * fem, 15 * fem, 24 * fem, 17 * fem),
+                    hintText: 'Password',
+                    hintStyle: TextStyle(color: Color(0xffa4a4a4)),
+                  ),
+                  style: SafeGoogleFont(
+                    'Plus Jakarta Sans',
+                    fontSize: 19 * ffem,
+                    fontWeight: FontWeight.w400,
+                    height: 1.26 * ffem / fem,
+                    color: Color(0xff000000),
+                  ),
+                ),
+              ),
+              Container(
+                // signinbuttonPFT (405:163)
+                margin:
+                    EdgeInsets.fromLTRB(16 * fem, 0 * fem, 6.5 * fem, 40 * fem),
+                child: TextButton(
+                  onPressed: () {
+                    submitReels();
+                  },
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    height: 71 * fem,
+                    decoration: BoxDecoration(
+                      color: Color(0xff2c2c2c),
+                      borderRadius: BorderRadius.circular(20 * fem),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Continue ',
+                        textAlign: TextAlign.center,
+                        style: SafeGoogleFont(
+                          'Plus Jakarta Sans',
+                          fontSize: 24 * ffem,
+                          fontWeight: FontWeight.w500,
+                          height: 1.26 * ffem / fem,
+                          color: Color(0xffffffff),
                         ),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xff000000)),
-                          ),
-                          child: TextField(
-                            controller: _passwordController,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.fromLTRB(
-                                  16.48 * fem, 11 * fem, 16.48 * fem, 12 * fem),
-                              hintText: 'Password',
-                              hintStyle:
-                                  const TextStyle(color: Color(0xff000000)),
-                            ),
-                            style: SafeGoogleFont(
-                              'Playfair Display',
-                              fontSize: 14 * ffem,
-                              fontWeight: FontWeight.w400,
-                              height: 1.3325 * ffem / fem,
-                              color: const Color(0xff000000),
-                            ),
-                          ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                // signinbuttonPem (405:177)
+                margin:
+                    EdgeInsets.fromLTRB(15 * fem, 0 * fem, 7.5 * fem, 0 * fem),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/sign_up_music');
+                  },
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    height: 71 * fem,
+                    decoration: BoxDecoration(
+                      color: Color(0xffffffff),
+                      borderRadius: BorderRadius.circular(20 * fem),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x3f000000),
+                          offset: Offset(0 * fem, 4 * fem),
+                          blurRadius: 2 * fem,
                         ),
                       ],
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        33 * fem, 0 * fem, 24 * fem, 19 * fem),
-                    child: TextButton(
-                      onPressed: () {
-                        submitReels();
-                      },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: Container(
-                        width: double.infinity,
-                        height: 38 * fem,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffdee5ed),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xff000000),
-                              offset: Offset(7 * fem, 7 * fem),
-                              blurRadius: 1 * fem,
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            'CONTINUE',
-                            textAlign: TextAlign.center,
-                            style: SafeGoogleFont(
-                              'Playfair Display',
-                              fontSize: 20 * ffem,
-                              fontWeight: FontWeight.w800,
-                              height: 1.3325 * ffem / fem,
-                              color: const Color(0xff000000),
-                            ),
-                          ),
+                    child: Center(
+                      child: Text(
+                        'Skip',
+                        textAlign: TextAlign.center,
+                        style: SafeGoogleFont(
+                          'Plus Jakarta Sans',
+                          fontSize: 24 * ffem,
+                          fontWeight: FontWeight.w500,
+                          height: 1.26 * ffem / fem,
+                          color: Color(0xff2c2c2c),
                         ),
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        33 * fem, 0 * fem, 24 * fem, 0 * fem),
-                    child: TextButton(
-                      onPressed: () {
-                        submitReels();
-                      },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: Container(
-                        width: double.infinity,
-                        height: 38 * fem,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffe7674a),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xff000000),
-                              offset: Offset(7 * fem, 7 * fem),
-                              blurRadius: 1 * fem,
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/sign_up_music');
-                            },
-                            child: Text(
-                              'SKIP',
-                              textAlign: TextAlign.center,
-                              style: SafeGoogleFont(
-                                'Playfair Display',
-                                fontSize: 20 * ffem,
-                                fontWeight: FontWeight.w800,
-                                height: 1.3325 * ffem / fem,
-                                color: const Color(0xff000000),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    )));
+      )),
+    ));
   }
 }

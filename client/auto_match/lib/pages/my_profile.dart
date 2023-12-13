@@ -1,3 +1,4 @@
+import 'package:AUTO_MATCH/pages/services/api.dart';
 import 'package:AUTO_MATCH/pages/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:AUTO_MATCH/pages/services/utils.dart';
@@ -46,247 +47,240 @@ class My_profileState extends State<My_profile> {
     }
   }
 
+  Future<void> logout() async {
+    final fetchResponse =
+        await api.dio.post('${dotenv.env["SERVER_URL"]}/logout');
+    final responseBody = fetchResponse.data.toString();
+
+    print('responseBody: $responseBody');
+
+    Navigator.pushNamed(context, '/');
+  }
+
   @override
   Widget build(BuildContext context) {
     double baseWidth = 375;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: currentUser == null
-            ? Container()
-            : SizedBox(
-                width: double.infinity,
-                child: Container(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: currentUser == null
+              ? Container()
+              : SizedBox(
                   width: double.infinity,
-                  height: 812 * fem,
-                  decoration: const BoxDecoration(
-                    color: Color(0xfffaf4ef),
-                  ),
-                  child: Stack(children: [
-                    Positioned(
-                      left: 40 * fem,
-                      top: 92 * fem,
-                      child: SizedBox(
-                        width: 303.5 * fem,
-                        height: 32 * fem,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                  child: Container(
+                    width: double.infinity,
+                    height: 812 * fem,
+                    child: Stack(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
                           children: [
-                            Container(
-                              margin: EdgeInsets.fromLTRB(
-                                  0 * fem, 0 * fem, 144.5 * fem, 0 * fem),
-                              child: Text(
-                                'EDIT',
-                                textAlign: TextAlign.center,
-                                style: SafeGoogleFont(
-                                  'Playfair Display',
-                                  fontSize: 24 * ffem,
-                                  height: 1.3325 * ffem / fem,
-                                  color: const Color(0xff1f4095),
+                            SizedBox(height: 50),
+                            Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                width: 150 * fem,
+                                height: 150 * fem,
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.network(
+                                      '${serverURL}/pic/${currentUser['id']}/profilePic.png',
+                                      width: 120,
+                                      height: 120,
+                                      fit: BoxFit.contain,
+                                    )),
+                              ),
+                            ),
+                            SizedBox(height: 30),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: SizedBox(
+                                // width: 56 * fem,
+                                height: 30 * fem,
+                                child: Text(
+                                  'NAME',
+                                  textAlign: TextAlign.center,
+                                  style: SafeGoogleFont(
+                                    'Plus Jakarta Sans',
+                                    fontSize: 20 * ffem,
+                                    fontWeight: FontWeight.w300,
+                                    height: 1.26 * ffem / fem,
+                                    color: Color(0xff000000),
+                                  ),
                                 ),
                               ),
                             ),
-                            Text(
-                              'LOGOUT',
-                              textAlign: TextAlign.center,
-                              style: SafeGoogleFont(
-                                'Playfair Display',
-                                fontSize: 24 * ffem,
-                                height: 1.3325 * ffem / fem,
-                                color: const Color(0xff000000),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: SizedBox(
+                                // width: 35 * fem,
+                                height: 50 * fem,
+                                child: Text(
+                                  currentUser['name'],
+                                  textAlign: TextAlign.center,
+                                  style: SafeGoogleFont(
+                                    'Plus Jakarta Sans',
+                                    fontSize: 15 * ffem,
+                                    fontWeight: FontWeight.w300,
+                                    height: 1.26 * ffem / fem,
+                                    color: Color(0xff000000),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: SizedBox(
+                                // width: 34 * fem,
+                                height: 30 * fem,
+                                child: Text(
+                                  'BIO',
+                                  textAlign: TextAlign.center,
+                                  style: SafeGoogleFont(
+                                    'Plus Jakarta Sans',
+                                    fontSize: 20 * ffem,
+                                    fontWeight: FontWeight.w300,
+                                    height: 1.26 * ffem / fem,
+                                    color: Color(0xff000000),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: SizedBox(
+                                // width: 54 * fem,
+                                height: 50 * fem,
+                                child: Text(
+                                  currentUser['bio'],
+                                  textAlign: TextAlign.center,
+                                  style: SafeGoogleFont(
+                                    'Plus Jakarta Sans',
+                                    fontSize: 15 * ffem,
+                                    fontWeight: FontWeight.w300,
+                                    height: 1.26 * ffem / fem,
+                                    color: Color(0xff000000),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: SizedBox(
+                                // width: 146 * fem,
+                                height: 30 * fem,
+                                child: Text(
+                                  'AGE',
+                                  textAlign: TextAlign.center,
+                                  style: SafeGoogleFont(
+                                    'Plus Jakarta Sans',
+                                    fontSize: 20 * ffem,
+                                    fontWeight: FontWeight.w300,
+                                    height: 1.26 * ffem / fem,
+                                    color: Color(0xff000000),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: SizedBox(
+                                // width: 69 * fem,
+                                height: 50 * fem,
+                                child: Text(
+                                  currentUser['age'].toString(),
+                                  textAlign: TextAlign.center,
+                                  style: SafeGoogleFont(
+                                    'Plus Jakarta Sans',
+                                    fontSize: 15 * ffem,
+                                    fontWeight: FontWeight.w300,
+                                    height: 1.26 * ffem / fem,
+                                    color: Color(0xff000000),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: SizedBox(
+                                // width: 100 * fem,
+                                height: 30 * fem,
+                                child: Text(
+                                  'LOCATION\n',
+                                  textAlign: TextAlign.center,
+                                  style: SafeGoogleFont(
+                                    'Plus Jakarta Sans',
+                                    fontSize: 20 * ffem,
+                                    fontWeight: FontWeight.w300,
+                                    height: 1.26 * ffem / fem,
+                                    color: Color(0xff000000),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: SizedBox(
+                                // width: 88 * fem,
+                                height: 50 * fem,
+                                child: Text(
+                                  currentUser['location'],
+                                  textAlign: TextAlign.center,
+                                  style: SafeGoogleFont(
+                                    'Plus Jakarta Sans',
+                                    fontSize: 15 * ffem,
+                                    fontWeight: FontWeight.w300,
+                                    height: 1.26 * ffem / fem,
+                                    color: Color(0xff000000),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 30),
+                            Container(
+                              // signinbuttonJiZ (403:31)
+                              margin: EdgeInsets.fromLTRB(
+                                  1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
+                              child: TextButton(
+                                onPressed: () {
+                                  logout();
+                                },
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                ),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 71 * fem,
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 124, 0, 0),
+                                    borderRadius:
+                                        BorderRadius.circular(20 * fem),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Logout',
+                                      textAlign: TextAlign.center,
+                                      style: SafeGoogleFont(
+                                        'Plus Jakarta Sans',
+                                        fontSize: 24 * ffem,
+                                        fontWeight: FontWeight.w500,
+                                        height: 1.26 * ffem / fem,
+                                        color: Color(0xffffffff),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 25 * fem,
-                      top: 60 * fem,
-                      child: Align(
-                        child: SizedBox(
-                          width: 24 * fem,
-                          height: 18.33 * fem,
-                          child: Image.asset(
-                            'assets/page-1/images/back-arrow-CiD.png',
-                            width: 24 * fem,
-                            height: 18.33 * fem,
-                          ),
-                        ),
-                      ),
-                    ),
-                    
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 150) ,
-                          Align(
-                            alignment: Alignment.center,
-                            child: SizedBox(
-                              width: 100 * fem,
-                              height: 100 * fem,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Image.network(
-                                    '${serverURL}/pic/${currentUser['id']}/profilePic.png',
-                                    width: 120,
-                                    height: 120,
-                                    fit: BoxFit.contain,
-                                  )),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: SizedBox(
-                              // width: 56 * fem,
-                              height: 30 * fem,
-                              child: Text(
-                                'NAME',
-                                textAlign: TextAlign.center,
-                                style: SafeGoogleFont(
-                                  'Playfair Display',
-                                  fontSize: 20 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.3325 * ffem / fem,
-                                  color: const Color(0xff000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: SizedBox(
-                              // width: 35 * fem,
-                              height: 50 * fem,
-                              child: Text(
-                                currentUser['name'],
-                                textAlign: TextAlign.center,
-                                style: SafeGoogleFont(
-                                  'Playfair Display',
-                                  fontSize: 14 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.3325 * ffem / fem,
-                                  color: const Color(0xff000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: SizedBox(
-                              // width: 34 * fem,
-                              height: 30 * fem,
-                              child: Text(
-                                'BIO',
-                                textAlign: TextAlign.center,
-                                style: SafeGoogleFont(
-                                  'Playfair Display',
-                                  fontSize: 20 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.3325 * ffem / fem,
-                                  color: const Color(0xff000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: SizedBox(
-                              // width: 54 * fem,
-                              height: 50 * fem,
-                              child: Text(
-                                currentUser['bio'],
-                                textAlign: TextAlign.center,
-                                style: SafeGoogleFont(
-                                  'Playfair Display',
-                                  fontSize: 14 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.3325 * ffem / fem,
-                                  color: const Color(0xff000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: SizedBox(
-                              // width: 146 * fem,
-                              height: 30 * fem,
-                              child: Text(
-                                'AGE',
-                                textAlign: TextAlign.center,
-                                style: SafeGoogleFont(
-                                  'Playfair Display',
-                                  fontSize: 20 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.3325 * ffem / fem,
-                                  color: const Color(0xff000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: SizedBox(
-                              // width: 69 * fem,
-                              height: 50 * fem,
-                              child: Text(
-                                currentUser['age'].toString(),
-                                textAlign: TextAlign.center,
-                                style: SafeGoogleFont(
-                                  'Playfair Display',
-                                  fontSize: 14 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.3325 * ffem / fem,
-                                  color: const Color(0xff000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: SizedBox(
-                              // width: 100 * fem,
-                              height: 30 * fem,
-                              child: Text(
-                                'LOCATION\n',
-                                textAlign: TextAlign.center,
-                                style: SafeGoogleFont(
-                                  'Playfair Display',
-                                  fontSize: 20 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.3325 * ffem / fem,
-                                  color: const Color(0xff000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: SizedBox(
-                              // width: 88 * fem,
-                              height: 50 * fem,
-                              child: Text(
-                                currentUser['location'],
-                                textAlign: TextAlign.center,
-                                style: SafeGoogleFont(
-                                  'Playfair Display',
-                                  fontSize: 14 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.3325 * ffem / fem,
-                                  color: const Color(0xff000000),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ]),
+                      )
+                    ]),
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }

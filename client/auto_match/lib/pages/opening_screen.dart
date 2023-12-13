@@ -16,111 +16,120 @@ class Opening_screenState extends State<Opening_screen> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SizedBox(
-          width: double.infinity,
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: SizedBox(
             width: double.infinity,
-            height: 812 * fem,
-            child: Container(
-              padding:
-                  EdgeInsets.fromLTRB(51 * fem, 41 * fem, 53 * fem, 114 * fem),
+            child: SizedBox(
               width: double.infinity,
-              height: double.infinity,
-              decoration: const BoxDecoration(
-                color: Color(0xfffaf4ef),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        1 * fem, 100 * fem, 0 * fem, 52 * fem),
-                    width: 210 * fem,
-                    height: 124 * fem,
-                    child: Image.asset(
-                      'assets/page-1/images/logo-TyK.png',
-                      fit: BoxFit.cover,
+              height: 812 * fem,
+              child: Container(
+                // splashpbf (401:17)
+                padding:
+                    EdgeInsets.fromLTRB(42 * fem, 45 * fem, 43 * fem, 92 * fem),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Color(0xffffffff),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      // logoih3 (402:18)
+                      margin: EdgeInsets.fromLTRB(
+                          0 * fem, 0 * fem, 0 * fem, 12.22 * fem),
+                      width: 290 * fem,
+                      height: 284.78 * fem,
+                      child: Image.asset(
+                        'assets/page-1/images/logo-JQD.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        1 * fem, 200 * fem, 0 * fem, 21 * fem),
-                    child: TextButton(
+                    Container(
+                      // automatch3UR (401:29)
+                      margin: EdgeInsets.fromLTRB(
+                          1 * fem, 0 * fem, 0 * fem, 109 * fem),
+                      child: Text(
+                        'AUTO-MATCH',
+                        textAlign: TextAlign.center,
+                        style: SafeGoogleFont(
+                          'Plus Jakarta Sans',
+                          fontSize: 40 * ffem,
+                          fontWeight: FontWeight.w300,
+                          height: 1.26 * ffem / fem,
+                          color: Color(0xff000000),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      // signinbuttonktd (402:20)
+                      margin: EdgeInsets.fromLTRB(
+                          0 * fem, 0 * fem, 0 * fem, 26 * fem),
+                      child: TextButton(
+                        onPressed: () {
+                          print('login!');
+                          print(dotenv.env['SERVER_URL']);
+                          Navigator.pushNamed(context, '/login');
+                        },
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                        ),
+                        child: Container(
+                          width: double.infinity,
+                          height: 71 * fem,
+                          decoration: BoxDecoration(
+                            color: Color(0xff2c2c2c),
+                            borderRadius: BorderRadius.circular(20 * fem),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Sign In',
+                              textAlign: TextAlign.center,
+                              style: SafeGoogleFont(
+                                'Plus Jakarta Sans',
+                                fontSize: 24 * ffem,
+                                fontWeight: FontWeight.w500,
+                                height: 1.26 * ffem / fem,
+                                color: Color(0xffffffff),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      // signupbuttonoM7 (402:24)
                       onPressed: () {
-                        print('login!');
-                        print(dotenv.env['SERVER_URL']);
-                        Navigator.pushNamed(context, '/login');
-                      },
+                          print('signup!');
+                          Navigator.pushNamed(context, '/sign_up_info');
+                        },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                       ),
                       child: Container(
-                        width: 270 * fem,
+                        width: double.infinity,
                         height: 71 * fem,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50 * fem),
-                          image: const DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              'assets/page-1/images/rectangle-1.png',
-                            ),
-                          ),
+                          color: Color(0xff2c2c2c),
+                          borderRadius: BorderRadius.circular(20 * fem),
                         ),
                         child: Center(
                           child: Text(
-                            'LOG IN',
+                            'Sign Up',
                             textAlign: TextAlign.center,
                             style: SafeGoogleFont(
-                              'Playfair Display',
+                              'Plus Jakarta Sans',
                               fontSize: 24 * ffem,
-                              height: 1.3325 * ffem / fem,
-                              color: const Color(0xff000000),
+                              fontWeight: FontWeight.w500,
+                              height: 1.26 * ffem / fem,
+                              color: Color(0xffffffff),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    margin:
-                        EdgeInsets.fromLTRB(0 * fem, 0 * fem, 1 * fem, 0 * fem),
-                    child: TextButton(
-                      onPressed: () {
-                        print('signup!');
-                        Navigator.pushNamed(context, '/sign_up_info');
-                      },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: Container(
-                        width: 270 * fem,
-                        height: 71 * fem,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50 * fem),
-                          image: const DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              'assets/page-1/images/rectangle-2-4ZX.png',
-                            ),
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'SIGN UP',
-                            textAlign: TextAlign.center,
-                            style: SafeGoogleFont(
-                              'Playfair Display',
-                              fontSize: 24 * ffem,
-                              height: 1.3325 * ffem / fem,
-                              color: const Color(0xff000000),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

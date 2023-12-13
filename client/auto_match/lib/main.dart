@@ -1,3 +1,4 @@
+import 'package:AUTO_MATCH/pages/all_users.dart';
 import 'package:AUTO_MATCH/pages/my_profile.dart';
 import 'package:AUTO_MATCH/pages/training_centre.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:AUTO_MATCH/pages/sign_up/sign_up_reels.dart';
 import 'package:AUTO_MATCH/pages/sign_up/sign_up_music.dart';
 import 'package:AUTO_MATCH/pages/sign_up/sign_up_filters.dart';
 import 'package:AUTO_MATCH/pages/sign_up/sign_up_pic.dart';
-import 'package:AUTO_MATCH/pages/sign_up/sign_up_memo.dart';
 import 'package:AUTO_MATCH/pages/matches.dart';
 import 'package:AUTO_MATCH/pages/opening_screen.dart';
 import 'package:AUTO_MATCH/pages/match.dart';
@@ -29,10 +29,10 @@ Future<void> main() async {
         '/sign_up_music': (context) => const Sign_up_music(),
         '/sign_up_filters': (context) => const Sign_up_filters(),
         '/sign_up_pic': (context) => const Sign_up_pic(),
-        '/sign_up_memo': (context) => const Sign_up_memo(),
         '/sign_up_face_training': (context) => const Sign_up_face_training(),
         '/training_centre': (context) => const Training_centre(),
         '/my_profile': (context) => const My_profile(),
+        '/all_users': (context) => const All_users(),
       },
     ),
   );

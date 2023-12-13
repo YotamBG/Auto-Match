@@ -16,6 +16,34 @@ class Sign_up_music extends StatefulWidget {
 class _Sign_up_musicState extends State<Sign_up_music> {
   final TextEditingController _playlistController = TextEditingController();
 
+  var pop;
+
+  @override
+  void initState() {
+    super.initState();
+    // fetchImageData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadPage();
+  }
+
+  Future<void> loadPage() async {
+    var argObject = ModalRoute.of(context)!.settings.arguments as dynamic;
+    var popArg = argObject['pop'];
+    setState(() {
+      pop = popArg;
+    });
+  }
+
+  // if (pop == true) {
+  //       Navigator.pushNamed(context, '/matches');
+  //     } else {
+  //       Navigator.pushNamed(context, '/');
+  //     }
+
   Future<void> submitMusic() async {
     //show loading
     showDialog(
@@ -55,8 +83,11 @@ class _Sign_up_musicState extends State<Sign_up_music> {
       //hide loading
       Navigator.of(context).pop();
       //move to the next screeen
-      Navigator.pushNamed(context, '/sign_up_filters');
-      
+      if (pop == true) {
+        Navigator.pushNamed(context, '/matches');
+      } else {
+        Navigator.pushNamed(context, '/sign_up_filters');
+      }
     } catch (e) {
       print(e);
       print('error!');
@@ -72,14 +103,29 @@ class _Sign_up_musicState extends State<Sign_up_music> {
             child: Column(
               children: [
                 Text(
-                    'Oops! Please try again or use the training centre later on'),
+                    'Oops! Please try again or use the training centre later on',
+                    style: SafeGoogleFont(
+                      'Plus Jakarta Sans',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300,
+                      color: Color(0xff000000),
+                    )),
                 SizedBox(height: 20),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 71, 71, 71),
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop(); // Close the dialog
                     Navigator.pushNamed(context, '/sign_up_filters');
                   },
-                  child: Text('OK'),
+                  child: Text('OK',
+                      style: SafeGoogleFont(
+                        'Plus Jakarta Sans',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      )),
                 ),
               ],
             ),
@@ -95,217 +141,184 @@ class _Sign_up_musicState extends State<Sign_up_music> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
     return Scaffold(
-        body: SingleChildScrollView(
-            child: SizedBox(
-      width: double.infinity,
-      child: Container(
-        padding: EdgeInsets.fromLTRB(31 * fem, 36 * fem, 24 * fem, 72 * fem),
+        body: SafeArea(
+      child: SingleChildScrollView(
+          child: SizedBox(
         width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Color(0xfffaf4ef),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 6 * fem, 13 * fem),
-              width: 210 * fem,
-              height: 124 * fem,
-              child: Image.asset(
-                'assets/page-1/images/logo-Kiy.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(
-                  21 * fem, 20.33 * fem, 33 * fem, 28 * fem),
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Color(0xffffffff),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        0 * fem, 0 * fem, 242 * fem, 25.33 * fem),
-                    width: 24 * fem,
-                    height: 18.33 * fem,
-                    child: Image.asset(
-                      'assets/page-1/images/back-arrow-oqK.png',
-                      width: 24 * fem,
-                      height: 18.33 * fem,
-                    ),
-                  ),
-                  // Container(
-                  //   margin: EdgeInsets.fromLTRB(
-                  //       0 * fem, 0 * fem, 114 * fem, 21 * fem),
-                  //   child: Text(
-                  //     'SIGN UP',
-                  //     textAlign: TextAlign.center,
-                  //     style: SafeGoogleFont(
-                  //       'Playfair Display',
-                  //       fontSize: 30 * ffem,
-                  //       fontWeight: FontWeight.w800,
-                  //       height: 1.3325 * ffem / fem,
-                  //       color: const Color(0xff000000),
-                  //     ),
-                  //   ),
-                  // ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        12 * fem, 0 * fem, 0 * fem, 17 * fem),
-                    constraints: BoxConstraints(
-                      maxWidth: 193 * fem,
-                    ),
-                    child: Text(
-                      'CONNECT YOUR SPOTIFY',
-                      textAlign: TextAlign.center,
-                      style: SafeGoogleFont(
-                        'Playfair Display',
-                        fontSize: 24 * ffem,
-                        fontWeight: FontWeight.w800,
-                        height: 1.3325 * ffem / fem,
-                        color: const Color(0xff1f4095),
+        child: Container(
+          // signup39Dw (405:195)
+          padding:
+              EdgeInsets.fromLTRB(26 * fem, 33 * fem, 42.53 * fem, 79 * fem),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Color(0xffffffff),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                // autogrouppfddEWH (TtqQ1ADncc3tSzjVV1pfDD)
+                margin: EdgeInsets.fromLTRB(
+                    0 * fem, 0 * fem, 20.47 * fem, 80 * fem),
+                width: double.infinity,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      // logokzR (405:210)
+                      margin: EdgeInsets.fromLTRB(
+                          0 * fem, 0 * fem, 10 * fem, 1 * fem),
+                      width: 51 * fem,
+                      height: 50 * fem,
+                      child: Image.asset(
+                        'assets/page-1/images/logo-4p5.png',
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        6 * fem, 0 * fem, 0 * fem, 50 * fem),
-                    constraints: BoxConstraints(
-                      maxWidth: 219 * fem,
-                    ),
-                    child: Text(
-                      'AUTOMATCH uses your Spotify to match you with people who has the same music taste as you',
+                    Text(
+                      // importsongsgdB (405:208)
+                      'Import Songs',
                       textAlign: TextAlign.center,
                       style: SafeGoogleFont(
-                        'Playfair Display',
-                        fontSize: 14 * ffem,
-                        fontWeight: FontWeight.w800,
-                        height: 1.3325 * ffem / fem,
-                        color: const Color(0xff000000),
+                        'Plus Jakarta Sans',
+                        fontSize: 35 * ffem,
+                        fontWeight: FontWeight.w300,
+                        height: 1.26 * ffem / fem,
+                        color: Color(0xff000000),
                       ),
                     ),
+                  ],
+                ),
+              ),
+              Container(
+                // textDND (405:209)
+                margin: EdgeInsets.fromLTRB(
+                    13.53 * fem, 0 * fem, 0 * fem, 88 * fem),
+                constraints: BoxConstraints(
+                  maxWidth: 290 * fem,
+                ),
+                child: Text(
+                  'AUTO-MATCH uses your Spotify to match you with people who have the same songs as you',
+                  textAlign: TextAlign.center,
+                  style: SafeGoogleFont(
+                    'Plus Jakarta Sans',
+                    fontSize: 24 * ffem,
+                    fontWeight: FontWeight.w300,
+                    height: 1.26 * ffem / fem,
+                    color: Color(0xff2c2c2c),
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        11 * fem, 0 * fem, 0 * fem, 90 * fem),
-                    width: 255 * fem,
+                ),
+              ),
+              Container(
+                // emailinputX81 (405:202)
+                margin: EdgeInsets.fromLTRB(
+                    16.47 * fem, 0 * fem, 0 * fem, 122 * fem),
+                width: 290 * fem,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10 * fem),
+                  color: Color(0xfff4f3f3),
+                ),
+                child: TextField(
+                  controller: _playlistController,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.fromLTRB(
+                        22.53 * fem, 17 * fem, 22.53 * fem, 15 * fem),
+                    hintText: 'Playlist URL',
+                    hintStyle: TextStyle(color: Color(0xffa4a4a4)),
+                  ),
+                  style: SafeGoogleFont(
+                    'Plus Jakarta Sans',
+                    fontSize: 19 * ffem,
+                    fontWeight: FontWeight.w400,
+                    height: 1.26 * ffem / fem,
+                    color: Color(0xff000000),
+                  ),
+                ),
+              ),
+              Container(
+                // signinbuttonLbF (405:196)
+                margin: EdgeInsets.fromLTRB(
+                    15.53 * fem, 0 * fem, 0 * fem, 40 * fem),
+                child: TextButton(
+                  onPressed: () {
+                    submitMusic();
+                  },
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: Container(
+                    width: 290 * fem,
+                    height: 71 * fem,
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xff000000)),
+                      color: Color(0xff2c2c2c),
+                      borderRadius: BorderRadius.circular(20 * fem),
                     ),
-                    child: TextField(
-                      controller: _playlistController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.fromLTRB(
-                            19.48 * fem, 11 * fem, 19.48 * fem, 12 * fem),
-                        hintText: 'Playlist URL',
-                        hintStyle: const TextStyle(color: Color(0xff000000)),
-                      ),
-                      style: SafeGoogleFont(
-                        'Playfair Display',
-                        fontSize: 14 * ffem,
-                        fontWeight: FontWeight.w400,
-                        height: 1.3325 * ffem / fem,
-                        color: const Color(0xff000000),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        39 * fem, 0 * fem, 21 * fem, 19 * fem),
-                    child: TextButton(
-                      onPressed: () {
-                        submitMusic();
-                      },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: Container(
-                        width: double.infinity,
-                        height: 38 * fem,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffdee5ed),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xff000000),
-                              offset: Offset(7 * fem, 7 * fem),
-                              blurRadius: 1 * fem,
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            'CONTINUE',
-                            textAlign: TextAlign.center,
-                            style: SafeGoogleFont(
-                              'Playfair Display',
-                              fontSize: 20 * ffem,
-                              fontWeight: FontWeight.w800,
-                              height: 1.3325 * ffem / fem,
-                              color: const Color(0xff000000),
-                            ),
-                          ),
+                    child: Center(
+                      child: Text(
+                        'Continue ',
+                        textAlign: TextAlign.center,
+                        style: SafeGoogleFont(
+                          'Plus Jakarta Sans',
+                          fontSize: 24 * ffem,
+                          fontWeight: FontWeight.w500,
+                          height: 1.26 * ffem / fem,
+                          color: Color(0xffffffff),
                         ),
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        39 * fem, 0 * fem, 21 * fem, 0 * fem),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/sign_up_filters');
-                      },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: Container(
-                        width: double.infinity,
-                        height: 38 * fem,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffe7674a),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xff000000),
-                              offset: Offset(7 * fem, 7 * fem),
-                              blurRadius: 1 * fem,
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/sign_up_filters');
-                            },
-                            child: Text(
-                              'SKIP',
-                              textAlign: TextAlign.center,
-                              style: SafeGoogleFont(
-                                'Playfair Display',
-                                fontSize: 20 * ffem,
-                                fontWeight: FontWeight.w800,
-                                height: 1.3325 * ffem / fem,
-                                color: const Color(0xff000000),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+              Container(
+                // signinbuttonAaH (405:199)
+                margin:
+                    EdgeInsets.fromLTRB(13.53 * fem, 0 * fem, 0 * fem, 0 * fem),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/sign_up_filters');
+                  },
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: Container(
+                    width: 290 * fem,
+                    height: 71 * fem,
+                    decoration: BoxDecoration(
+                      color: Color(0xffffffff),
+                      borderRadius: BorderRadius.circular(20 * fem),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x3f000000),
+                          offset: Offset(0 * fem, 4 * fem),
+                          blurRadius: 2 * fem,
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Skip',
+                        textAlign: TextAlign.center,
+                        style: SafeGoogleFont(
+                          'Plus Jakarta Sans',
+                          fontSize: 24 * ffem,
+                          fontWeight: FontWeight.w500,
+                          height: 1.26 * ffem / fem,
+                          color: Color(0xff2c2c2c),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    )));
+      )),
+    ));
   }
 }

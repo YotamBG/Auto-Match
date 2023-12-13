@@ -114,7 +114,7 @@ def match_fetch():
                 verified_matches.append(match)
 
         print('verified_matches:')
-        dir(verified_matches)
+        print(verified_matches)
         # Serialize the filtered matches into a JSON format
         serialized_matches = []
         for match in verified_matches:
@@ -154,6 +154,7 @@ def checkMatch(matches, filters):
             column_name = f"{filter_name}_match_percent"
 
             # Check if the score in the match object is above 50
+            print(f"{match} / {column_name} = {getattr(match, column_name, 0)}")
             if getattr(match, column_name, 0) < 50:
                 valid = False
                 break
@@ -295,6 +296,88 @@ def match_search_all():
         print(e)
         return jsonify({'error': str(e)}), 500
 
+
+
+@match_bp.route('/match-search-all-all', methods=['POST'])
+def match_search_all_all():
+    try:
+        # Retrieve all users
+        all_users = users.query.all()
+
+        for current_user in all_users:
+            # Retrieve the current user's ID
+            user_id = current_user.id
+
+            # Delete existing matches for the current user
+            matches.query.filter(matches.current_user_id == user_id).delete()
+
+            # Retrieve all candidate IDs (excluding the current user)
+            candidates_ids = [candidate.id for candidate in all_users if candidate.id != user_id]
+
+            # Initialize the scores arrays with zeros
+            face_match_scores = [0] * len(candidates_ids)
+            music_match_scores = [0] * len(candidates_ids)
+            reels_match_scores = [0] * len(candidates_ids)
+
+            # Analyze face matches, music matches, and reels matches for all candidates
+            try:
+                face_match_scores = score_face(user_id, candidates_ids)
+                print('ok')
+            except Exception as e:
+                print(f'Error in scoring face matches: {str(e)}')
+
+            try:
+                music_match_scores = score_music(user_id, candidates_ids)
+                print('ok2')
+            except Exception as e:
+                print(f'Error in scoring music matches: {str(e)}')
+
+            try:
+                reels_match_scores = score_reels(user_id, candidates_ids)
+                print('ok3')
+            except Exception as e:
+                print(f'Error in scoring reels matches: {str(e)}')
+
+            # add error handling, insert a list of zeros as long as candidates_ids instead when catching
+
+            for i, candidate_id in enumerate(candidates_ids):
+                face_match_score = face_match_scores[i]
+                music_match_score = music_match_scores[i]
+                reels_match_score = reels_match_scores[i]
+
+                total_score = (face_match_score +
+                               music_match_score + reels_match_score) / 3
+
+                # Save the analyzed match to the Matches table
+                match_data = {
+                    'current_user_id': user_id,
+                    'candidate_user_id': candidate_id,
+                    'face_match_percent': face_match_score,
+                    'reels_match_percent': reels_match_score,
+                    'songs_match_percent': music_match_score,
+                    'total_match_percent': total_score
+                }
+
+                match = matches(**match_data)
+                db.session.add(match)
+                db.session.commit()
+
+    except Exception as e:
+        print('error:')
+        print(e)
+        return jsonify({'error': str(e)}), 500
+
+    # Sort the analyzed matches by total score in descending order
+    analyzed_matches.sort(key=lambda x: x['total_match_percent'], reverse=True)
+
+    print('analyzed_matches:')
+    print(analyzed_matches)
+
+    # Return all analyzed matches
+    return jsonify({
+        'message': 'Match search completed successfully',
+        'analyzed_matches': analyzed_matches
+    }), 200
 
 
 @match_bp.route('/get-match/<int:current_user_id>/<int:candidate_user_id>', methods=['GET'])

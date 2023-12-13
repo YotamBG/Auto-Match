@@ -58,82 +58,47 @@ class _MatchState extends State<Match> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
     return Scaffold(
-        body: SingleChildScrollView(
-            child: SizedBox(
-      width: double.infinity,
-      child: candidateUser == null
-          ? Container()
-          : Container(
-              padding: EdgeInsets.fromLTRB(
-                  11.5 * fem, 23.33 * fem, 11.5 * fem, 10 * fem),
+        body: SafeArea(
+          child: SingleChildScrollView(
+              child: SizedBox(
               width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Color(0xfffaf4ef),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: candidateUser == null
+            ? Container()
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
+                    // autogroup7tcfN6q (TtqTuYiZurDK781Gfv7TCF)
                     margin: EdgeInsets.fromLTRB(
-                        0 * fem, 0 * fem, 311 * fem, 63.33 * fem),
-                    width: 24 * fem,
-                    height: 18.33 * fem,
-                    child: Image.asset(
-                      'assets/page-1/images/back-arrow-RbP.png',
-                      width: 24 * fem,
-                      height: 18.33 * fem,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        82.5 * fem, 0 * fem, 81.5 * fem, 22 * fem),
+                        30.5 * fem, 30 * fem, 168 * fem, 22 * fem),
                     width: double.infinity,
-                    height: 70 * fem,
-                    child: Stack(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Positioned(
-                          left: 0 * fem,
-                          top: 0 * fem,
-                          child: Align(
-                            child: SizedBox(
-                              width: 188 * fem,
-                              height: 54 * fem,
-                              child: Text(
-                                candidateUser != null
-                                    ? '${candidateUser['name']}, ${candidateUser['age']}'
-                                    : '',
-                                textAlign: TextAlign.center,
-                                style: SafeGoogleFont(
-                                  'Playfair Display',
-                                  fontSize: 40 * ffem,
-                                  fontWeight: FontWeight.w800,
-                                  height: 1.3325 * ffem / fem,
-                                  color: const Color(0xff000000),
-                                ),
-                              ),
-                            ),
+                        Container(
+                          // logoHDo (405:118)
+                          margin: EdgeInsets.fromLTRB(
+                              0 * fem, 0 * fem, 16.5 * fem, 0 * fem),
+                          width: 51 * fem,
+                          height: 50 * fem,
+                          child: Image.asset(
+                            'assets/page-1/images/logo-MdX.png',
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        Positioned(
-                          left: 41.5 * fem,
-                          top: 43 * fem,
-                          child: Align(
-                            child: SizedBox(
-                              width: 104 * fem,
-                              height: 27 * fem,
-                              child: Text(
-                                candidateUser != null
-                                    ? '${candidateUser['location']}'
-                                    : '',
-                                textAlign: TextAlign.center,
-                                style: SafeGoogleFont(
-                                  'Playfair Display',
-                                  fontSize: 20 * ffem,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1.3325 * ffem / fem,
-                                  color: const Color(0xff000000),
-                                ),
-                              ),
+                        Container(
+                          // matchoC9 (405:103)
+                          margin: EdgeInsets.fromLTRB(
+                              0 * fem, 0 * fem, 0 * fem, 2 * fem),
+                          child: Text(
+                            'Match',
+                            textAlign: TextAlign.center,
+                            style: SafeGoogleFont(
+                              'Plus Jakarta Sans',
+                              fontSize: 30 * ffem,
+                              fontWeight: FontWeight.w300,
+                              height: 1.26 * ffem / fem,
+                              color: Color(0xff000000),
                             ),
                           ),
                         ),
@@ -141,21 +106,48 @@ class _MatchState extends State<Match> {
                     ),
                   ),
                   Container(
+                    // text7Cq (405:110)
                     margin: EdgeInsets.fromLTRB(
-                        80.5 * fem, 0 * fem, 77.5 * fem, 32 * fem),
-                    width: double.infinity,
-                    height: 195 * fem,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: candidateUser != null
-                            ? Image.network(
-                                '${dotenv.env["SERVER_URL"]}/pic/${candidateUser['id']}/profilePic.png',
-                                width: 120,
-                                height: 120,
-                                fit: BoxFit.cover,
-                              )
-                            : Container()),
+                        7.48 * fem, 0 * fem, 0 * fem, 1 * fem),
+                    child: Text(
+                      '${candidateUser['name']}',
+                      textAlign: TextAlign.center,
+                      style: SafeGoogleFont(
+                        'Plus Jakarta Sans',
+                        fontSize: 35 * ffem,
+                        fontWeight: FontWeight.w500,
+                        height: 1.26 * ffem / fem,
+                        color: Color(0xff2c2c2c),
+                      ),
+                    ),
                   ),
+                  SizedBox(
+                    width: 55 * fem,
+                    height: 22 * fem,
+                    child: Text(
+                      '${candidateUser['age']}, ${candidateUser['location']}',
+                      textAlign: TextAlign.center,
+                      style: SafeGoogleFont(
+                        'Plus Jakarta Sans',
+                        fontSize: 17 * ffem,
+                        fontWeight: FontWeight.w300,
+                        height: 1.26 * ffem / fem,
+                        color: Color.fromARGB(255, 94, 49, 49),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 259.12 * fem,
+                    height: 283.24 * fem,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20 * fem),
+                      child: Image.network(
+                        '${dotenv.env["SERVER_URL"]}/pic/${candidateUser['id']}/profilePic.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
                   Center(
                     child: SizedBox(
                       width: 150,
@@ -168,196 +160,253 @@ class _MatchState extends State<Match> {
                             children: [
                               Column(
                                 children: [
+                                  Text(
+                                      '${matchData['face_match_percent'].toStringAsFixed(0)}%'),
                                   Container(
                                     height: 100.0 *
-                                        (matchData['songs_match_percent'] /
-                                            100.0),
+                                        (matchData['face_match_percent'] / 100.0),
                                     width: 30,
-                                    color: Color.fromARGB(255, 104, 76, 175),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                          colors: [
+                                            HSLColor.fromAHSL(1, 176, 0.84, 0.30)
+                                                .toColor(),
+                                            HSLColor.fromAHSL(
+                                                    1,
+                                                    176,
+                                                    0.84,
+                                                    0.01 *
+                                                        (30 +
+                                                            (70 - 30) *
+                                                                matchData[
+                                                                    'face_match_percent'] *
+                                                                0.01))
+                                                .toColor(),
+                                          ],
+                                        )),
                                   ),
                                   SizedBox(height: 4),
-                                  Text('Songs'),
+                                  Text(
+                                    '👀',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 25, fontFamily: 'AppleEmoji'),
+                                  ),
                                 ],
                               ),
                               Column(
                                 children: [
-                                  Container(
-                                    height: 100.0 *
-                                        (matchData['face_match_percent'] /
-                                            100.0),
-                                    width: 30,
-                                    color:
-                                        const Color.fromARGB(255, 175, 76, 152),
-                                  ),
-                                  SizedBox(height: 4),
-                                  Text('Face'),
-                                ],
-                              ),
-                              Column(
-                                children: [
+                                  Text(
+                                      '${matchData['reels_match_percent'].toStringAsFixed(0)}%'),
                                   Container(
                                     height: 100.0 *
                                         (matchData['reels_match_percent'] /
                                             100.0),
                                     width: 30,
-                                    color: Color.fromARGB(255, 175, 76, 116),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                          colors: [
+                                            HSLColor.fromAHSL(1, 162, 0.88, 0.30)
+                                                .toColor(),
+                                            HSLColor.fromAHSL(
+                                                    1,
+                                                    162,
+                                                    0.88,
+                                                    0.01 *
+                                                        (30 +
+                                                            (70 - 30) *
+                                                                matchData[
+                                                                    'reels_match_percent'] *
+                                                                0.01))
+                                                .toColor(),
+                                          ],
+                                        )),
                                   ),
                                   SizedBox(height: 4),
-                                  Text('Reels'),
+                                  Text(
+                                    '😂',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 25, fontFamily: 'AppleEmoji'),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                      '${matchData['songs_match_percent'].toStringAsFixed(0)}%'),
+                                  Container(
+                                    height: 100.0 *
+                                        (matchData['songs_match_percent'] /
+                                            100.0),
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                          colors: [
+                                            HSLColor.fromAHSL(1, 202, 0.94, 0.30)
+                                                .toColor(),
+                                            HSLColor.fromAHSL(
+                                                    1,
+                                                    202,
+                                                    0.94,
+                                                    0.01 *
+                                                        (30 +
+                                                            (70 - 30) *
+                                                                matchData[
+                                                                    'songs_match_percent'] *
+                                                                0.01))
+                                                .toColor(),
+                                          ],
+                                        )),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    '🎵',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 25, fontFamily: 'AppleEmoji'),
+                                  ),
                                 ],
                               ),
                             ],
                           ),
-                          SizedBox(height: 20),
+                          // SizedBox(height: 20),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 214 * fem,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.fromLTRB(
-                              0 * fem, 0 * fem, 0 * fem, 13 * fem),
-                          width: double.infinity,
-                          child: Text(
-                            candidateUser != null
-                                ? '${candidateUser['name']}’s Bio'
-                                : '',
-                            textAlign: TextAlign.start,
-                            style: SafeGoogleFont(
-                              'Playfair Display',
-                              fontSize: 20 * ffem,
-                              fontWeight: FontWeight.w800,
-                              height: 1.3325 * ffem / fem,
-                              color: const Color(0xff000000),
-                            ),
-                          ),
+                  Container(
+                    // textipD (405:139)
+                    margin: EdgeInsets.fromLTRB(
+                        0 * fem, 0 * fem, 286.52 * fem, 8 * fem),
+                    child: Text(
+                      'Bio',
+                      textAlign: TextAlign.center,
+                      style: SafeGoogleFont(
+                        'Plus Jakarta Sans',
+                        fontSize: 25 * ffem,
+                        fontWeight: FontWeight.w500,
+                        height: 1.26 * ffem / fem,
+                        color: Color(0xff2c2c2c),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 0, 0, 30),
+                    child: Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Text(
+                        '${candidateUser['bio']}',
+                        textAlign: TextAlign.center,
+                        style: SafeGoogleFont(
+                          'Plus Jakarta Sans',
+                          fontSize: 17 * ffem,
+                          fontWeight: FontWeight.w300,
+                          height: 1.26 * ffem / fem,
+                          color: Color(0xff2c2c2c),
                         ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(
-                              0 * fem, 0 * fem, 0 * fem, 13 * fem),
-                          width: double.infinity,
-                          child: Text(
-                            candidateUser != null
-                                ? '${candidateUser['bio']}'
-                                : '',
-                            textAlign: TextAlign.start,
-                            style: SafeGoogleFont(
-                              'Playfair Display',
-                              fontSize: 14 * ffem,
-                              fontWeight: FontWeight.w400,
-                              height: 1.3325 * ffem / fem,
-                              color: const Color(0xff000000),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    // textAw7 (405:141)
+                    margin:
+                        EdgeInsets.fromLTRB(0 * fem, 0 * fem, 159 * fem, 0 * fem),
+                    child: Text(
+                      'Common reels',
+                      textAlign: TextAlign.center,
+                      style: SafeGoogleFont(
+                        'Plus Jakarta Sans',
+                        fontSize: 25 * ffem,
+                        fontWeight: FontWeight.w500,
+                        height: 1.26 * ffem / fem,
+                        color: Color(0xff2c2c2c),
+                      ),
                     ),
                   ),
                   Container(
                     margin:
                         EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 9 * fem),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.fromLTRB(
-                              0 * fem, 0 * fem, 0 * fem, 13 * fem),
-                          width: double.infinity,
-                          child: Text(
-                            'Common Reels',
-                            textAlign: TextAlign.start,
-                            style: SafeGoogleFont(
-                              'Playfair Display',
-                              fontSize: 20 * ffem,
-                              fontWeight: FontWeight.w800,
-                              height: 1.3325 * ffem / fem,
-                              color: const Color(0xff000000),
-                            ),
-                          ),
-                        ),
-                        CarouselSlider(
-                          options: CarouselOptions(
-                              height: 300,
-                              enableInfiniteScroll: false,
-                              enlargeCenterPage: true,
-                              viewportFraction: 0.7),
-                          items: matchData['common_reels'].map<Widget>((reel) {
-                            return Stack(
-                              children: [
-                                Expanded(
-                                  child: Html(
-                                    data:
-                                        '<iframe src="$reel/embed/" ></iframe>',
-                                    style: {
-                                      'iframe': Style(
-                                        height: Height(300),
-                                      ),
-                                    },
-                                    extensions: const [IframeHtmlExtension()],
-                                    shrinkWrap: true,
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                          height: 300,
+                          enableInfiniteScroll: false,
+                          enlargeCenterPage: true,
+                          viewportFraction: 0.7),
+                      items: matchData['common_reels'].map<Widget>((reel) {
+                        return Stack(
+                          children: [
+                            Expanded(
+                              child: Html(
+                                data: '<iframe src="$reel/embed/" ></iframe>',
+                                style: {
+                                  'iframe': Style(
+                                    height: Height(300),
                                   ),
-                                ),
-                              ],
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin:
-                        EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 9 * fem),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(
-                                0 * fem, 0 * fem, 0 * fem, 13 * fem),
-                            width: double.infinity,
-                            child: Text(
-                              'Common Songs',
-                              textAlign: TextAlign.start,
-                              style: SafeGoogleFont(
-                                'Playfair Display',
-                                fontSize: 20 * ffem,
-                                fontWeight: FontWeight.w800,
-                                height: 1.3325 * ffem / fem,
-                                color: const Color(0xff000000),
+                                },
+                                extensions: const [IframeHtmlExtension()],
+                                shrinkWrap: true,
                               ),
                             ),
-                          ),
-                          CarouselSlider(
-                            options: CarouselOptions(
-                              height: 362,
-                              enableInfiniteScroll: false,
-                              enlargeCenterPage: true,
-                              // viewportFraction: 0.7
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  Container(
+                    // textAw7 (405:141)
+                    margin:
+                        EdgeInsets.fromLTRB(0 * fem, 0 * fem, 159 * fem, 0 * fem),
+                    child: Text(
+                      'Common songs',
+                      textAlign: TextAlign.center,
+                      style: SafeGoogleFont(
+                        'Plus Jakarta Sans',
+                        fontSize: 25 * ffem,
+                        fontWeight: FontWeight.w500,
+                        height: 1.26 * ffem / fem,
+                        color: Color(0xff2c2c2c),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin:
+                        EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 9 * fem),
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        height: 362,
+                        enableInfiniteScroll: false,
+                        enlargeCenterPage: true,
+                        // viewportFraction: 0.7
+                      ),
+                      items: matchData['common_songs'].map<Widget>((song) {
+                        return Stack(
+                          children: [
+                            Expanded(
+                              child: Html(
+                                data:
+                                    '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/$song?utm_source=generator&theme=0" width="50%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>',
+                                extensions: const [IframeHtmlExtension()],
+                                shrinkWrap: true,
+                              ),
                             ),
-                            items:
-                                matchData['common_songs'].map<Widget>((song) {
-                              return Stack(
-                                children: [
-                                  Expanded(
-                                    child: Html(
-                                      data:
-                                          '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/$song?utm_source=generator&theme=0" width="50%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>',
-                                      extensions: const [IframeHtmlExtension()],
-                                      shrinkWrap: true,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }).toList(),
-                          ),
-                        ]),
+                          ],
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ],
               ),
-            ),
-    )));
+            )),
+        ));
   }
 }

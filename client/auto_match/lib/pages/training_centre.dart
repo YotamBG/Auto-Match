@@ -1,3 +1,5 @@
+import 'package:AUTO_MATCH/pages/button_bar.dart';
+import 'package:AUTO_MATCH/pages/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:AUTO_MATCH/pages/services/utils.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -16,160 +18,164 @@ class Training_centreState extends State<Training_centre> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SizedBox(
-          width: double.infinity,
-          child: SizedBox(
-            width: double.infinity,
-            height: 812 * fem,
-            child: Container(
-              padding:
-                  EdgeInsets.fromLTRB(51 * fem, 41 * fem, 53 * fem, 114 * fem),
-              width: double.infinity,
-              height: double.infinity,
-              decoration: const BoxDecoration(
-                color: Color(0xfffaf4ef),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                      margin: EdgeInsets.fromLTRB(
-                          1 * fem, 100 * fem, 0 * fem, 52 * fem),
-                      width: 210 * fem,
-                      height: 124 * fem,
-                      child: Text(
-                        'Training centre',
-                        textAlign: TextAlign.center,
-                        style: SafeGoogleFont(
-                          'Playfair Display',
-                          fontSize: 24 * ffem,
-                          height: 1.3325 * ffem / fem,
-                          color: const Color(0xff000000),
+      body: SafeArea(
+        child: Column(
+          children: [
+            MyTopBar('Matches'),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(50),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      // signinbuttonJiZ (403:31)
+                      margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
+                      child: TextButton(
+                        onPressed: () {
+                          print('sign_up_face_training!');
+                          print(dotenv.env['SERVER_URL']);
+                          Navigator.pushNamed(context, '/sign_up_face_training',
+                              arguments: {'pageNum': 4, 'lastPageNum': 6});
+                        },
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
                         ),
-                      )),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        1 * fem, 20 * fem, 0 * fem, 21 * fem),
-                    child: TextButton(
-                      onPressed: () {
-                        print('sign_up_face_training!');
-                        print(dotenv.env['SERVER_URL']);
-                        Navigator.pushNamed(context, '/sign_up_face_training',
-                            arguments: {'pageNum': 4, 'lastPageNum': 6});
-                      },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: Container(
-                        width: 270 * fem,
-                        height: 71 * fem,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50 * fem),
-                          image: const DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              'assets/page-1/images/rectangle-1.png',
-                            ),
+                        child: Container(
+                          width: double.infinity,
+                          height: 71 * fem,
+                          decoration: BoxDecoration(
+                            color: Color(0xff2c2c2c),
+                            borderRadius: BorderRadius.circular(20 * fem),
                           ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Face Training',
-                            textAlign: TextAlign.center,
-                            style: SafeGoogleFont(
-                              'Playfair Display',
-                              fontSize: 24 * ffem,
-                              height: 1.3325 * ffem / fem,
-                              color: const Color(0xff000000),
+                          child: Center(
+                            child: Text(
+                              'Face training',
+                              textAlign: TextAlign.center,
+                              style: SafeGoogleFont(
+                                'Plus Jakarta Sans',
+                                fontSize: 24 * ffem,
+                                fontWeight: FontWeight.w500,
+                                height: 1.26 * ffem / fem,
+                                color: Color(0xffffffff),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        1 * fem, 20 * fem, 0 * fem, 21 * fem),
-                    child: TextButton(
-                      onPressed: () {
-                        print('sign_up_reels!');
-                        print(dotenv.env['SERVER_URL']);
-                        Navigator.pushNamed(context, '/sign_up_reels');
-                      },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: Container(
-                        width: 270 * fem,
-                        height: 71 * fem,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50 * fem),
-                          image: const DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              'assets/page-1/images/rectangle-1.png',
-                            ),
-                          ),
+                    Container(
+                      // signinbuttonJiZ (403:31)
+                      margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
+                      child: TextButton(
+                        onPressed: () {
+                          print('sign_up_reels!');
+                          print(dotenv.env['SERVER_URL']);
+                          Navigator.pushNamed(context, '/sign_up_reels', arguments: {'pop': true});
+                        },
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
                         ),
-                        child: Center(
-                          child: Text(
-                            'Submit reels',
-                            textAlign: TextAlign.center,
-                            style: SafeGoogleFont(
-                              'Playfair Display',
-                              fontSize: 24 * ffem,
-                              height: 1.3325 * ffem / fem,
-                              color: const Color(0xff000000),
+                        child: Container(
+                          width: double.infinity,
+                          height: 71 * fem,
+                          decoration: BoxDecoration(
+                            color: Color(0xff2c2c2c),
+                            borderRadius: BorderRadius.circular(20 * fem),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Submit reels',
+                              textAlign: TextAlign.center,
+                              style: SafeGoogleFont(
+                                'Plus Jakarta Sans',
+                                fontSize: 24 * ffem,
+                                fontWeight: FontWeight.w500,
+                                height: 1.26 * ffem / fem,
+                                color: Color(0xffffffff),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(
-                        1 * fem, 20 * fem, 0 * fem, 21 * fem),
-                    child: TextButton(
-                      onPressed: () {
-                        print('sign_up_music!');
-                        print(dotenv.env['SERVER_URL']);
-                        Navigator.pushNamed(context, '/sign_up_music');
-                      },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: Container(
-                        width: 270 * fem,
-                        height: 71 * fem,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50 * fem),
-                          image: const DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              'assets/page-1/images/rectangle-1.png',
-                            ),
-                          ),
+                    Container(
+                      // signinbuttonJiZ (403:31)
+                      margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
+                      child: TextButton(
+                        onPressed: () {
+                          print('sign_up_music!');
+                          print(dotenv.env['SERVER_URL']);
+                          Navigator.pushNamed(context, '/sign_up_music', arguments: {'pop': true});
+                        },
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
                         ),
-                        child: Center(
-                          child: Text(
-                            'Sumbit music',
-                            textAlign: TextAlign.center,
-                            style: SafeGoogleFont(
-                              'Playfair Display',
-                              fontSize: 24 * ffem,
-                              height: 1.3325 * ffem / fem,
-                              color: const Color(0xff000000),
+                        child: Container(
+                          width: double.infinity,
+                          height: 71 * fem,
+                          decoration: BoxDecoration(
+                            color: Color(0xff2c2c2c),
+                            borderRadius: BorderRadius.circular(20 * fem),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Sumbit music',
+                              textAlign: TextAlign.center,
+                              style: SafeGoogleFont(
+                                'Plus Jakarta Sans',
+                                fontSize: 24 * ffem,
+                                fontWeight: FontWeight.w500,
+                                height: 1.26 * ffem / fem,
+                                color: Color(0xffffffff),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    Container(
+                      // signinbuttonJiZ (403:31)
+                      margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
+                      child: TextButton(
+                        onPressed: () {
+                          print('sign_up_filters!');
+                          print(dotenv.env['SERVER_URL']);
+                          Navigator.pushNamed(context, '/sign_up_filters', arguments: {'pop': true});
+                        },
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                        ),
+                        child: Container(
+                          width: double.infinity,
+                          height: 71 * fem,
+                          decoration: BoxDecoration(
+                            color: Color(0xff2c2c2c),
+                            borderRadius: BorderRadius.circular(20 * fem),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Adjust filters',
+                              textAlign: TextAlign.center,
+                              style: SafeGoogleFont(
+                                'Plus Jakarta Sans',
+                                fontSize: 24 * ffem,
+                                fontWeight: FontWeight.w500,
+                                height: 1.26 * ffem / fem,
+                                color: Color(0xffffffff),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
+            MyButtonBar('training_centre')
+          ],
         ),
       ),
     );
