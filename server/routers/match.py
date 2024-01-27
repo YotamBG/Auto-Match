@@ -367,16 +367,9 @@ def match_search_all_all():
         print(e)
         return jsonify({'error': str(e)}), 500
 
-    # Sort the analyzed matches by total score in descending order
-    analyzed_matches.sort(key=lambda x: x['total_match_percent'], reverse=True)
-
-    print('analyzed_matches:')
-    print(analyzed_matches)
-
     # Return all analyzed matches
     return jsonify({
         'message': 'Match search completed successfully',
-        'analyzed_matches': analyzed_matches
     }), 200
 
 

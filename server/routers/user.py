@@ -1,7 +1,7 @@
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import render_template, redirect, url_for, flash
 from flask import Blueprint, request, jsonify, session
-from utils.db.generate_example_users import generate_sample_users
+from utils.db.generate_example_users import create_disliked_face_relationships, create_liked_face_relationships, create_liked_reel_relationships, create_liked_song_relationships, create_owns_relationships, generate_sample_users, import_faces, import_reels, import_songs
 # from utils.db.test_db import generate_fake_users
 from utils.db.db_models import users
 from utils.db.database import db
@@ -156,3 +156,22 @@ def generate_example_db(num_users):
     except Exception as e:
         print(e)
         return jsonify({"error": "An error occurred while generating the example database"}), 500
+    
+
+
+@user_bp.route('/import-to-graph', methods=['POST'])
+def import_example_db_faces():
+    try:
+        # import_faces()
+        # import_songs()
+        # import_reels()
+        # create_liked_song_relationships()
+        # create_liked_reel_relationships()
+        # create_liked_face_relationships()
+        # create_disliked_face_relationships()
+        create_owns_relationships()
+        return jsonify({"message": "Example database impprted successfully"}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({"error": "An error occurred while importing the database"}), 500

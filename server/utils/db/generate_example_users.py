@@ -1,6 +1,7 @@
 import json
 import os
 import shutil
+from flask import jsonify
 import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -284,6 +285,220 @@ def generate_sample_users(num_users):
         
     
     # Commit the changes to the database
+
+from neo4j import GraphDatabase
+import os
+import face_recognition
+
+
+# Neo4j connection settings
+neo4j_uri = "bolt://localhost:7687"  # Update with your Neo4j URI
+neo4j_user = "neo4j"
+neo4j_password = "automatch"
+
+def get_face_encodings(image_path):
+    image = face_recognition.load_image_file(image_path)
+    face_encodings = face_recognition.face_encodings(image)
+    if face_encodings:
+        return face_encodings[0].tolist()
+    return None
+
+def create_face_node(tx, face_name, face_vector):
+    query = (
+        "MERGE (f:face {name: $face_name}) "
+        "SET f.face_vector = $face_vector"
+    )
+    tx.run(query, face_name=face_name, face_vector=face_vector)
+
+def import_faces():
+    folder_path = '../db/faces/'  # Update with your folder path
+    driver = GraphDatabase.driver(neo4j_uri, auth=(neo4j_user, neo4j_password))
+
+    with driver.session() as session:
+        for filename in os.listdir(folder_path):
+            if filename.endswith('.jpg'):
+                image_path = os.path.join(folder_path, filename)
+                face_name = os.path.splitext(filename)[0]
+                face_vector = get_face_encodings(image_path)
+
+                if face_vector:
+                    session.write_transaction(create_face_node, face_name, face_vector)
+
+    return jsonify({"message": "Faces imported successfully"})
+
+
+# JSON file path
+songs_json_file_path = '../db/songs_grouped_data_flat.json'  
+
+def create_song_node(tx, name, song_id, link, artist):
+    query = (
+        "CREATE (:Song {name: $name, id: $song_id, link: $link, artist: $artist})"
+    )
+    tx.run(query, name=name, song_id=song_id, link=link, artist=artist)
+
+def import_songs():
+    driver = GraphDatabase.driver(neo4j_uri, auth=(neo4j_user, neo4j_password))
+
+    with open(songs_json_file_path, 'r') as json_file:
+        songs_data = json.load(json_file)
+
+    with driver.session() as session:
+        for song in songs_data:
+            session.write_transaction(create_song_node, song['name'], song['id'], song['link'], song['artist'])
+
+    return jsonify({"message": "Songs imported successfully"})
+
+
+
+
+reels_json_file_path = '../db/posts_grouped_data_flat.json' 
+
+def create_reel_node(tx, link, reel_id):
+    query = (
+        "CREATE (:Reel {link: $link, id: $reel_id})"
+    )
+    tx.run(query, link=link, reel_id=reel_id)
+
+def import_reels():
+    driver = GraphDatabase.driver(neo4j_uri, auth=(neo4j_user, neo4j_password))
+
+    with open(reels_json_file_path, 'r') as json_file:
+        reels_data = json.load(json_file)
+
+    with driver.session() as session:
+        for reel in reels_data:
+            session.write_transaction(create_reel_node, reel['link'], reel['id'])
+
+    return jsonify({"message": "Reels imported successfully"})
+
+
+# JSON file path
+liked_songs_json_file_path = '../db/liked_songs_data.json'  
+
+def create_liked_song_relationship(tx, user_id, song_id):
+    query = (
+        "MATCH (u:User {id: $user_id}) "
+        "MATCH (r:Song {id: $song_id}) "
+        "MERGE (u)-[:LIKES]->(r)"
+    )
+    tx.run(query, user_id=user_id, song_id=song_id)
+
+def create_liked_song_relationships():
+    driver = GraphDatabase.driver(neo4j_uri, auth=(neo4j_user, neo4j_password))
+
+    with open(liked_songs_json_file_path, 'r') as json_file:
+        liked_data = json.load(json_file)
+
+    with driver.session() as session:
+        for user_data in liked_data:
+            user_id, song_ids = list(user_data.items())[0]
+            for song_id in song_ids:
+                session.write_transaction(create_liked_song_relationship, user_id, song_id)
+
+    return jsonify({"message": "LIKED relationships created successfully"})
+
+
+
+
+# JSON file path
+liked_reels_json_file_path = '../db/liked_reels_data.json'  
+
+def create_liked_reel_relationship(tx, user_id, reel_id):
+    query = (
+        "MATCH (u:User {id: $user_id}) "
+        "MATCH (r:Reel {id: $reel_id}) "
+        "MERGE (u)-[:LIKES]->(r)"
+    )
+    tx.run(query, user_id=user_id, reel_id=reel_id)
+
+def create_liked_reel_relationships():
+    driver = GraphDatabase.driver(neo4j_uri, auth=(neo4j_user, neo4j_password))
+
+    with open(liked_reels_json_file_path, 'r') as json_file:
+        liked_data = json.load(json_file)
+
+    with driver.session() as session:
+        for user_data in liked_data:
+            user_id, reel_ids = list(user_data.items())[0]
+            for reel_id in reel_ids:
+                session.write_transaction(create_liked_reel_relationship, user_id, reel_id)
+
+    return jsonify({"message": "LIKED relationships created successfully"})
+
+
+
+
+# JSON file path
+liked_faces_json_file_path = '../db/liked_faces_data.json'  
+
+def create_liked_face_relationship(tx, user_id, face_id):
+    query = (
+        "MATCH (u:User {id: $user_id}) "
+        "MATCH (r:Face {name: $face_id}) "
+        "MERGE (u)-[:LIKES]->(r)"
+    )
+    tx.run(query, user_id=user_id, face_id=face_id)
+
+def create_liked_face_relationships():
+    driver = GraphDatabase.driver(neo4j_uri, auth=(neo4j_user, neo4j_password))
+
+    with open(liked_faces_json_file_path, 'r') as json_file:
+        liked_data = json.load(json_file)
+
+    with driver.session() as session:
+        for user_data in liked_data:
+            user_id, face_ids = list(user_data.items())[0]
+            for face_id in face_ids:
+                session.write_transaction(create_liked_face_relationship, user_id, face_id)
+
+    return jsonify({"message": "LIKED relationships created successfully"})
+
+
+
+# JSON file path
+disliked_faces_json_file_path = '../db/disliked_faces_data.json'  
+
+def create_disliked_face_relationship(tx, user_id, face_id):
+    query = (
+        "MATCH (u:User {id: $user_id}) "
+        "MATCH (r:Face {name: $face_id}) "
+        "MERGE (u)-[:DISLIKES]->(r)"
+    )
+    tx.run(query, user_id=user_id, face_id=face_id)
+
+def create_disliked_face_relationships():
+    driver = GraphDatabase.driver(neo4j_uri, auth=(neo4j_user, neo4j_password))
+
+    with open(disliked_faces_json_file_path, 'r') as json_file:
+        disliked_data = json.load(json_file)
+
+    with driver.session() as session:
+        for user_data in disliked_data:
+            user_id, face_ids = list(user_data.items())[0]
+            for face_id in face_ids:
+                session.write_transaction(create_disliked_face_relationship, user_id, face_id)
+
+    return jsonify({"message": "DISLIKED relationships created successfully"})
+
+
+def create_owns_relationship(tx, user_id, face_id):
+    query = (
+        "MATCH (u:User {id: $user_id}) "
+        "MATCH (r:Face {name: $face_id}) "
+        "MERGE (u)-[:OWNS]->(r)"
+    )
+    tx.run(query, user_id=str(user_id), face_id=str(face_id))
+
+def create_owns_relationships():
+    driver = GraphDatabase.driver(neo4j_uri, auth=(neo4j_user, neo4j_password))
+
+    with driver.session() as session:
+        for user_id in range(290, 320):
+            face_id = f"face{user_id-190}"
+            session.write_transaction(create_owns_relationship, user_id, face_id)
+
+    return jsonify({"message": "OWNS relationships created for users 290 to 319"})
+
 
 if __name__ == '__main__':
     generate_sample_users(30)
