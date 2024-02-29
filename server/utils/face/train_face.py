@@ -114,11 +114,11 @@ def plot_decision_tree(feature_names=None, class_names=None):
 
 #     user_id = 1  # Replace with the actual user ID
 #     liked_faces = data['likedFaces']
-#     noped_faces = data['nopedFaces']
+#     disliked_faces = data['dislikedFaces']
 #     print("liked_faces:", liked_faces)
-#     print("noped_faces:", noped_faces)
+#     print("disliked_faces:", disliked_faces)
 
-#     train_face(user_id, yes_faces_names=liked_faces, no_faces_names=noped_faces)
+#     train_face(user_id, yes_faces_names=liked_faces, no_faces_names=disliked_faces)
 
 # if __name__ == "__main__":
 #     main()

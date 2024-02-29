@@ -20,7 +20,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_root)
 
 # Now you should be able to perform relative imports
-from music.spotify import convert_playlist, get_access_token
+from songs.spotify import convert_playlist, get_access_token
 
 
 def fetch_reels_by_hashtag(hashtag):
@@ -87,11 +87,11 @@ def search_playlist(query):
 
 
 def fetch_songs_data():
-    music_genres = ["Pop", "Rock", "Hip-Hop", "Jazz", "Classical", "Rap", "Country", "R&B", "Reggaeton", "Reggae", "Blues", "Metal", "Indie", "Disco", "Techno", "K-Pop"]
+    songs_genres = ["Pop", "Rock", "Hip-Hop", "Jazz", "Classical", "Rap", "Country", "R&B", "Reggaeton", "Reggae", "Blues", "Metal", "Indie", "Disco", "Techno", "K-Pop"]
     
     # Create a dictionary to store the URLs grouped by persona
     urls_by_persona = {}
-    for genre in music_genres:
+    for genre in songs_genres:
         urls_by_persona[genre] = convert_playlist(search_playlist(genre))[:15]
         
     # Write the data to a JSON file
@@ -110,7 +110,7 @@ def fetch_posts_data():
         'artist': ['painting', 'sculpture', 'contemporaryart', 'artgallery', 'artstudio', 'creativity', 'visualarts', 'modernart', 'artcollectors', 'artexhibition'],
         'traveler': ['wanderlust', 'adventure', 'travelphotography', 'exploretheworld', 'passportready', 'backpacking', 'traveladdict', 'globetrotter', 'travelgoals', 'travelholic'],
         'fitness': ['workout', 'gymrat', 'fitnessmotivation', 'healthylifestyle', 'strengthtraining', 'fitfam', 'cardio', 'exercise', 'healthandwellness', 'fitnessjourney'],
-        'musician': ['musicianslife', 'songwriting', 'guitarist', 'musicproducer', 'singer', 'livemusic', 'bandlife', 'musicindustry', 'musiclovers', 'soundcheck'],
+        'songsian': ['songsianslife', 'songwriting', 'guitarist', 'songsproducer', 'singer', 'livesongs', 'bandlife', 'songsindustry', 'songslovers', 'soundcheck'],
         'reader': ['readinglist', 'bookworm', 'bookish', 'literature', 'bibliophile', 'booknerd', 'bookclub', 'goodreads', 'readmore', 'bookrecommendations'],
         'photographer': ['photographylover', 'portraitphotography', 'landscapephotography', 'travelphotographer', 'photographerlife', 'photographycommunity', 'photooftheday', 'shutterbug', 'visualstorytelling', 'capturethemoment']
     }
@@ -229,7 +229,7 @@ def generate_random_selected_faces():
     # Select 2 clusters randomly
     cluster_groups = random.sample(cluster_list, 2)
     
-    return {"liked_faces": cluster_groups[0], "noped_faces": cluster_groups[1]}
+    return {"liked_faces": cluster_groups[0], "disliked_faces": cluster_groups[1]}
 
 
 
@@ -270,7 +270,7 @@ def generate_sample_users(num_users):
             bio=bio,
             face_vector=face_recognition.face_encodings(uploaded_image)[0].tolist(),
             liked_faces=random_selected_faces['liked_faces'],
-            noped_faces=random_selected_faces['noped_faces'],
+            disliked_faces=random_selected_faces['disliked_faces'],
             liked_reels=random_liked_reels,
             liked_songs=random_liked_songs,
             filters={'face': 1,'songs': 1,'reels': 1}
@@ -279,7 +279,7 @@ def generate_sample_users(num_users):
         # Add the user to the database
         db.session.add(user)
         db.session.commit()
-        train_face(user.id, random_selected_faces['liked_faces'], random_selected_faces['noped_faces'])
+        train_face(user.id, random_selected_faces['liked_faces'], random_selected_faces['disliked_faces'])
         shutil.copy(f'../db/faces/face{i+100}.jpg', f'../../storage/{user.id}/profilePic.png'
 )
         
@@ -292,7 +292,7 @@ import face_recognition
 
 
 # Neo4j connection settings
-neo4j_uri = "bolt://localhost:7687"  # Update with your Neo4j URI
+neo4j_uri = "bolt://localhost:7687"
 neo4j_user = "neo4j"
 neo4j_password = "automatch"
 

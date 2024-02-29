@@ -57,11 +57,11 @@ class _MyTopBarState extends State<MyTopBar> {
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
+                  color: Colors.black.withOpacity(0.05),
                   spreadRadius:
-                      2,
-                  blurRadius: 10,
-                  offset: Offset(0, 5),
+                      1,
+                  blurRadius: 2,
+                  offset: Offset(0, 6),
                 ),
               ],
             ),

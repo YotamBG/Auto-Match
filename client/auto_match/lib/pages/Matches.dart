@@ -39,7 +39,7 @@ class _MatchesState extends State<Matches> {
       // get the newly generated matches
     }
     fetchResponse =
-          await api.dio.get('${dotenv.env["SERVER_URL"]}/match-fetch');
+        await api.dio.get('${dotenv.env["SERVER_URL"]}/match-fetch');
     final responseBody = fetchResponse.data.toString();
 
     if (fetchResponse.statusCode == 200) {
@@ -55,7 +55,7 @@ class _MatchesState extends State<Matches> {
                 '${dotenv.env["SERVER_URL"]}/pic/${match['candidate_user_id']}/profilePic.png',
             'stats': {
               'face': match['face_match_percent'],
-              'music': match['music_match_percent'],
+              'songs': match['songs_match_percent'],
               'reels': match['reels_match_percent'],
             }
           };
@@ -83,7 +83,7 @@ class _MatchesState extends State<Matches> {
                 itemCount: usersList.length,
                 itemBuilder: (context, index) {
                   final user = usersList[index];
-      
+
                   return GestureDetector(
                     onTap: () {
                       print('clicked user ${user['id']}!');
@@ -213,7 +213,7 @@ class _MatchesState extends State<Matches> {
                                           Column(
                                             children: [
                                               Text(
-                                                '${user['stats']['music'].toStringAsFixed(0)}%',
+                                                '${user['stats']['songs'].toStringAsFixed(0)}%',
                                                 textAlign: TextAlign.center,
                                                 style: SafeGoogleFont(
                                                   'Plus Jakarta Sans',

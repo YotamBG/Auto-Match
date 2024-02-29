@@ -1,35 +1,34 @@
-import json
 import os
-import subprocess
-from utils.db.db_models import users
 from utils.face.train_face import train_face
-from utils.db.database import db
-from flask_login import current_user, login_user, logout_user, login_required
-from flask import Blueprint, request, jsonify, current_app, session
+from flask_login import current_user
+from flask import Blueprint, jsonify, request
 import face_recognition
+from utils.db.database import driver
 
 face_bp = Blueprint('face', __name__)
 
 @face_bp.route('/submit-faces', methods=['POST'])
 def submit_faces():
     try:
-        id = current_user.id
-        user = users.query.filter_by(id=id).first()
+        current_user_id = current_user.id
         jsonData = request.get_json()
         liked_faces = jsonData.get('likedFaces')
-        noped_faces = jsonData.get('nopedFaces')
+        disliked_faces = jsonData.get('dislikedFaces')
 
-        # Initialize liked_faces and noped_faces as empty lists if they are None
-        if user.liked_faces is None:
-            user.liked_faces = []
-        if user.noped_faces is None:
-            user.noped_faces = []
+        with driver.session() as session:
+            # Use a loop to create liked faces relationships
+            for face_id in liked_faces:
+                session.run(
+                    f"""MATCH (u:User {{id: '{current_user_id}'}}), (f:Face {{name: '{face_id}'}})
+                        CREATE (u)-[:LIKES]->(f)"""
+                )
 
-        # Extend the user's liked_faces and noped_faces
-        user.liked_faces = user.liked_faces + liked_faces
-        user.noped_faces = user.noped_faces + noped_faces
-        
-        db.session.commit()
+            # Use a loop to create disliked faces relationships
+            for face_id in disliked_faces:
+                session.run(
+                    f"""MATCH (u:User {{id: '{current_user_id}'}}), (f:Face {{name: '{face_id}'}})
+                        CREATE (u)-[:DISLIKES]->(f)"""
+                )
 
         return jsonify({"message": 'Finished submitting!'}), 200
 
@@ -41,19 +40,29 @@ def submit_faces():
 @face_bp.route('/train-face', methods=['POST'])
 def train_faces():
     try:
-        id = current_user.id
-        user = users.query.filter_by(id=id).first()
-        liked_faces = user.liked_faces
-        noped_faces = user.noped_faces
+        current_user_id = current_user.id
 
-        # Call the train_face function to train the model
-        train_face(id, liked_faces, noped_faces)
+        with driver.session() as session:
+            # Fetch liked faces for the current user
+            liked_faces_result = session.run(
+                f"MATCH (u:User {{id: '{current_user_id}'}})-[:LIKES]->(f:Face) RETURN f.name AS liked_face", current_user_id=current_user_id)
+            liked_faces = [record['liked_face']
+                           for record in liked_faces_result]
+
+            # Fetch disliked faces for the current user
+            disliked_faces_result = session.run(
+                f"MATCH (u:User {{id: '{current_user_id}'}})-[:DISLIKES]->(f:Face) RETURN f.name AS disliked_face", current_user_id=current_user_id)
+            disliked_faces = [record['disliked_face']
+                              for record in disliked_faces_result]
+
+            # Call the train_face function to train the model
+            train_face(current_user_id, liked_faces, disliked_faces)
 
         return jsonify({"message": 'Finished training!'}), 200
 
     except Exception as e:
         print(f'Error: {str(e)}')
-        return 'Error executing Python script', 500    
+        return 'Error executing Python script', 500
 
 
 @face_bp.route('/submit-face', methods=['POST'])
@@ -64,16 +73,22 @@ def submit_face():
         file = request.files['face']
 
         # Check if the file exists and is an allowed format (e.g., PNG or JPEG)
+        if file.filename == '':
+            return jsonify({"error": "No file selected"}), 400
+
         # Define the upload directory (e.g., storage/user_id)
         upload_dir = os.path.join('../../storage', str(current_user.id))
         print('upload_dir:')
         print(upload_dir)
         os.makedirs(upload_dir, exist_ok=True)
+
         # Save the uploaded file to the user's directory
         filename = os.path.join(upload_dir, 'profilePic.png')
         file.save(filename)
+
         # Load the uploaded image using face_recognition library
         uploaded_image = face_recognition.load_image_file(filename)
+
         # Compute the face vector
         face_encodings = face_recognition.face_encodings(uploaded_image)
 
@@ -82,13 +97,17 @@ def submit_face():
         else:
             face_vector = None
 
-        # Update the user's face_vector column in the database
-        face_vector_list = face_vector.tolist()
-        current_user.face_vector = face_vector_list
-        db.session.commit()
+        # Update the user's face_vector property in the database
+        with driver.session() as session:
+            session.run(
+                f"""
+                MATCH (u:User {{id: '{current_user.id}'}})
+                SET u.face_vector = {face_vector.tolist() if face_vector else None}
+                """
+            )
 
         return jsonify({"message": "Face uploaded and processed successfully"}), 200
-    
+
     except Exception as e:
         print(e)
-        return jsonify({"error": "An error occurred while processing the image {e}"}), 500
+        return jsonify({"error": f"An error occurred while processing the image: {e}"}), 500

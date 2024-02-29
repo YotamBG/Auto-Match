@@ -55,7 +55,7 @@ class _All_usersState extends State<All_users> {
                 '${dotenv.env["SERVER_URL"]}/pic/${match['candidate_user_id']}/profilePic.png',
             'stats': {
               'face': match['face_match_percent'],
-              'music': match['music_match_percent'],
+              'songs': match['songs_match_percent'],
               'reels': match['reels_match_percent'],
             }
           };
@@ -83,7 +83,7 @@ class _All_usersState extends State<All_users> {
                 itemCount: usersList.length,
                 itemBuilder: (context, index) {
                   final user = usersList[index];
-      
+
                   return GestureDetector(
                     onTap: () {
                       print('clicked user ${user['id']}!');
@@ -130,7 +130,8 @@ class _All_usersState extends State<All_users> {
                               ),
                               Center(
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     SizedBox(
                                       width: 259.12 * fem,
@@ -162,7 +163,8 @@ class _All_usersState extends State<All_users> {
                                     SizedBox(
                                       width: 300,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
                                         children: [
                                           Column(
                                             children: [
@@ -211,7 +213,7 @@ class _All_usersState extends State<All_users> {
                                           Column(
                                             children: [
                                               Text(
-                                                '${user['stats']['music'].toStringAsFixed(0)}%',
+                                                '${user['stats']['songs'].toStringAsFixed(0)}%',
                                                 textAlign: TextAlign.center,
                                                 style: SafeGoogleFont(
                                                   'Plus Jakarta Sans',

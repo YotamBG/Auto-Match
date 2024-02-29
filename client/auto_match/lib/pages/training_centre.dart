@@ -31,7 +31,8 @@ class Training_centreState extends State<Training_centre> {
                   children: [
                     Container(
                       // signinbuttonJiZ (403:31)
-                      margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
+                      margin: EdgeInsets.fromLTRB(
+                          1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
                       child: TextButton(
                         onPressed: () {
                           print('sign_up_face_training!');
@@ -67,12 +68,14 @@ class Training_centreState extends State<Training_centre> {
                     ),
                     Container(
                       // signinbuttonJiZ (403:31)
-                      margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
+                      margin: EdgeInsets.fromLTRB(
+                          1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
                       child: TextButton(
                         onPressed: () {
                           print('sign_up_reels!');
                           print(dotenv.env['SERVER_URL']);
-                          Navigator.pushNamed(context, '/sign_up_reels', arguments: {'pop': true});
+                          Navigator.pushNamed(context, '/sign_up_reels',
+                              arguments: {'pop': true});
                         },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
@@ -102,12 +105,14 @@ class Training_centreState extends State<Training_centre> {
                     ),
                     Container(
                       // signinbuttonJiZ (403:31)
-                      margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
+                      margin: EdgeInsets.fromLTRB(
+                          1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
                       child: TextButton(
                         onPressed: () {
-                          print('sign_up_music!');
+                          print('sign_up_songs!');
                           print(dotenv.env['SERVER_URL']);
-                          Navigator.pushNamed(context, '/sign_up_music', arguments: {'pop': true});
+                          Navigator.pushNamed(context, '/sign_up_songs',
+                              arguments: {'pop': true});
                         },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
@@ -121,7 +126,7 @@ class Training_centreState extends State<Training_centre> {
                           ),
                           child: Center(
                             child: Text(
-                              'Sumbit music',
+                              'Sumbit songs',
                               textAlign: TextAlign.center,
                               style: SafeGoogleFont(
                                 'Plus Jakarta Sans',
@@ -137,12 +142,14 @@ class Training_centreState extends State<Training_centre> {
                     ),
                     Container(
                       // signinbuttonJiZ (403:31)
-                      margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
+                      margin: EdgeInsets.fromLTRB(
+                          1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
                       child: TextButton(
                         onPressed: () {
                           print('sign_up_filters!');
                           print(dotenv.env['SERVER_URL']);
-                          Navigator.pushNamed(context, '/sign_up_filters', arguments: {'pop': true});
+                          Navigator.pushNamed(context, '/sign_up_filters',
+                              arguments: {'pop': true});
                         },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,

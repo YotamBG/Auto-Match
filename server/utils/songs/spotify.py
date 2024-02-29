@@ -23,6 +23,7 @@ def get_access_token(client_id='d98e83fa24b147f68a89da1e76e0690e', client_secret
 
 def convert_playlist(playlist_url):
     try:
+        print(playlist_url)
         liked_songs = []
 
         # Extract the playlist ID from the URL
@@ -48,6 +49,7 @@ def convert_playlist(playlist_url):
             }
             liked_songs.append(song_info)
         print('liked_songs:')
+        print(liked_songs)
         # print(liked_songs)
         return liked_songs
 

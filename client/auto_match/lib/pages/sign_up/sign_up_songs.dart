@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:AUTO_MATCH/pages/services/api.dart';
 import 'package:AUTO_MATCH/pages/services/utils.dart';
 
-class Sign_up_music extends StatefulWidget {
-  const Sign_up_music({super.key});
+class Sign_up_songs extends StatefulWidget {
+  const Sign_up_songs({super.key});
 
   @override
-  State<Sign_up_music> createState() => _Sign_up_musicState();
+  State<Sign_up_songs> createState() => _Sign_up_songsState();
 }
 
-class _Sign_up_musicState extends State<Sign_up_music> {
+class _Sign_up_songsState extends State<Sign_up_songs> {
   final TextEditingController _playlistController = TextEditingController();
 
   var pop;
@@ -44,7 +44,7 @@ class _Sign_up_musicState extends State<Sign_up_music> {
   //       Navigator.pushNamed(context, '/');
   //     }
 
-  Future<void> submitMusic() async {
+  Future<void> submitSongs() async {
     //show loading
     showDialog(
       barrierDismissible: false,
@@ -66,20 +66,20 @@ class _Sign_up_musicState extends State<Sign_up_music> {
     // send req to server
     print('Sending req to server...');
     final jsonData = {
-      "music": playlistURL,
+      "songs": playlistURL,
     };
     print('jsonData:');
     print(jsonData);
 
     try {
-      final musicReq = await api.dio.post(
-        '${dotenv.env["SERVER_URL"]}/submit-music',
+      final songsReq = await api.dio.post(
+        '${dotenv.env["SERVER_URL"]}/submit-songs',
         options: Options(headers: {"Content-Type": "application/json"}),
         data: jsonEncode(jsonData),
       );
 
-      final musicReqResponse = musicReq.data.toString();
-      print('Server Response: $musicReqResponse');
+      final songsReqResponse = songsReq.data.toString();
+      print('Server Response: $songsReqResponse');
       //hide loading
       Navigator.of(context).pop();
       //move to the next screeen
@@ -246,7 +246,7 @@ class _Sign_up_musicState extends State<Sign_up_music> {
                     15.53 * fem, 0 * fem, 0 * fem, 40 * fem),
                 child: TextButton(
                   onPressed: () {
-                    submitMusic();
+                    submitSongs();
                   },
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.zero,

@@ -14,9 +14,9 @@ class Sign_up_filters extends StatefulWidget {
 }
 
 class _Sign_up_filtersState extends State<Sign_up_filters> {
-  int? _selectedLooksButtonIndex = -1;
-  int? _selectedMusicButtonIndex = -1;
-  int? _selectedReelsButtonIndex = -1;
+  int? _selectedLooksButtonIndex = 1;
+  int? _selectedSongsButtonIndex = 1;
+  int? _selectedReelsButtonIndex = 1;
 
   var pop;
 
@@ -53,11 +53,11 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
     print('Looks: $_selectedLooksButtonIndex');
   }
 
-  void _handleMusicButtonSelected(int? index) {
+  void _handleSongsButtonSelected(int? index) {
     setState(() {
-      _selectedMusicButtonIndex = index;
+      _selectedSongsButtonIndex = index;
     });
-    print('Music: $_selectedMusicButtonIndex');
+    print('Songs: $_selectedSongsButtonIndex');
   }
 
   void _handleReelsButtonSelected(int? index) {
@@ -84,38 +84,36 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
     );
 
     print('Looks: $_selectedLooksButtonIndex');
-    print('Music: $_selectedMusicButtonIndex');
+    print('Songs: $_selectedSongsButtonIndex');
     print('Reels: $_selectedReelsButtonIndex');
 
     // send req to server
     print('Sending req to server...');
     final jsonData = {
-      "filters": {
-        "face": _selectedLooksButtonIndex,
-        "songs": _selectedMusicButtonIndex,
-        "reels": _selectedReelsButtonIndex,
-      }
+        "face_filter_weight": _selectedLooksButtonIndex,
+        "songs_filter_weight": _selectedSongsButtonIndex,
+        "reels_filter_weight": _selectedReelsButtonIndex
     };
     print('jsonData:');
     print(jsonData);
 
-    final musicReq = await api.dio.put(
+    final songsReq = await api.dio.put(
       '${dotenv.env["SERVER_URL"]}/profile/update',
       options: Options(headers: {"Content-Type": "application/json"}),
       data: jsonEncode(jsonData),
     );
 
-    final filtersReqResponse = musicReq.data.toString();
+    final filtersReqResponse = songsReq.data.toString();
     print('Server Response: $filtersReqResponse');
 
     //hide loading
     Navigator.of(context).pop();
     //move to the next screeen
     if (pop == true) {
-        Navigator.pushNamed(context, '/matches');
-      } else {
-        Navigator.pushNamed(context, '/sign_up_pic');
-      }
+      Navigator.pushNamed(context, '/matches');
+    } else {
+      Navigator.pushNamed(context, '/sign_up_pic');
+    }
   }
 
   @override
@@ -125,10 +123,10 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
     double ffem = fem * 0.97;
     return Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-              child: SizedBox(
-              width: double.infinity,
-              child: Container(
+      child: SingleChildScrollView(
+          child: SizedBox(
+        width: double.infinity,
+        child: Container(
           // signup4Px1 (405:211)
           padding: EdgeInsets.fromLTRB(20 * fem, 33 * fem, 21 * fem, 79 * fem),
           width: double.infinity,
@@ -141,15 +139,16 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
             children: [
               Container(
                 // autogroupbvmrgRK (TtqRrGoyYjDmTvN4gkBvMR)
-                margin: EdgeInsets.fromLTRB(4 * fem, 0 * fem, 0 * fem, 38 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(4 * fem, 0 * fem, 0 * fem, 38 * fem),
                 width: double.infinity,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Container(
                       // logookq (405:223)
-                      margin:
-                          EdgeInsets.fromLTRB(0 * fem, 0 * fem, 8 * fem, 1 * fem),
+                      margin: EdgeInsets.fromLTRB(
+                          0 * fem, 0 * fem, 8 * fem, 1 * fem),
                       width: 51 * fem,
                       height: 50 * fem,
                       child: Image.asset(
@@ -174,7 +173,8 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
               ),
               Container(
                 // text4wf (405:222)
-                margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 4 * fem, 38 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(0 * fem, 0 * fem, 4 * fem, 38 * fem),
                 constraints: BoxConstraints(
                   maxWidth: 259 * fem,
                 ),
@@ -222,25 +222,6 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    _handleLooksButtonSelected(0);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(10.0),
-                                    backgroundColor:
-                                        _selectedLooksButtonIndex == 0
-                                            ? const Color(0xffd9d9d9)
-                                            : Colors.white,
-                                  ),
-                                  child: const Text(
-                                    'Neutral',
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
                                     _handleLooksButtonSelected(1);
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -251,7 +232,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                             : Colors.white,
                                   ),
                                   child: const Text(
-                                    'Bonus',
+                                    'Neutral',
                                     style: TextStyle(
                                       fontSize: 16.0,
                                       color: Colors.black,
@@ -266,6 +247,25 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                     padding: const EdgeInsets.all(10.0),
                                     backgroundColor:
                                         _selectedLooksButtonIndex == 2
+                                            ? const Color(0xffd9d9d9)
+                                            : Colors.white,
+                                  ),
+                                  child: const Text(
+                                    'Bonus',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    _handleLooksButtonSelected(3);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.all(10.0),
+                                    backgroundColor:
+                                        _selectedLooksButtonIndex == 3
                                             ? const Color(0xffd9d9d9)
                                             : Colors.white,
                                   ),
@@ -293,7 +293,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                             margin: EdgeInsets.fromLTRB(
                                 2 * fem, 0 * fem, 0 * fem, 20 * fem),
                             child: Text(
-                              'Music',
+                              'Songs',
                               textAlign: TextAlign.center,
                               style: SafeGoogleFont(
                                 'Plus Jakarta Sans',
@@ -312,12 +312,12 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    _handleMusicButtonSelected(0);
+                                    _handleSongsButtonSelected(1);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.all(10.0),
                                     backgroundColor:
-                                        _selectedMusicButtonIndex == 0
+                                        _selectedSongsButtonIndex == 1
                                             ? const Color(0xffd9d9d9)
                                             : Colors.white,
                                   ),
@@ -331,12 +331,12 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                    _handleMusicButtonSelected(1);
+                                    _handleSongsButtonSelected(2);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.all(10.0),
                                     backgroundColor:
-                                        _selectedMusicButtonIndex == 1
+                                        _selectedSongsButtonIndex == 2
                                             ? const Color(0xffd9d9d9)
                                             : Colors.white,
                                   ),
@@ -350,12 +350,12 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                    _handleMusicButtonSelected(2);
+                                    _handleSongsButtonSelected(3);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.all(10.0),
                                     backgroundColor:
-                                        _selectedMusicButtonIndex == 2
+                                        _selectedSongsButtonIndex == 3
                                             ? const Color(0xffd9d9d9)
                                             : Colors.white,
                                   ),
@@ -402,25 +402,6 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    _handleReelsButtonSelected(0);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(10.0),
-                                    backgroundColor:
-                                        _selectedReelsButtonIndex == 0
-                                            ? const Color(0xffd9d9d9)
-                                            : Colors.white,
-                                  ),
-                                  child: const Text(
-                                    'Neutral',
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
                                     _handleReelsButtonSelected(1);
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -431,7 +412,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                             : Colors.white,
                                   ),
                                   child: const Text(
-                                    'Bonus',
+                                    'Neutral',
                                     style: TextStyle(
                                       fontSize: 16.0,
                                       color: Colors.black,
@@ -446,6 +427,25 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                     padding: const EdgeInsets.all(10.0),
                                     backgroundColor:
                                         _selectedReelsButtonIndex == 2
+                                            ? const Color(0xffd9d9d9)
+                                            : Colors.white,
+                                  ),
+                                  child: const Text(
+                                    'Bonus',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    _handleReelsButtonSelected(3);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.all(10.0),
+                                    backgroundColor:
+                                        _selectedReelsButtonIndex == 3
                                             ? const Color(0xffd9d9d9)
                                             : Colors.white,
                                   ),
@@ -503,8 +503,8 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
               ),
             ],
           ),
-              ),
-            )),
-        ));
+        ),
+      )),
+    ));
   }
 }

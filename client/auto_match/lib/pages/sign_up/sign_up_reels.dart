@@ -86,7 +86,7 @@ class _Sign_up_reelsState extends State<Sign_up_reels> {
       if (pop == true) {
         Navigator.pushNamed(context, '/matches');
       } else {
-        Navigator.pushNamed(context, '/sign_up_music');
+        Navigator.pushNamed(context, '/sign_up_songs');
       }
     } catch (e) {
       print(e);
@@ -113,14 +113,14 @@ class _Sign_up_reelsState extends State<Sign_up_reels> {
                 SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 71, 71, 71),
-                      ),
+                    backgroundColor: const Color.fromARGB(255, 71, 71, 71),
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop(); // Close the dialog
                     if (pop == true) {
                       Navigator.pushNamed(context, '/matches');
                     } else {
-                      Navigator.pushNamed(context, '/sign_up_music');
+                      Navigator.pushNamed(context, '/sign_up_songs');
                     }
                   },
                   child: Text('OK',
@@ -321,7 +321,7 @@ class _Sign_up_reelsState extends State<Sign_up_reels> {
                     EdgeInsets.fromLTRB(15 * fem, 0 * fem, 7.5 * fem, 0 * fem),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/sign_up_music');
+                    Navigator.pushNamed(context, '/sign_up_songs');
                   },
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.zero,

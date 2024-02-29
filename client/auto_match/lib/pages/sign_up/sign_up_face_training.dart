@@ -88,14 +88,14 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
     print('Sending req to server...');
     print(selectedImageIds);
 
-    final nopedFaces = imagesList
+    final dislikedFaces = imagesList
         .where((face) => !selectedImageIds.contains(face['id']))
         .take(selectedImageIds.length)
         .map((face) => face['id'])
         .toList();
 
-    print(nopedFaces);
-    final jsonData = {"likedFaces": selectedImageIds, "nopedFaces": nopedFaces};
+    print(dislikedFaces);
+    final jsonData = {"likedFaces": selectedImageIds, "dislikedFaces": dislikedFaces};
 
     final submitFacesResponse = await api.dio.post(
       '${dotenv.env["SERVER_URL"]}/submit-faces',

@@ -1,6 +1,5 @@
 import os
-from flask import Blueprint, request, jsonify, send_from_directory
-from flask_login import current_user
+from flask import Blueprint, jsonify, send_from_directory
 from natsort import natsorted
 
 media_bp = Blueprint('media', __name__)
