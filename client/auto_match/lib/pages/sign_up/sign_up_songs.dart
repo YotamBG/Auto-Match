@@ -46,19 +46,7 @@ class _Sign_up_songsState extends State<Sign_up_songs> {
 
   Future<void> submitSongs() async {
     //show loading
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => const AlertDialog(
-        content: SizedBox(
-          height: 50,
-          width: 50,
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      ),
-    );
+    loading(context);
 
     final String playlistURL = _playlistController.text;
     print(playlistURL);
@@ -86,7 +74,8 @@ class _Sign_up_songsState extends State<Sign_up_songs> {
       if (pop == true) {
         Navigator.pushNamed(context, '/matches');
       } else {
-        Navigator.pushNamed(context, '/sign_up_filters');
+        Navigator.pushNamed(context, '/sign_up_memo',
+                            arguments: {'memoNum': 4});
       }
     } catch (e) {
       print(e);
@@ -117,7 +106,8 @@ class _Sign_up_songsState extends State<Sign_up_songs> {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop(); // Close the dialog
-                    Navigator.pushNamed(context, '/sign_up_filters');
+                    Navigator.pushNamed(context, '/sign_up_memo',
+                            arguments: {'memoNum': 4});
                   },
                   child: Text('OK',
                       style: SafeGoogleFont(
@@ -280,7 +270,8 @@ class _Sign_up_songsState extends State<Sign_up_songs> {
                     EdgeInsets.fromLTRB(13.53 * fem, 0 * fem, 0 * fem, 0 * fem),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/sign_up_filters');
+                    Navigator.pushNamed(context, '/sign_up_memo',
+                            arguments: {'memoNum': 4});
                   },
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.zero,

@@ -7,17 +7,22 @@ media_bp = Blueprint('media', __name__)
 
 @media_bp.route('/pic/<folder_name>/<image_name>', methods=['GET'])
 def serve_pic(folder_name, image_name):
-    # Check which folder to serve images from
-    if folder_name == 'catalog':
-        folder_path = './utils/face/catalog-faces'
-    else:
-        folder_path = f'./storage/{folder_name}'
+    try:
+        # Check which folder to serve images from
+        if folder_name == 'catalog':
+            folder_path = './utils/face/catalog-faces'
+        else:
+            folder_path = f'./storage/{folder_name}'
 
 
-    # Serve the image
-    print(folder_path)
-    print(image_name)
-    return send_from_directory(folder_path, image_name)
+        # Serve the image
+        print(folder_path)
+        print(image_name)
+        return send_from_directory(folder_path, image_name)
+    except Exception as e:
+        print(e)
+        return send_from_directory('./utils/face', 'blank_face.png')
+
 
 
 

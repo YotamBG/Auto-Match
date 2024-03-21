@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:dio/dio.dart';
+import 'package:AUTO_MATCH/main.dart';
+import 'package:dio/dio.dart' show Options;
 import 'package:http/http.dart' as http; //switch to dio
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -47,9 +48,11 @@ Future<dynamic> signInReq(
       "password": password,
     };
 
+    await sessionManager.login();
+
     final signInReq = await api.dio.post(
       '${dotenv.env["SERVER_URL"]}/signIn',
-      options: Options(headers: {"Content-Type": "application/json"}),
+      // options: Options(headers: {"Content-Type": "application/json", "persistentConnection": "true"}),
       data: jsonEncode(jsonData),
     );
 
@@ -72,7 +75,7 @@ Future<Map<String, dynamic>> profileReq([int? userID]) async {
 
     final profileReq = await api.dio.get(
       apiUrl,
-      options: Options(headers: {"Content-Type": "application/json"}),
+      // options: Options(headers: {"Content-Type": "application/json", "persistentConnection": "true"}),
     );
 
     print('Server Response: ${profileReq.data.toString()}');

@@ -53,7 +53,7 @@ class _MyButtonBarState extends State<MyButtonBar> {
               elevation: widget.page != 'all_users' ? 5.0 : 0.0,
             ),
             child: Container(
-              width: 100,
+              width: 100*ffem,
               height: 50,
               child: Center(
                 child: Text(
@@ -90,7 +90,7 @@ class _MyButtonBarState extends State<MyButtonBar> {
               elevation: widget.page != 'matches' ? 5.0 : 0.0,
             ),
             child: Container(
-              width: 100,
+              width: 100*ffem,
               height: 50,
               child: Center(
                 child: Text(
@@ -126,7 +126,7 @@ class _MyButtonBarState extends State<MyButtonBar> {
               elevation: widget.page != 'training_centre' ? 5.0 : 0.0,
             ),
             child: Container(
-              width: 100,
+              width: 100*ffem,
               height: 50,
               child: Center(
                 child: Text(

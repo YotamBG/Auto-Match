@@ -100,9 +100,11 @@ class Opening_screenState extends State<Opening_screen> {
                     TextButton(
                       // signupbuttonoM7 (402:24)
                       onPressed: () {
-                          print('signup!');
-                          Navigator.pushNamed(context, '/sign_up_info');
-                        },
+                        print('signup!');
+                        Navigator.pushNamed(context, '/sign_up_memo',
+                            arguments: {'memoNum': 0});
+                        // Navigator.pushNamed(context, '/sign_up_info');
+                      },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                       ),

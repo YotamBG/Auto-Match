@@ -64,6 +64,13 @@ def match_search(id=None):
         face_match_scores = score_face(user_id, candidate_ids)
         print(face_match_scores)
 
+        # Calculate and update normalizers
+        with driver.session() as session:
+            session.run(
+                f"MATCH (u:User {{id: '{user_id}'}}) SET u.face_normalizer = {100/(max(face_match_scores) or 1)}, "
+                f"u.songs_normalizer = {100/(max(songs_match_scores) or 1)}, u.reels_normalizer = {100/(max(reels_match_scores) or 1)}"
+            )
+
         total_scores = []
 
         for i, candidate in enumerate(candidates):
@@ -72,8 +79,8 @@ def match_search(id=None):
             songs_match_score = songs_match_scores[i]
             reels_match_score = reels_match_scores[i]
 
-            total_score = (face_match_score * face_weight + 
-                           songs_match_score * songs_weight + 
+            total_score = (face_match_score * face_weight +
+                           songs_match_score * songs_weight +
                            reels_match_score * reels_weight)
 
             total_scores.append(total_score)
@@ -133,25 +140,25 @@ def match_fetch():
         # Cypher Query for Match Fetching and Calculation
         match_fetch_query = f"""
         MATCH (u:User {{id: '{current_user_id}'}})-[um:MATCH]->(c:User)-[cm:MATCH]->(u)
-        WHERE (toFloat(um.face_match_percent) * u.face_filter_weight) +
-              (toFloat(um.songs_match_percent) * u.songs_filter_weight) +
-              (toFloat(um.reels_match_percent) * u.reels_filter_weight) >= u.threshold
-          AND (toFloat(cm.face_match_percent) * c.face_filter_weight) +
-              (toFloat(cm.songs_match_percent) * c.songs_filter_weight) +
-              (toFloat(cm.reels_match_percent) * c.reels_filter_weight) >= c.threshold
+        WHERE (toFloat(um.face_match_percent) * u.face_filter_weight * u.face_normalizer) +
+              (toFloat(um.songs_match_percent) * u.songs_filter_weight * u.songs_normalizer) +
+              (toFloat(um.reels_match_percent) * u.reels_filter_weight * u.reels_normalizer) >= u.threshold
+          AND (toFloat(cm.face_match_percent) * c.face_filter_weight * c.face_normalizer) +
+              (toFloat(cm.songs_match_percent) * c.songs_filter_weight * c.songs_normalizer) +
+              (toFloat(cm.reels_match_percent) * c.reels_filter_weight * c.reels_normalizer) >= c.threshold
         RETURN c.id AS candidate_user_id, c.name AS candidate_user_name,
-               toFloat(um.face_match_percent) AS face_match_percent,
-               toFloat(um.songs_match_percent) AS songs_match_percent,
-               toFloat(um.reels_match_percent) AS reels_match_percent,
-               ((toFloat(um.face_match_percent) * u.face_filter_weight) +
-               (toFloat(um.songs_match_percent) * u.songs_filter_weight) +
-               (toFloat(um.reels_match_percent) * u.reels_filter_weight)) AS total_score
+               toFloat(um.face_match_percent)*u.face_normalizer AS face_match_percent,
+               toFloat(um.songs_match_percent)*u.songs_normalizer AS songs_match_percent,
+               toFloat(um.reels_match_percent)*u.reels_normalizer AS reels_match_percent,
+               ((toFloat(um.face_match_percent) * u.face_filter_weight * u.face_normalizer) +
+               (toFloat(um.songs_match_percent) * u.songs_filter_weight * u.songs_normalizer) +
+               (toFloat(um.reels_match_percent) * u.reels_filter_weight * u.reels_normalizer)) AS total_score
         """
-         
+
         # Fetch matches from Neo4j
         with driver.session() as session:
             result = session.run(match_fetch_query)
-            
+
             matches = []
             for record in result:
                 match = {
@@ -165,14 +172,13 @@ def match_fetch():
                 }
                 print(match)
                 matches.append(match)
-
+            # Sort matches by total_score
+        matches = sorted(matches, key=lambda x: x['total_score'], reverse=True)
         return jsonify({'matches': matches}), 200
 
-        
     except Exception as e:
         print(e)
         return jsonify({'error': 'An error occurred while fetching matches'}), 500
-
 
 
 @match_bp.route('/match-fetch-all', methods=['GET'])
@@ -183,18 +189,17 @@ def match_fetch_all():
         current_user_id = current_user.id
         print(f"Current User ID: {current_user_id}")
 
-        
         # Fetch matches from Neo4j
         with driver.session() as session:
             result = session.run(f"""
         MATCH (u:User {{id: '{current_user_id}'}})-[m:MATCH]->(c:User)
         RETURN c.id AS candidate_user_id, c.name AS candidate_user_name,
-               m.face_match_percent AS face_match_percent,
-               m.songs_match_percent AS songs_match_percent,
-               m.reels_match_percent AS reels_match_percent,
-               ((toFloat(m.face_match_percent) * u.face_filter_weight) +
-               (toFloat(m.songs_match_percent) * u.songs_filter_weight) +
-               (toFloat(m.reels_match_percent) * u.reels_filter_weight)) AS total_score
+               m.face_match_percent*u.face_normalizer AS face_match_percent,
+               m.songs_match_percent*u.songs_normalizer AS songs_match_percent,
+               m.reels_match_percent*u.reels_normalizer AS reels_match_percent,
+               ((toFloat(m.face_match_percent) * u.face_filter_weight * u.face_normalizer) +
+               (toFloat(m.songs_match_percent) * u.songs_filter_weight * u.songs_normalizer) +
+               (toFloat(m.reels_match_percent) * u.reels_filter_weight * u.reels_normalizer)) AS total_score
         """)
             matches = []
             for record in result:
@@ -212,7 +217,6 @@ def match_fetch_all():
 
         return jsonify({'matches': matches}), 200
 
-        
     except Exception as e:
         print(e)
         return jsonify({'error': 'An error occurred while fetching matches'}), 500
@@ -271,6 +275,14 @@ def match_search_all(id=None):
         face_match_scores = score_face(user_id, candidate_ids)
         print(face_match_scores)
 
+        # Calculate and update normalizers
+        with driver.session() as session:
+            session.run(
+                f"MATCH (u:User {{id: '{user_id}'}}) SET u.face_normalizer = {100/(max(face_match_scores) or 1)}, "
+                f"u.songs_normalizer = {100/(max(songs_match_scores) or 1)}, u.reels_normalizer = {100/(max(reels_match_scores) or 1)}"
+            )
+
+
         total_scores = []
 
         for i, candidate in enumerate(candidates):
@@ -279,8 +291,8 @@ def match_search_all(id=None):
             songs_match_score = songs_match_scores[i] or 0
             reels_match_score = reels_match_scores[i] or 0
 
-            total_score = (face_match_score * face_weight + 
-                           songs_match_score * songs_weight + 
+            total_score = (face_match_score * face_weight +
+                           songs_match_score * songs_weight +
                            reels_match_score * reels_weight)
 
             total_scores.append(total_score)
@@ -330,7 +342,6 @@ def match_search_all(id=None):
         return jsonify({'error': str(e)}), 500
 
 
-
 def update_relationship_count(user_id, relationship_type, node_label):
     with driver.session() as session:
         # Count the number of relationships of the specified type
@@ -341,7 +352,7 @@ def update_relationship_count(user_id, relationship_type, node_label):
         )
         print('ok2')
         print("Count query:", count_query)
-        
+
         # Execute the count query
         result = session.run(count_query)
         count = result.single().get("count", 0)
@@ -358,22 +369,19 @@ def update_relationship_count(user_id, relationship_type, node_label):
         print(f"user.{node_label}s_count updated for user {user_id}!")
 
 
-
 @match_bp.route('/match-search-all-all', methods=['POST'])
 def match_search_all_all():
     try:
         # Retrieve all users
         with driver.session() as session:
-           result = session.run(
-               "MATCH (u:User) RETURN u",
-           )
-           all_users = [record['u'] for record in result]
-           print(f'len(all_users): {len(all_users)}')
-        
+            result = session.run(
+                "MATCH (u:User) RETURN u",
+            )
+            all_users = [record['u'] for record in result]
+            print(f'len(all_users): {len(all_users)}')
 
         for user in all_users:
             match_search_all(user['id'])
-
 
     except Exception as e:
         print('error:')
@@ -394,9 +402,9 @@ def get_match(current_user_id, candidate_user_id):
             result = session.run(
                 f"""MATCH (u:User {{id: '{current_user_id}'}})-[m:MATCH]->(c:User {{id: '{candidate_user_id}'}}) 
                 RETURN m.face_match_percent AS face_match_percent, 
-                m.reels_match_percent AS reels_match_percent, 
-                m.songs_match_percent AS songs_match_percent, 
-                m.total_match_percent AS total_match_percent"""
+                m.reels_match_percent * u.reels_normalizer AS reels_match_percent, 
+                m.songs_match_percent * u.songs_normalizer AS songs_match_percent, 
+                m.total_match_percent * u.total_normalizer AS total_match_percent"""
             )
             record = result.single()
             if record is None:
@@ -412,8 +420,10 @@ def get_match(current_user_id, candidate_user_id):
                 RETURN DISTINCT song.id AS id"""
             )
 
-            common_reels = [record['link'] for record in session.run(common_reels_query)]
-            common_songs = [record['id'] for record in session.run(common_songs_query)]
+            common_reels = [record['link']
+                            for record in session.run(common_reels_query)]
+            common_songs = [record['id']
+                            for record in session.run(common_songs_query)]
 
             match_data = {
                 'current_user_id': current_user_id,

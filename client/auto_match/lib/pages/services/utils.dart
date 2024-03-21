@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -8,6 +9,17 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
         PointerDeviceKind.touch,
         PointerDeviceKind.mouse,
       };
+}
+
+Future<dynamic> loading(context) {
+  return showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) => const SpinKitCubeGrid(
+      color: Color(0xff2c2c2c),
+      size: 60.0,
+    ),
+  );
 }
 
 TextStyle SafeGoogleFont(

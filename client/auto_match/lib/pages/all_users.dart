@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:AUTO_MATCH/pages/button_bar.dart';
 import 'package:AUTO_MATCH/pages/services/api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class All_users extends StatefulWidget {
   const All_users({super.key});
@@ -78,6 +79,12 @@ class _All_usersState extends State<All_users> {
         child: Column(
           children: [
             MyTopBar('All Users'),
+            (usersList.isEmpty
+                  ? SpinKitCubeGrid(
+                      color: Color(0xff2c2c2c),
+                      size: 60.0,
+                    )
+                  : SizedBox()),
             Expanded(
               child: ListView.builder(
                 itemCount: usersList.length,

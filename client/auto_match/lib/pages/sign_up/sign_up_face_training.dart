@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:AUTO_MATCH/pages/services/api.dart';
 import 'package:AUTO_MATCH/pages/services/utils.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Sign_up_face_training extends StatefulWidget {
   const Sign_up_face_training({super.key});
@@ -46,7 +47,7 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
   Future<void> fetchImageData() async {
     final response = await http
         .get(Uri.parse('${dotenv.env["SERVER_URL"]}/pics/catalog/$pageNum'));
-    print('page!!');
+    print('page!! ${pageNum}');
 
     if (response.statusCode == 200) {
       // Parse the JSON response
@@ -71,19 +72,7 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
   }
 
   void sendDataToServer() async {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => const AlertDialog(
-        content: SizedBox(
-          height: 50,
-          width: 50,
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      ),
-    );
+    loading(context);
 
     print('Sending req to server...');
     print(selectedImageIds);
@@ -95,7 +84,10 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
         .toList();
 
     print(dislikedFaces);
-    final jsonData = {"likedFaces": selectedImageIds, "dislikedFaces": dislikedFaces};
+    final jsonData = {
+      "likedFaces": selectedImageIds,
+      "dislikedFaces": dislikedFaces
+    };
 
     final submitFacesResponse = await api.dio.post(
       '${dotenv.env["SERVER_URL"]}/submit-faces',
@@ -132,8 +124,8 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
     double ffem = fem * 0.97;
     return Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-              child: Container(
+      child: SingleChildScrollView(
+        child: Container(
           // signup6PuX (405:275)
           padding: EdgeInsets.fromLTRB(13 * fem, 33 * fem, 12 * fem, 26 * fem),
           width: double.infinity,
@@ -179,7 +171,8 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
               ),
               Container(
                 // text6qs (405:282)
-                margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 53 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 53 * fem),
                 child: Text(
                   'Select faces you like',
                   textAlign: TextAlign.center,
@@ -192,6 +185,12 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
                   ),
                 ),
               ),
+              (imagesList.isEmpty
+                  ? SpinKitCubeGrid(
+                      color: Color(0xff2c2c2c),
+                      size: 60.0,
+                    )
+                  : SizedBox()),
               GridView.count(
                 physics: const ScrollPhysics(),
                 padding: EdgeInsets.zero,
@@ -199,7 +198,7 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
                 crossAxisCount: 3,
                 children: imagesList.map((face) {
                   final isSelected = selectedImageIds.contains(face['id']);
-        
+
                   return GestureDetector(
                     onTap: () {
                       setState(() {
@@ -262,7 +261,8 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
               ),
               Container(
                 // signinbutton87f (405:276)
-                margin: EdgeInsets.fromLTRB(28 * fem, 0 * fem, 32 * fem, 0 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(28 * fem, 0 * fem, 32 * fem, 0 * fem),
                 child: TextButton(
                   onPressed: () {
                     sendDataToServer();
@@ -295,8 +295,8 @@ class _Sign_up_face_trainingState extends State<Sign_up_face_training> {
               ),
             ],
           ),
-              ),
-            ),
-        ));
+        ),
+      ),
+    ));
   }
 }

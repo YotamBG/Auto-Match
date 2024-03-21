@@ -20,19 +20,7 @@ class _Sign_up_infoState extends State<Sign_up_info> {
   // Function to handle the sign-in action
   Future<void> signUp() async {
     //show loading
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => const AlertDialog(
-        content: SizedBox(
-          height: 50,
-          width: 50,
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      ),
-    );
+    loading(context);
 
     final email = _emailController.text;
     final password = _passwordController.text;
@@ -62,7 +50,7 @@ class _Sign_up_infoState extends State<Sign_up_info> {
     Navigator.of(context).pop();
 
     //Move to the next screeen
-    Navigator.pushNamed(context, '/sign_up_reels');
+    Navigator.pushNamed(context, '/sign_up_memo', arguments: {'memoNum': 2});
   }
 
   @override
@@ -72,10 +60,10 @@ class _Sign_up_infoState extends State<Sign_up_info> {
     double ffem = fem * 0.97;
     return Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-              child: SizedBox(
-              width: double.infinity,
-              child: Container(
+      child: SingleChildScrollView(
+          child: SizedBox(
+        width: double.infinity,
+        child: Container(
           // signup18eZ (405:142)
           padding: EdgeInsets.fromLTRB(38 * fem, 25 * fem, 43 * fem, 81 * fem),
           width: double.infinity,
@@ -87,7 +75,8 @@ class _Sign_up_infoState extends State<Sign_up_info> {
             children: [
               Container(
                 // logopnH (405:153)
-                margin: EdgeInsets.fromLTRB(2 * fem, 0 * fem, 0 * fem, 29 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(2 * fem, 0 * fem, 0 * fem, 29 * fem),
                 width: 132 * fem,
                 height: 130 * fem,
                 child: Image.asset(
@@ -97,7 +86,8 @@ class _Sign_up_infoState extends State<Sign_up_info> {
               ),
               Container(
                 // signupwru (405:143)
-                margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0 * fem, 52 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(1 * fem, 0 * fem, 0 * fem, 52 * fem),
                 child: Text(
                   'Sign up',
                   textAlign: TextAlign.center,
@@ -112,7 +102,8 @@ class _Sign_up_infoState extends State<Sign_up_info> {
               ),
               Container(
                 // emailinputemK (405:147)
-                margin: EdgeInsets.fromLTRB(3 * fem, 0 * fem, 1 * fem, 33 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(3 * fem, 0 * fem, 1 * fem, 33 * fem),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10 * fem),
@@ -142,7 +133,8 @@ class _Sign_up_infoState extends State<Sign_up_info> {
               ),
               Container(
                 // passwordinput5rd (405:150)
-                margin: EdgeInsets.fromLTRB(2 * fem, 0 * fem, 2 * fem, 33 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(2 * fem, 0 * fem, 2 * fem, 33 * fem),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10 * fem),
@@ -170,9 +162,11 @@ class _Sign_up_infoState extends State<Sign_up_info> {
                   ),
                 ),
               ),
+              // TODO Add bio and contact fields
               Container(
                 // passwordinput5rd (405:150)
-                margin: EdgeInsets.fromLTRB(2 * fem, 0 * fem, 2 * fem, 33 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(2 * fem, 0 * fem, 2 * fem, 33 * fem),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10 * fem),
@@ -202,7 +196,8 @@ class _Sign_up_infoState extends State<Sign_up_info> {
               ),
               Container(
                 // emailinputXid (405:154)
-                margin: EdgeInsets.fromLTRB(1 * fem, 0 * fem, 3 * fem, 33 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(1 * fem, 0 * fem, 3 * fem, 33 * fem),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10 * fem),
@@ -232,7 +227,8 @@ class _Sign_up_infoState extends State<Sign_up_info> {
               ),
               Container(
                 // passwordinputMxZ (405:157)
-                margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 4 * fem, 50 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(0 * fem, 0 * fem, 4 * fem, 50 * fem),
                 width: 290 * fem,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10 * fem),
@@ -296,8 +292,8 @@ class _Sign_up_infoState extends State<Sign_up_info> {
               ),
             ],
           ),
-              ),
-            )),
-        ));
+        ),
+      )),
+    ));
   }
 }

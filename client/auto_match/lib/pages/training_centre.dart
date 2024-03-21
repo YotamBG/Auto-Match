@@ -24,7 +24,7 @@ class Training_centreState extends State<Training_centre> {
             MyTopBar('Matches'),
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(50),
+                padding: EdgeInsets.all(30*fem),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,7 +45,7 @@ class Training_centreState extends State<Training_centre> {
                         ),
                         child: Container(
                           width: double.infinity,
-                          height: 71 * fem,
+                          height: 61 * fem,
                           decoration: BoxDecoration(
                             color: Color(0xff2c2c2c),
                             borderRadius: BorderRadius.circular(20 * fem),
@@ -82,7 +82,7 @@ class Training_centreState extends State<Training_centre> {
                         ),
                         child: Container(
                           width: double.infinity,
-                          height: 71 * fem,
+                          height: 61 * fem,
                           decoration: BoxDecoration(
                             color: Color(0xff2c2c2c),
                             borderRadius: BorderRadius.circular(20 * fem),
@@ -119,7 +119,7 @@ class Training_centreState extends State<Training_centre> {
                         ),
                         child: Container(
                           width: double.infinity,
-                          height: 71 * fem,
+                          height: 61 * fem,
                           decoration: BoxDecoration(
                             color: Color(0xff2c2c2c),
                             borderRadius: BorderRadius.circular(20 * fem),
@@ -156,7 +156,7 @@ class Training_centreState extends State<Training_centre> {
                         ),
                         child: Container(
                           width: double.infinity,
-                          height: 71 * fem,
+                          height: 61 * fem,
                           decoration: BoxDecoration(
                             color: Color(0xff2c2c2c),
                             borderRadius: BorderRadius.circular(20 * fem),

@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_html_iframe/flutter_html_iframe.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Match extends StatefulWidget {
   const Match({super.key});
@@ -59,11 +60,11 @@ class _MatchState extends State<Match> {
     double ffem = fem * 0.97;
     return Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-              child: SizedBox(
-              width: double.infinity,
-              child: candidateUser == null
-            ? Container()
+      child: SingleChildScrollView(
+          child: SizedBox(
+        width: double.infinity,
+        child: candidateUser == null
+            ? SpinKitCubeGrid(color: Color(0xff2c2c2c), size: 60.0)
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -151,7 +152,7 @@ class _MatchState extends State<Match> {
                   Center(
                     child: SizedBox(
                       width: 150,
-                      height: 150,
+                      height: 170,
                       child: Column(
                         children: [
                           Row(
@@ -164,7 +165,8 @@ class _MatchState extends State<Match> {
                                       '${matchData['face_match_percent'].toStringAsFixed(0)}%'),
                                   Container(
                                     height: 100.0 *
-                                        (matchData['face_match_percent'] / 100.0),
+                                        (matchData['face_match_percent'] /
+                                            100.0),
                                     width: 30,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
@@ -172,7 +174,8 @@ class _MatchState extends State<Match> {
                                           begin: Alignment.bottomCenter,
                                           end: Alignment.topCenter,
                                           colors: [
-                                            HSLColor.fromAHSL(1, 176, 0.84, 0.30)
+                                            HSLColor.fromAHSL(
+                                                    1, 176, 0.84, 0.30)
                                                 .toColor(),
                                             HSLColor.fromAHSL(
                                                     1,
@@ -212,7 +215,8 @@ class _MatchState extends State<Match> {
                                           begin: Alignment.bottomCenter,
                                           end: Alignment.topCenter,
                                           colors: [
-                                            HSLColor.fromAHSL(1, 162, 0.88, 0.30)
+                                            HSLColor.fromAHSL(
+                                                    1, 162, 0.88, 0.30)
                                                 .toColor(),
                                             HSLColor.fromAHSL(
                                                     1,
@@ -252,7 +256,8 @@ class _MatchState extends State<Match> {
                                           begin: Alignment.bottomCenter,
                                           end: Alignment.topCenter,
                                           colors: [
-                                            HSLColor.fromAHSL(1, 202, 0.94, 0.30)
+                                            HSLColor.fromAHSL(
+                                                    1, 202, 0.94, 0.30)
                                                 .toColor(),
                                             HSLColor.fromAHSL(
                                                     1,
@@ -319,8 +324,8 @@ class _MatchState extends State<Match> {
                   ),
                   Container(
                     // textAw7 (405:141)
-                    margin:
-                        EdgeInsets.fromLTRB(0 * fem, 0 * fem, 159 * fem, 0 * fem),
+                    margin: EdgeInsets.fromLTRB(
+                        0 * fem, 0 * fem, 159 * fem, 0 * fem),
                     child: Text(
                       'Common reels',
                       textAlign: TextAlign.center,
@@ -364,8 +369,8 @@ class _MatchState extends State<Match> {
                   ),
                   Container(
                     // textAw7 (405:141)
-                    margin:
-                        EdgeInsets.fromLTRB(0 * fem, 0 * fem, 159 * fem, 0 * fem),
+                    margin: EdgeInsets.fromLTRB(
+                        0 * fem, 0 * fem, 159 * fem, 0 * fem),
                     child: Text(
                       'Common songs',
                       textAlign: TextAlign.center,
@@ -406,7 +411,7 @@ class _MatchState extends State<Match> {
                   ),
                 ],
               ),
-            )),
-        ));
+      )),
+    ));
   }
 }

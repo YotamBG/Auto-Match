@@ -69,19 +69,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
 
   Future<void> submitFilters() async {
     //show loading
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => const AlertDialog(
-        content: SizedBox(
-          height: 50,
-          width: 50,
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      ),
-    );
+    loading(context);
 
     print('Looks: $_selectedLooksButtonIndex');
     print('Songs: $_selectedSongsButtonIndex');
@@ -90,9 +78,9 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
     // send req to server
     print('Sending req to server...');
     final jsonData = {
-        "face_filter_weight": _selectedLooksButtonIndex,
-        "songs_filter_weight": _selectedSongsButtonIndex,
-        "reels_filter_weight": _selectedReelsButtonIndex
+      "face_filter_weight": _selectedLooksButtonIndex,
+      "songs_filter_weight": _selectedSongsButtonIndex,
+      "reels_filter_weight": _selectedReelsButtonIndex
     };
     print('jsonData:');
     print(jsonData);
@@ -112,7 +100,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
     if (pop == true) {
       Navigator.pushNamed(context, '/matches');
     } else {
-      Navigator.pushNamed(context, '/sign_up_pic');
+      Navigator.pushNamed(context, '/sign_up_memo', arguments: {'memoNum': 5});
     }
   }
 
@@ -194,14 +182,14 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                 child: Column(
                   children: [
                     SizedBox(
-                      width: 238 * fem,
+                      width: 300* fem,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
                             // textaQD (405:224)
                             margin: EdgeInsets.fromLTRB(
-                                2 * fem, 0 * fem, 0 * fem, 20 * fem),
+                                0 * fem, 20 * fem, 0 * fem, 20 * fem),
                             child: Text(
                               'Looks',
                               textAlign: TextAlign.center,
@@ -225,7 +213,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                     _handleLooksButtonSelected(1);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(10.0),
+                                    padding: EdgeInsets.all(10*fem),
                                     backgroundColor:
                                         _selectedLooksButtonIndex == 1
                                             ? const Color(0xffd9d9d9)
@@ -234,7 +222,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                   child: const Text(
                                     'Neutral',
                                     style: TextStyle(
-                                      fontSize: 16.0,
+                                      fontSize: 14,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -244,7 +232,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                     _handleLooksButtonSelected(2);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(10.0),
+                                    padding: EdgeInsets.all(10*fem),
                                     backgroundColor:
                                         _selectedLooksButtonIndex == 2
                                             ? const Color(0xffd9d9d9)
@@ -253,7 +241,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                   child: const Text(
                                     'Bonus',
                                     style: TextStyle(
-                                      fontSize: 16.0,
+                                      fontSize: 14,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -263,7 +251,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                     _handleLooksButtonSelected(3);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(10.0),
+                                    padding: EdgeInsets.all(10*fem),
                                     backgroundColor:
                                         _selectedLooksButtonIndex == 3
                                             ? const Color(0xffd9d9d9)
@@ -272,7 +260,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                   child: const Text(
                                     'Must',
                                     style: TextStyle(
-                                      fontSize: 16.0,
+                                      fontSize: 14,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -284,14 +272,14 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                       ),
                     ),
                     SizedBox(
-                      width: 238 * fem,
+                      width: 300* fem,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
                             // textaQD (405:224)
                             margin: EdgeInsets.fromLTRB(
-                                2 * fem, 0 * fem, 0 * fem, 20 * fem),
+                                0 * fem, 20 * fem, 0 * fem, 20 * fem),
                             child: Text(
                               'Songs',
                               textAlign: TextAlign.center,
@@ -315,7 +303,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                     _handleSongsButtonSelected(1);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(10.0),
+                                    padding: EdgeInsets.all(10*fem),
                                     backgroundColor:
                                         _selectedSongsButtonIndex == 1
                                             ? const Color(0xffd9d9d9)
@@ -324,7 +312,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                   child: const Text(
                                     'Neutral',
                                     style: TextStyle(
-                                      fontSize: 16.0,
+                                      fontSize: 14,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -334,7 +322,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                     _handleSongsButtonSelected(2);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(10.0),
+                                    padding: EdgeInsets.all(10*fem),
                                     backgroundColor:
                                         _selectedSongsButtonIndex == 2
                                             ? const Color(0xffd9d9d9)
@@ -343,7 +331,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                   child: const Text(
                                     'Bonus',
                                     style: TextStyle(
-                                      fontSize: 16.0,
+                                      fontSize: 14,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -353,7 +341,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                     _handleSongsButtonSelected(3);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(10.0),
+                                    padding: EdgeInsets.all(10*fem),
                                     backgroundColor:
                                         _selectedSongsButtonIndex == 3
                                             ? const Color(0xffd9d9d9)
@@ -362,7 +350,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                   child: const Text(
                                     'Must',
                                     style: TextStyle(
-                                      fontSize: 16.0,
+                                      fontSize: 14,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -374,14 +362,14 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                       ),
                     ),
                     SizedBox(
-                      width: 238 * fem,
+                      width: 300* fem,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
                             // textqgq (405:251)
                             margin: EdgeInsets.fromLTRB(
-                                2 * fem, 0 * fem, 0 * fem, 20 * fem),
+                                0 * fem, 20 * fem, 0 * fem, 20 * fem),
                             child: Text(
                               'Humor',
                               textAlign: TextAlign.center,
@@ -405,7 +393,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                     _handleReelsButtonSelected(1);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(10.0),
+                                    padding: EdgeInsets.all(10*fem),
                                     backgroundColor:
                                         _selectedReelsButtonIndex == 1
                                             ? const Color(0xffd9d9d9)
@@ -414,7 +402,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                   child: const Text(
                                     'Neutral',
                                     style: TextStyle(
-                                      fontSize: 16.0,
+                                      fontSize: 14,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -424,7 +412,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                     _handleReelsButtonSelected(2);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(10.0),
+                                    padding: EdgeInsets.all(10*fem),
                                     backgroundColor:
                                         _selectedReelsButtonIndex == 2
                                             ? const Color(0xffd9d9d9)
@@ -433,7 +421,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                   child: const Text(
                                     'Bonus',
                                     style: TextStyle(
-                                      fontSize: 16.0,
+                                      fontSize: 14,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -443,7 +431,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                     _handleReelsButtonSelected(3);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(10.0),
+                                    padding: EdgeInsets.all(10*fem),
                                     backgroundColor:
                                         _selectedReelsButtonIndex == 3
                                             ? const Color(0xffd9d9d9)
@@ -452,7 +440,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                                   child: const Text(
                                     'Must',
                                     style: TextStyle(
-                                      fontSize: 16.0,
+                                      fontSize: 14,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -467,7 +455,7 @@ class _Sign_up_filtersState extends State<Sign_up_filters> {
                     Container(
                       // signinbuttonDUR (405:212)
                       margin: EdgeInsets.fromLTRB(
-                          20 * fem, 0 * fem, 22 * fem, 0 * fem),
+                          20 * fem, 0 * fem, 20 * fem, 20 * fem),
                       child: TextButton(
                         onPressed: () {
                           submitFilters();

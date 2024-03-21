@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:AUTO_MATCH/pages/button_bar.dart';
 import 'package:AUTO_MATCH/pages/services/api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Matches extends StatefulWidget {
   const Matches({super.key});
@@ -40,6 +41,7 @@ class _MatchesState extends State<Matches> {
     }
     fetchResponse =
         await api.dio.get('${dotenv.env["SERVER_URL"]}/match-fetch');
+        // TODO notify if no matches
     final responseBody = fetchResponse.data.toString();
 
     if (fetchResponse.statusCode == 200) {
@@ -78,6 +80,12 @@ class _MatchesState extends State<Matches> {
         child: Column(
           children: [
             MyTopBar('Matches'),
+            (usersList.isEmpty
+                  ? SpinKitCubeGrid(
+                      color: Color(0xff2c2c2c),
+                      size: 60.0,
+                    )
+                  : SizedBox()),
             Expanded(
               child: ListView.builder(
                 itemCount: usersList.length,

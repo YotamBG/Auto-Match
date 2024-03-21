@@ -68,19 +68,7 @@ class _Sign_up_picState extends State<Sign_up_pic> {
 
   Future<void> submitFace() async {
     // Show loading dialog
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => const AlertDialog(
-        content: SizedBox(
-          height: 50,
-          width: 50,
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      ),
-    );
+    loading(context);
 
     try {
       if (imageFile != null) {
@@ -115,7 +103,10 @@ class _Sign_up_picState extends State<Sign_up_pic> {
     Navigator.of(context).pop();
 
     // Move to the next screen
-    Navigator.pushNamed(context, '/sign_up_face_training', arguments: {'pageNum': 1, 'lastPageNum': 3});
+    Navigator.pushNamed(context, '/sign_up_memo',
+                            arguments: {'memoNum': 6});
+    // Navigator.pushNamed(context, '/sign_up_face_training',
+    //     arguments: {'pageNum': 1, 'lastPageNum': 3});
   }
 
   @override
@@ -125,10 +116,10 @@ class _Sign_up_picState extends State<Sign_up_pic> {
     double ffem = fem * 0.97;
     return Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-              child: SizedBox(
-              width: double.infinity,
-              child: Container(
+      child: SingleChildScrollView(
+          child: SizedBox(
+        width: double.infinity,
+        child: Container(
           // signup535f (405:252)
           padding: EdgeInsets.fromLTRB(26 * fem, 33 * fem, 43 * fem, 173 * fem),
           width: double.infinity,
@@ -140,15 +131,16 @@ class _Sign_up_picState extends State<Sign_up_pic> {
             children: [
               Container(
                 // autogroup1g8kjjB (TtqQJV4Fe41srsMMWC1g8K)
-                margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 9 * fem, 80 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(0 * fem, 0 * fem, 9 * fem, 80 * fem),
                 width: double.infinity,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Container(
                       // logoGj7 (405:264)
-                      margin:
-                          EdgeInsets.fromLTRB(0 * fem, 0 * fem, 9 * fem, 1 * fem),
+                      margin: EdgeInsets.fromLTRB(
+                          0 * fem, 0 * fem, 9 * fem, 1 * fem),
                       width: 51 * fem,
                       height: 50 * fem,
                       child: Image.asset(
@@ -173,7 +165,8 @@ class _Sign_up_picState extends State<Sign_up_pic> {
               ),
               Container(
                 // textKSV (405:263)
-                margin: EdgeInsets.fromLTRB(14 * fem, 0 * fem, 0 * fem, 85 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(14 * fem, 0 * fem, 0 * fem, 85 * fem),
                 child: Text(
                   'Select a profile picture',
                   textAlign: TextAlign.center,
@@ -230,7 +223,8 @@ class _Sign_up_picState extends State<Sign_up_pic> {
               SizedBox(height: 40),
               Container(
                 // signinbuttonS9j (405:253)
-                margin: EdgeInsets.fromLTRB(16 * fem, 0 * fem, 0 * fem, 0 * fem),
+                margin:
+                    EdgeInsets.fromLTRB(16 * fem, 0 * fem, 0 * fem, 0 * fem),
                 child: TextButton(
                   onPressed: () {
                     submitFace();
@@ -261,10 +255,53 @@ class _Sign_up_picState extends State<Sign_up_pic> {
                   ),
                 ),
               ),
+              // TODO REMOVE:
+              Container(
+                // signinbuttonPem (405:177)
+                margin:
+                    EdgeInsets.fromLTRB(15 * fem, 0 * fem, 7.5 * fem, 0 * fem),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/sign_up_memo',
+                            arguments: {'memoNum': 6});
+                  },
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    height: 71 * fem,
+                    decoration: BoxDecoration(
+                      color: Color(0xffffffff),
+                      borderRadius: BorderRadius.circular(20 * fem),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x3f000000),
+                          offset: Offset(0 * fem, 4 * fem),
+                          blurRadius: 2 * fem,
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Skip',
+                        textAlign: TextAlign.center,
+                        style: SafeGoogleFont(
+                          'Plus Jakarta Sans',
+                          fontSize: 24 * ffem,
+                          fontWeight: FontWeight.w500,
+                          height: 1.26 * ffem / fem,
+                          color: Color(0xff2c2c2c),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
-              ),
-            )),
-        ));
+        ),
+      )),
+    ));
   }
 }

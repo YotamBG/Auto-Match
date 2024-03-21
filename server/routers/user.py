@@ -19,7 +19,7 @@ def signIn():
         
         if user:
             # Handle login using Flask-Login
-            login_user(user)
+            login_user(user, remember=True)
             user_id = user.node['id']
             print(user_id)  # Print user ID from Neo4j
             return jsonify({"message": f"User {user_id} logged in successfully"}), 200
@@ -59,6 +59,8 @@ def signup():
 @user_bp.route('/my-profile', methods=['GET'])
 def profile():
     try:
+        print(f'Received Cookies:{request.cookies}')
+        # Print out the received cookies
         user_id = current_user.get_id()
         print('!!!')
         print(user_id)
@@ -117,20 +119,36 @@ def update_profile():
     try:
         user_id = current_user.id
         data = request.get_json()
-        face_filter_weight=int(data.get('face_filter_weight'))
-        songs_filter_weight=int(data.get('songs_filter_weight'))
-        reels_filter_weight=int(data.get('reels_filter_weight'))
-        total=face_filter_weight+songs_filter_weight+reels_filter_weight
+        
+        # Check if weights are provided in the request
+        if 'face_filter_weight' in data and 'songs_filter_weight' in data and 'reels_filter_weight' in data:
+            face_filter_weight = int(data.get('face_filter_weight'))
+            songs_filter_weight = int(data.get('songs_filter_weight'))
+            reels_filter_weight = int(data.get('reels_filter_weight'))
+            total = face_filter_weight + songs_filter_weight + reels_filter_weight
 
-        with driver.session() as session:
-            session.run(
-                f"""
-                MATCH (u:User {{id: '{user_id}'}})
-                SET u.face_filter_weight = {face_filter_weight/total},
-                    u.songs_filter_weight = {songs_filter_weight/total},
-                    u.reels_filter_weight = {reels_filter_weight/total}
-                """
-            )
+            # Update weights
+            with driver.session() as session:
+                session.run(
+                    f"""
+                    MATCH (u:User {{id: '{user_id}'}})
+                    SET u.face_filter_weight = {face_filter_weight/total},
+                        u.songs_filter_weight = {songs_filter_weight/total},
+                        u.reels_filter_weight = {reels_filter_weight/total}
+                    """
+                )
+        
+        # Check if location is provided in the request
+        if 'location' in data:
+            location = data.get('location')
+            # Update location
+            with driver.session() as session:
+                session.run(
+                    f"""
+                    MATCH (u:User {{id: '{user_id}'}})
+                    SET u.location = '{location}'
+                    """
+                )
 
         return jsonify({'message': 'Profile updated successfully'}), 200
     except Exception as e:

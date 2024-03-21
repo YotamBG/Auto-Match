@@ -47,19 +47,7 @@ class _Sign_up_reelsState extends State<Sign_up_reels> {
 
   Future<void> submitReels() async {
     //show loading
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => const AlertDialog(
-        content: SizedBox(
-          height: 50,
-          width: 50,
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      ),
-    );
+    loading(context);
 
     final username = _usernameController.text;
     final password = _passwordController.text;
@@ -86,7 +74,8 @@ class _Sign_up_reelsState extends State<Sign_up_reels> {
       if (pop == true) {
         Navigator.pushNamed(context, '/matches');
       } else {
-        Navigator.pushNamed(context, '/sign_up_songs');
+        Navigator.pushNamed(context, '/sign_up_memo',
+                            arguments: {'memoNum': 3});
       }
     } catch (e) {
       print(e);
@@ -120,7 +109,8 @@ class _Sign_up_reelsState extends State<Sign_up_reels> {
                     if (pop == true) {
                       Navigator.pushNamed(context, '/matches');
                     } else {
-                      Navigator.pushNamed(context, '/sign_up_songs');
+                      Navigator.pushNamed(context, '/sign_up_memo',
+                            arguments: {'memoNum': 3});
                     }
                   },
                   child: Text('OK',
@@ -321,7 +311,8 @@ class _Sign_up_reelsState extends State<Sign_up_reels> {
                     EdgeInsets.fromLTRB(15 * fem, 0 * fem, 7.5 * fem, 0 * fem),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/sign_up_songs');
+                    Navigator.pushNamed(context, '/sign_up_memo',
+                            arguments: {'memoNum': 3});
                   },
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.zero,
