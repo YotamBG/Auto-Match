@@ -5,6 +5,8 @@ import 'package:cookie_jar/cookie_jar.dart';
 class Api {
   final Dio dio;
 
+  static PersistCookieJar? _cookieJar;
+
   Api() : dio = Dio() {
     final cookieJar = CookieJar(); // Create a CookieJar instance
     dio.interceptors.add(CookieManager(cookieJar)); // Add a CookieManager interceptor to Dio
