@@ -1,3 +1,4 @@
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -34,7 +35,7 @@ class _Sign_up_memoState extends State<Sign_up_memo> {
     },
     {
       'text':
-          'Share your <b>musical taste</b> by submitting a URL of a <b>Spotify playlist</b> containing your favorite songs. </br></br> If your playlist is on another platform, use <a href="https://www.TuneMyMusic.com/">TuneMyMusic.com</a> to convert it to Spotify format for seamless integration with Auto-Match.', // TODO make href clickable
+          'Share your <b>musical taste</b> by submitting a URL of a <b>Spotify playlist</b> containing your favorite songs. </br></br> If your playlist is on another platform, use <a href="https://www.TuneMyMusic.com/">TuneMyMusic.com</a> to convert it to Spotify format for seamless integration with Auto-Match.',
       'imagePath': 'assets/page-1/images/sign_up_songs.png',
       'nextPage': '/sign_up_songs',
       'title': 'Songs'
@@ -146,6 +147,9 @@ class _Sign_up_memoState extends State<Sign_up_memo> {
                         color: Color(0xff2c2c2c),
                       ),
                     },
+                    onLinkTap: (url, _, __) {
+                      launchUrl(Uri.parse(url!), mode: LaunchMode.externalApplication);
+                    },
                   ),
                 ),
                 Container(
@@ -156,8 +160,10 @@ class _Sign_up_memoState extends State<Sign_up_memo> {
                       if (memos[memoNum]['nextPage'] == '/sign_up_memo') {
                         Navigator.pushNamed(context, '/sign_up_memo',
                             arguments: {'memoNum': 1});
-                      } else if (memos[memoNum]['nextPage'] == '/sign_up_face_training') {
-                        Navigator.pushNamed(context, '/sign_up_face_training', arguments: {'pageNum': 1, 'lastPageNum': 3});
+                      } else if (memos[memoNum]['nextPage'] ==
+                          '/sign_up_face_training') {
+                        Navigator.pushNamed(context, '/sign_up_face_training',
+                            arguments: {'pageNum': 1, 'lastPageNum': 3});
                       } else {
                         Navigator.pushNamed(context, memos[memoNum]['nextPage'],
                             arguments: {'pop': false});

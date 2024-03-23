@@ -255,49 +255,48 @@ class _Sign_up_picState extends State<Sign_up_pic> {
                   ),
                 ),
               ),
-              // TODO REMOVE:
-              Container(
-                // signinbuttonPem (405:177)
-                margin:
-                    EdgeInsets.fromLTRB(15 * fem, 0 * fem, 7.5 * fem, 0 * fem),
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/sign_up_memo',
-                            arguments: {'memoNum': 6});
-                  },
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                  ),
-                  child: Container(
-                    width: double.infinity,
-                    height: 71 * fem,
-                    decoration: BoxDecoration(
-                      color: Color(0xffffffff),
-                      borderRadius: BorderRadius.circular(20 * fem),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0x3f000000),
-                          offset: Offset(0 * fem, 4 * fem),
-                          blurRadius: 2 * fem,
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Skip',
-                        textAlign: TextAlign.center,
-                        style: SafeGoogleFont(
-                          'Plus Jakarta Sans',
-                          fontSize: 24 * ffem,
-                          fontWeight: FontWeight.w500,
-                          height: 1.26 * ffem / fem,
-                          color: Color(0xff2c2c2c),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // Container(
+              //   // signinbuttonPem (405:177)
+              //   margin:
+              //       EdgeInsets.fromLTRB(15 * fem, 0 * fem, 7.5 * fem, 0 * fem),
+              //   child: TextButton(
+              //     onPressed: () {
+              //       Navigator.pushNamed(context, '/sign_up_memo',
+              //               arguments: {'memoNum': 6});
+              //     },
+              //     style: TextButton.styleFrom(
+              //       padding: EdgeInsets.zero,
+              //     ),
+              //     child: Container(
+              //       width: double.infinity,
+              //       height: 71 * fem,
+              //       decoration: BoxDecoration(
+              //         color: Color(0xffffffff),
+              //         borderRadius: BorderRadius.circular(20 * fem),
+              //         boxShadow: [
+              //           BoxShadow(
+              //             color: Color(0x3f000000),
+              //             offset: Offset(0 * fem, 4 * fem),
+              //             blurRadius: 2 * fem,
+              //           ),
+              //         ],
+              //       ),
+              //       child: Center(
+              //         child: Text(
+              //           'Skip',
+              //           textAlign: TextAlign.center,
+              //           style: SafeGoogleFont(
+              //             'Plus Jakarta Sans',
+              //             fontSize: 24 * ffem,
+              //             fontWeight: FontWeight.w500,
+              //             height: 1.26 * ffem / fem,
+              //             color: Color(0xff2c2c2c),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

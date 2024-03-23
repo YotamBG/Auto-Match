@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:AUTO_MATCH/main.dart';
-import 'package:dio/dio.dart' show Options;
+// import 'package:dio/dio.dart' show Options;
 import 'package:http/http.dart' as http; //switch to dio
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

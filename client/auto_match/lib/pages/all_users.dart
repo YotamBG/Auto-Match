@@ -80,11 +80,11 @@ class _All_usersState extends State<All_users> {
           children: [
             MyTopBar('All Users'),
             (usersList.isEmpty
-                  ? SpinKitCubeGrid(
-                      color: Color(0xff2c2c2c),
-                      size: 60.0,
-                    )
-                  : SizedBox()),
+                ? SpinKitCubeGrid(
+                    color: Color(0xff2c2c2c),
+                    size: 60.0,
+                  )
+                : SizedBox()),
             Expanded(
               child: ListView.builder(
                 itemCount: usersList.length,

@@ -29,9 +29,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+  print('isLoggedIn: $isLoggedIn');
   try {
-    final currentUserObject =
-        await profileReq(); // this is to intialize the onReq inteceptor so cookies from prefs are sent.
+    await profileReq(); // this is to intialize the onReq inteceptor so cookies from prefs are sent.
   } catch (e) {
     print(e);
   }
@@ -41,38 +41,20 @@ Future<void> main() async {
       initialRoute: isLoggedIn ? '/matches' : '/',
       routes: {
         '/': (context) => const Opening_screen(),
-        '/login': (context) => buildScaffold(const Log_in(), context),
-        '/match': (context) => buildScaffold(const Match(), context),
-        '/matches': (context) => buildScaffold(const Matches(), context),
-        '/sign_up_info': (context) =>
-            buildScaffold(const Sign_up_info(), context),
-        '/sign_up_reels': (context) =>
-            buildScaffold(const Sign_up_reels(), context),
-        '/sign_up_songs': (context) =>
-            buildScaffold(const Sign_up_songs(), context),
-        '/sign_up_filters': (context) =>
-            buildScaffold(const Sign_up_filters(), context),
-        '/sign_up_pic': (context) =>
-            buildScaffold(const Sign_up_pic(), context),
-        '/sign_up_face_training': (context) =>
-            buildScaffold(const Sign_up_face_training(), context),
-        '/sign_up_memo': (context) =>
-            buildScaffold(const Sign_up_memo(), context),
-        '/training_centre': (context) =>
-            buildScaffold(const Training_centre(), context),
-        '/my_profile': (context) => buildScaffold(const My_profile(), context),
-        '/all_users': (context) => buildScaffold(const All_users(), context),
+        '/login': (context) => const Log_in(),
+        '/match': (context) => const Match(),
+        '/matches': (context) => const Matches(),
+        '/sign_up_info': (context) => const Sign_up_info(),
+        '/sign_up_reels': (context) => const Sign_up_reels(),
+        '/sign_up_songs': (context) => const Sign_up_songs(),
+        '/sign_up_filters': (context) => const Sign_up_filters(),
+        '/sign_up_pic': (context) => const Sign_up_pic(),
+        '/sign_up_face_training': (context) => const Sign_up_face_training(),
+        '/sign_up_memo': (context) => const Sign_up_memo(),
+        '/training_centre': (context) => const Training_centre(),
+        '/my_profile': (context) => const My_profile(),
+        '/all_users': (context) => const All_users(),
       },
     ),
-  );
-}
-
-// TODO REMOVE:
-Widget buildScaffold(Widget body, BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      backgroundColor: Colors.grey,
-    ),
-    body: body,
   );
 }

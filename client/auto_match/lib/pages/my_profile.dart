@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:AUTO_MATCH/pages/services/utils.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class My_profile extends StatefulWidget {
@@ -18,6 +19,251 @@ class My_profile extends StatefulWidget {
 class My_profileState extends State<My_profile> {
   var currentUser;
   final TextEditingController _locationController = TextEditingController();
+  final List<String> countries = [
+    'Global',
+    'Afghanistan',
+    'Albania',
+    'Algeria',
+    'American Samoa',
+    'Andorra',
+    'Angola',
+    'Anguilla',
+    'Antarctica',
+    'Antigua and Barbuda',
+    'Argentina',
+    'Armenia',
+    'Aruba',
+    'Australia',
+    'Austria',
+    'Azerbaijan',
+    'Bahrain',
+    'Bangladesh',
+    'Barbados',
+    'Belarus',
+    'Belgium',
+    'Belize',
+    'Benin',
+    'Bermuda',
+    'Bhutan',
+    'Bolivia',
+    'Bosnia and Herzegovina',
+    'Botswana',
+    'Bouvet Island',
+    'Brazil',
+    'British Indian Ocean Territory',
+    'British Virgin Islands',
+    'Brunei',
+    'Bulgaria',
+    'Burkina Faso',
+    'Burundi',
+    'Cambodia',
+    'Cameroon',
+    'Canada',
+    'Cape Verde',
+    'Cayman Islands',
+    'Central African Republic',
+    'Chad',
+    'Chile',
+    'China',
+    'Christmas Island',
+    'Cocos (Keeling) Islands',
+    'Colombia',
+    'Comoros',
+    'Congo',
+    'Cook Islands',
+    'Costa Rica',
+    'Cote d\'Ivoire',
+    'Croatia',
+    'Cuba',
+    'Cyprus',
+    'Czech Republic',
+    'Democratic Republic of the Congo',
+    'Denmark',
+    'Djibouti',
+    'Dominica',
+    'Dominican Republic',
+    'East Timor',
+    'Ecuador',
+    'Egypt',
+    'El Salvador',
+    'Equatorial Guinea',
+    'Eritrea',
+    'Estonia',
+    'Ethiopia',
+    'Faeroe Islands',
+    'Falkland Islands',
+    'Fiji',
+    'Finland',
+    'Former Yugoslav Republic of Macedonia',
+    'France',
+    'French Guiana',
+    'French Polynesia',
+    'French Southern Territories',
+    'Gabon',
+    'Georgia',
+    'Germany',
+    'Ghana',
+    'Gibraltar',
+    'Greece',
+    'Greenland',
+    'Grenada',
+    'Guadeloupe',
+    'Guam',
+    'Guatemala',
+    'Guinea',
+    'Guinea-Bissau',
+    'Guyana',
+    'Haiti',
+    'Heard Island and McDonald Islands',
+    'Honduras',
+    'Hong Kong',
+    'Hungary',
+    'Iceland',
+    'India',
+    'Indonesia',
+    'Iran',
+    'Iraq',
+    'Ireland',
+    'Israel',
+    'Italy',
+    'Jamaica',
+    'Japan',
+    'Jordan',
+    'Kazakhstan',
+    'Kenya',
+    'Kiribati',
+    'Kuwait',
+    'Kyrgyzstan',
+    'Laos',
+    'Latvia',
+    'Lebanon',
+    'Lesotho',
+    'Liberia',
+    'Libya',
+    'Liechtenstein',
+    'Lithuania',
+    'Luxembourg',
+    'Macau',
+    'Madagascar',
+    'Malawi',
+    'Malaysia',
+    'Maldives',
+    'Mali',
+    'Malta',
+    'Marshall Islands',
+    'Martinique',
+    'Mauritania',
+    'Mauritius',
+    'Mayotte',
+    'Mexico',
+    'Micronesia',
+    'Moldova',
+    'Monaco',
+    'Mongolia',
+    'Montenegro',
+    'Montserrat',
+    'Morocco',
+    'Mozambique',
+    'Myanmar',
+    'Namibia',
+    'Nauru',
+    'Nepal',
+    'Netherlands',
+    'Netherlands Antilles',
+    'New Caledonia',
+    'New Zealand',
+    'Nicaragua',
+    'Niger',
+    'Nigeria',
+    'Niue',
+    'Norfolk Island',
+    'North Korea',
+    'Northern Marianas',
+    'Norway',
+    'Oman',
+    'Pakistan',
+    'Palau',
+    'Panama',
+    'Papua New Guinea',
+    'Paraguay',
+    'Peru',
+    'Philippines',
+    'Pitcairn Islands',
+    'Poland',
+    'Portugal',
+    'Puerto Rico',
+    'Qatar',
+    'Reunion',
+    'Romania',
+    'Russia',
+    'Rwanda',
+    'Sqo Tome and Principe',
+    'Saint Helena',
+    'Saint Kitts and Nevis',
+    'Saint Lucia',
+    'Saint Pierre and Miquelon',
+    'Saint Vincent and the Grenadines',
+    'Samoa',
+    'San Marino',
+    'Saudi Arabia',
+    'Senegal',
+    'Serbia',
+    'Seychelles',
+    'Sierra Leone',
+    'Singapore',
+    'Slovakia',
+    'Slovenia',
+    'Solomon Islands',
+    'Somalia',
+    'South Africa',
+    'South Georgia and the South Sandwich Islands',
+    'South Korea',
+    'South Sudan',
+    'Spain',
+    'Sri Lanka',
+    'Sudan',
+    'Suriname',
+    'Svalbard and Jan Mayen',
+    'Swaziland',
+    'Sweden',
+    'Switzerland',
+    'Syria',
+    'Taiwan',
+    'Tajikistan',
+    'Tanzania',
+    'Thailand',
+    'The Bahamas',
+    'The Gambia',
+    'Togo',
+    'Tokelau',
+    'Tonga',
+    'Trinidad and Tobago',
+    'Tunisia',
+    'Turkey',
+    'Turkmenistan',
+    'Turks and Caicos Islands',
+    'Tuvalu',
+    'Virgin Islands',
+    'Uganda',
+    'Ukraine',
+    'United Arab Emirates',
+    'United Kingdom',
+    'United States',
+    'United States Minor Outlying Islands',
+    'Uruguay',
+    'Uzbekistan',
+    'Vanuatu',
+    'Vatican City',
+    'Venezuela',
+    'Vietnam',
+    'Wallis and Futuna',
+    'Western Sahara',
+    'Yemen',
+    'Yugoslavia',
+    'Zambia',
+    'Zimbabwe',
+  ];
+
   var serverURL = dotenv.env["SERVER_URL"];
 
   @override
@@ -52,13 +298,16 @@ class My_profileState extends State<My_profile> {
   }
 
   Future<void> submitLocation() async {
-    final _location = _locationController.text;
-    print('submiting!! $_location');
+    var location = _locationController.text;
+    if (!countries.contains(location)) {
+      location = 'Global';
+    }
+    print('submiting!! $location');
 
     // send req to server
     print('Sending req to server...');
     final jsonData = {
-      "location": _location,
+      "location": location,
     };
     print('jsonData:');
     print(jsonData);
@@ -82,7 +331,6 @@ class My_profileState extends State<My_profile> {
     final responseBody = fetchResponse.data.toString();
     await api.clearCookies();
     await sessionManager.logout();
-
 
     print('responseBody: $responseBody');
 
@@ -118,6 +366,9 @@ class My_profileState extends State<My_profile> {
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
                                     child: Image.network(
+                                      headers: {
+                                        'Connection': 'keep-alive',
+                                      },
                                       '${serverURL}/pic/${currentUser['id']}/profilePic.png',
                                       width: 120,
                                       height: 120,
@@ -295,7 +546,7 @@ class My_profileState extends State<My_profile> {
                                           context: context,
                                           builder: (context) => AlertDialog(
                                             content: SizedBox(
-                                              height: 200,
+                                              height: 250,
                                               width: 200,
                                               child: Column(
                                                 children: [
@@ -309,56 +560,91 @@ class My_profileState extends State<My_profile> {
                                                         color:
                                                             Color(0xff000000),
                                                       )),
+                                                  SizedBox(height: 30),
                                                   Container(
-                                                    // emailinputunu (403:43)
                                                     margin: EdgeInsets.fromLTRB(
+                                                        1 * fem,
                                                         0 * fem,
-                                                        15 * fem,
-                                                        0 * fem,
-                                                        15 * fem),
-                                                    width: 290 * fem,
+                                                        3 * fem,
+                                                        33 * fem),
+                                                    width: double.infinity,
+                                                    // height: 20,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10 * fem),
                                                       color: Color(0xfff4f3f3),
                                                     ),
-                                                    child: TextField(
+                                                    child: TypeAheadField(
                                                       controller:
                                                           _locationController,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        border:
-                                                            InputBorder.none,
-                                                        focusedBorder:
-                                                            InputBorder.none,
-                                                        enabledBorder:
-                                                            InputBorder.none,
-                                                        errorBorder:
-                                                            InputBorder.none,
-                                                        disabledBorder:
-                                                            InputBorder.none,
-                                                        // contentPadding:
-                                                        //     EdgeInsets.fromLTRB(
-                                                        //         21.53 * fem,
-                                                        //         15 * fem,
-                                                        //         21.53 * fem,
-                                                        //         17 * fem),
-                                                        hintText: 'Location',
-                                                        hintStyle: TextStyle(
+                                                      suggestionsCallback:
+                                                          (pattern) async {
+                                                        if (pattern.isEmpty) {
+                                                          // Return all countries if the pattern is empty
+                                                          return countries;
+                                                        } else {
+                                                          // Filter countries based on the pattern
+                                                          return countries
+                                                              .where((country) => country
+                                                                  .toLowerCase()
+                                                                  .contains(pattern
+                                                                      .toLowerCase()))
+                                                              .toList();
+                                                        }
+                                                      },
+                                                      itemBuilder: (context,
+                                                          String suggestion) {
+                                                        return ListTile(
+                                                          title:
+                                                              Text(suggestion),
+                                                        );
+                                                      },
+                                                      onSelected:
+                                                          (String value) {
+                                                        _locationController
+                                                            .text = value;
+                                                      },
+                                                      builder: (context,
+                                                          TextEditingController
+                                                              controller,
+                                                          FocusNode focusNode) {
+                                                        return TextField(
+                                                          controller:
+                                                              controller,
+                                                          focusNode: focusNode,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            border: InputBorder
+                                                                .none,
+                                                            contentPadding:
+                                                                EdgeInsets
+                                                                    .fromLTRB(
+                                                              21.53 * fem,
+                                                              15 * fem,
+                                                              21.53 * fem,
+                                                              17 * fem,
+                                                            ),
+                                                            hintText:
+                                                                'Location',
+                                                            hintStyle: TextStyle(
+                                                                color: Color(
+                                                                    0xffa4a4a4)),
+                                                          ),
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                'Plus Jakarta Sans',
+                                                            fontSize: 19 * ffem,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            height: 1.26 *
+                                                                ffem /
+                                                                fem,
                                                             color: Color(
-                                                                0xffa4a4a4)),
-                                                      ),
-                                                      style: SafeGoogleFont(
-                                                        'Plus Jakarta Sans',
-                                                        fontSize: 19 * ffem,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        height:
-                                                            1.26 * ffem / fem,
-                                                        color:
-                                                            Color(0xff000000),
-                                                      ),
+                                                                0xff000000),
+                                                          ),
+                                                        );
+                                                      },
                                                     ),
                                                   ),
                                                   SizedBox(height: 20),
