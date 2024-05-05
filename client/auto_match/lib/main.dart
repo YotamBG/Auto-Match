@@ -3,6 +3,7 @@ import 'package:AUTO_MATCH/pages/my_profile.dart';
 import 'package:AUTO_MATCH/pages/services/api.dart';
 import 'package:AUTO_MATCH/pages/services/auth.dart';
 import 'package:AUTO_MATCH/pages/sign_up/sign_up_memo.dart';
+import 'package:AUTO_MATCH/pages/training%20centre/training_centre_faces.dart';
 import 'package:AUTO_MATCH/pages/training_centre.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -52,6 +53,7 @@ Future<void> main() async {
         '/sign_up_face_training': (context) => const Sign_up_face_training(),
         '/sign_up_memo': (context) => const Sign_up_memo(),
         '/training_centre': (context) => const Training_centre(),
+        '/training_centre_faces': (context) => const Training_centre_faces(),
         '/my_profile': (context) => const My_profile(),
         '/all_users': (context) => const All_users(),
       },

@@ -1,4 +1,4 @@
-import 'package:AUTO_MATCH/pages/services/api.dart';
+// import 'package:AUTO_MATCH/pages/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:AUTO_MATCH/pages/services/auth.dart';
 import 'package:AUTO_MATCH/pages/services/utils.dart';
@@ -30,6 +30,8 @@ class Log_inState extends State<Log_in> {
     );
 
     print('Sign-In Status: $signInStatus');
+
+    // TODO Check and handle error from req ('Invalid credentials' / 'User not found')
 
     //move to the next screeen
     Navigator.pushNamed(context, '/matches');

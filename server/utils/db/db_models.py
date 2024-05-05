@@ -47,13 +47,12 @@ class User(UserMixin):
     def get_by_email(cls, email):
         with driver.session() as session:
             result = session.run(
-                f"MATCH (u:User {{email: '{email}'}}) RETURN u.id, u.name, u.email, u.age, u.location, u.bio"
+                f"MATCH (u:User {{email: '{email}'}}) RETURN u"
             )
             record = result.single()
             if record:
-                user_data = record['u']
-                user = cls(user_data)  # Assuming the class constructor accepts user data
-                return user
+                print(cls(record['u']))
+                return cls(record['u'])
             return None
     
 

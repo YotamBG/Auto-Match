@@ -2,11 +2,16 @@ from flask import Blueprint, request, jsonify
 from utils.db.db_models import User  # Import the User model
 from flask_login import login_user, logout_user, current_user
 from utils.db.database import driver
+import bcrypt
 
 user_bp = Blueprint('user', __name__)
 
 
 
+# Function to hash password using Bcrypt
+def hash_password(password):
+    hashed_bytes = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_bytes.decode('utf-8')
 
 @user_bp.route('/signIn', methods=['POST'])
 def signIn():
@@ -15,27 +20,25 @@ def signIn():
 
     try:
         # Check if the user exists in the database
-        user = User.get_by_email_and_password(str(email), str(password))
+        user = User.get_by_email(email)
         
         if user:
-            # Handle login using Flask-Login
-            login_user(user, remember=True)
-            user_id = user.node['id']
-            print(user_id)  # Print user ID from Neo4j
-            return jsonify({"message": f"User {user_id} logged in successfully"}), 200
+            stored_password = user.node.get('password', '')
+            
+            if stored_password and bcrypt.checkpw(password.encode('utf-8'), stored_password.encode('utf-8')):
+                # Handle login using Flask-Login
+                login_user(user, remember=True)
+                user_id = user.node['id']
+                return jsonify({"message": f"User {user_id} logged in successfully"}), 200
+            else:
+                return jsonify({"error": "Invalid credentials"}), 401
         else:
-            return jsonify({"error": "Invalid credentials"}), 401
+            return jsonify({"error": "User not found"}), 404
     
     except Exception as e:
         print(e)  # Log the error for debugging
         return jsonify({"error": "An error occurred while signing in"}), 500
 
-
-@user_bp.route('/logout', methods=['POST'])
-def logout():
-    # Log the user out
-    logout_user()
-    return jsonify({"message": "User logged out"}), 200
 
 @user_bp.route('/signUp', methods=['POST'])
 def signup():
@@ -51,10 +54,19 @@ def signup():
     if User.get_by_email(email):
         return jsonify({"message": "Email already exists"}), 400
 
-    # Create a new user
-    new_user = User.create({'email':email, 'password':password, 'name':name, 'bio':bio, 'location':location, 'age':age})
+    # Hash the password
+    hashed_password = hash_password(password)
+
+    # Create a new user with hashed password
+    new_user = User.create({'email':email, 'password':hashed_password, 'name':name, 'bio':bio, 'location':location, 'age':age})
 
     return jsonify({"message": "User signup successful"}), 200
+
+@user_bp.route('/logout', methods=['POST'])
+def logout():
+    # Log the user out
+    logout_user()
+    return jsonify({"message": "User logged out"}), 200
 
 @user_bp.route('/my-profile', methods=['GET'])
 def profile():
@@ -154,3 +166,35 @@ def update_profile():
     except Exception as e:
         print(e)
         return jsonify({'error': 'Failed to update profile', 'details': str(e)}), 500
+
+# Update users' passwords endpoint
+@user_bp.route('/update_passwords', methods=['POST'])
+def update_passwords():
+    # Connect to Neo4j
+    session = driver.session()
+
+    # Retrieve all users from Neo4j
+    cypher_query = "MATCH (u:User) RETURN u"
+    result = session.run(cypher_query)
+
+    # Iterate over each user and update password
+    for record in result:
+        user_node = record["u"]
+        old_password = user_node["name"].split(' ')[0]+'123' # user_node["password"]
+        
+        # Hash the password
+        hashed_password = hash_password(old_password)
+        print(f'{user_node["name"]}: {str(old_password)} => {str(hashed_password)}')
+
+        # Update the user node with the hashed password
+        update_query = f"""
+        MATCH (u:User {{id: $user_id}})
+        SET u.password = $hashed_password
+        """
+        session.run(update_query, user_id=user_node["id"], hashed_password=str(hashed_password))
+
+    # Close Neo4j session and driver
+    session.close()
+    driver.close()
+
+    return jsonify({"message": "Passwords updated successfully"})

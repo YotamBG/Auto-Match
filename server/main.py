@@ -36,6 +36,22 @@ app.register_blueprint(reels.reels_bp)
 app.register_blueprint(media.media_bp)
 app.register_blueprint(match.match_bp)
 
+# Middleware to support flutter web:
+class SameSiteMiddleware:
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        def modified_start_response(status, headers, exc_info=None):
+            modified_headers = [(key, value) for key, value in headers if key.lower() != 'set-cookie']
+            for key, value in headers:
+                if key.lower() == 'set-cookie':
+                    value += '; SameSite=None; Secure'
+                    modified_headers.append((key, value))
+            return start_response(status, modified_headers, exc_info)
+
+        return self.app(environ, modified_start_response)
+app.wsgi_app = SameSiteMiddleware(app.wsgi_app)
 
 @app.before_request
 def log_received_cookies():

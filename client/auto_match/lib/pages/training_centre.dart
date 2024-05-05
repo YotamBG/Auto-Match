@@ -3,15 +3,141 @@ import 'package:AUTO_MATCH/pages/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:AUTO_MATCH/pages/services/utils.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class Training_centre extends StatefulWidget {
-  const Training_centre({super.key});
+  const Training_centre({Key? key}) : super(key: key);
 
   @override
-  Training_centreState createState() => Training_centreState();
+  _Training_centreState createState() => _Training_centreState();
 }
 
-class Training_centreState extends State<Training_centre> {
+class _Training_centreState extends State<Training_centre> {
+  List<bool> expanded = [false, false, false, false]; // Expansion panel status
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Matches'),
+        backgroundColor: Colors.redAccent, // Adjust as needed
+      ),
+      body: SingleChildScrollView(
+        child: ExpansionPanelList(
+          expansionCallback: (panelIndex, isExpanded) {
+            setState(() {
+              expanded[panelIndex] = !expanded[panelIndex];
+            });
+          },
+          children: [
+            buildExpansionPanel('Face Training', Icons.face, [
+              {'title': 'Button 1', 'url': '/url1'},
+              {'title': 'Button 2', 'url': '/url2'},
+              // Add more buttons as needed
+            ], 0),
+            buildExpansionPanel('Submit Reels', Icons.video_collection, [
+              {'title': 'Button 1', 'url': '/url1'},
+              {'title': 'Button 2', 'url': '/url2'},
+              // Add more buttons as needed
+            ], 1),
+            buildExpansionPanel('Submit Songs', Icons.music_note, [
+              {'title': 'Button 1', 'url': '/url1'},
+              {'title': 'Button 2', 'url': '/url2'},
+              // Add more buttons as needed
+            ], 2),
+            buildExpansionPanel('Adjust Filters', Icons.filter_list, [
+              {'title': 'Button 1', 'url': '/url1'},
+              {'title': 'Button 2', 'url': '/url2'},
+              // Add more buttons as needed
+            ], 3),
+          ],
+        ),
+      ),
+    );
+  }
+
+  ExpansionPanel buildExpansionPanel(
+      String title, IconData icon, List<Map<String, String>> buttonsData, int index) {
+    return ExpansionPanel(
+      headerBuilder: (context, isOpen) {
+        return ListTile(
+          leading: Icon(icon),
+          title: Text(
+            title,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
+        );
+      },
+      body: Column(
+        children: buttonsData
+            .map(
+              (data) =>
+                  buildExpansionPanelButton(data['title']!, data['url']!),
+            )
+            .toList(),
+      ),
+      isExpanded: expanded[index],
+    );
+  }
+
+  Widget buildExpansionPanelButton(String title, String url) {
+    return TextButton(
+      onPressed: () {
+        print('Navigating to: $url');
+        // Uncomment if needed
+        // print(dotenv.env['SERVER_URL']);
+        Navigator.pushNamed(context, url, arguments: {'pop': true});
+      },
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.zero,
+      ),
+      child: Container(
+        width: double.infinity,
+        height: 61,
+        margin: EdgeInsets.symmetric(vertical: 5),
+        decoration: BoxDecoration(
+          color: Color(0xff2c2c2c),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Center(
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+              color: Color(0xffffffff),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+class best_Training_centre extends StatefulWidget {
+  const best_Training_centre({super.key});
+
+  @override
+  best_Training_centreState createState() => best_Training_centreState();
+}
+
+class best_Training_centreState extends State<best_Training_centre> {
   @override
   Widget build(BuildContext context) {
     double baseWidth = 375;
@@ -21,168 +147,139 @@ class Training_centreState extends State<Training_centre> {
       body: SafeArea(
         child: Column(
           children: [
-            MyTopBar('Matches'),
+            MyTopBar('Training centre'),
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(30*fem),
+                padding: EdgeInsets.all(30 * fem),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      // signinbuttonJiZ (403:31)
-                      margin: EdgeInsets.fromLTRB(
-                          1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
-                      child: TextButton(
-                        onPressed: () {
-                          print('sign_up_face_training!');
-                          print(dotenv.env['SERVER_URL']);
-                          Navigator.pushNamed(context, '/sign_up_face_training',
-                              arguments: {'pageNum': 4, 'lastPageNum': 6});
-                        },
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: Container(
-                          width: double.infinity,
-                          height: 61 * fem,
-                          decoration: BoxDecoration(
-                            color: Color(0xff2c2c2c),
-                            borderRadius: BorderRadius.circular(20 * fem),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Face training',
-                              textAlign: TextAlign.center,
-                              style: SafeGoogleFont(
-                                'Plus Jakarta Sans',
-                                fontSize: 24 * ffem,
-                                fontWeight: FontWeight.w500,
-                                height: 1.26 * ffem / fem,
-                                color: Color(0xffffffff),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                    buildExpansionPanel(
+                      'Face Training',
+                      '/training_centre_faces',
+                      Icons.face,
+                      [
+                        {'title': 'Button 1', 'url': '/url1'},
+                        {'title': 'Button 2', 'url': '/url2'},
+                        // Add more buttons as needed
+                      ],
                     ),
-                    Container(
-                      // signinbuttonJiZ (403:31)
-                      margin: EdgeInsets.fromLTRB(
-                          1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
-                      child: TextButton(
-                        onPressed: () {
-                          print('sign_up_reels!');
-                          print(dotenv.env['SERVER_URL']);
-                          Navigator.pushNamed(context, '/sign_up_reels',
-                              arguments: {'pop': true});
-                        },
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: Container(
-                          width: double.infinity,
-                          height: 61 * fem,
-                          decoration: BoxDecoration(
-                            color: Color(0xff2c2c2c),
-                            borderRadius: BorderRadius.circular(20 * fem),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Submit reels',
-                              textAlign: TextAlign.center,
-                              style: SafeGoogleFont(
-                                'Plus Jakarta Sans',
-                                fontSize: 24 * ffem,
-                                fontWeight: FontWeight.w500,
-                                height: 1.26 * ffem / fem,
-                                color: Color(0xffffffff),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                    buildExpansionPanel(
+                      'Submit Reels',
+                      '/sign_up_reels',
+                      Icons.video_collection,
+                      [
+                        {'title': 'Button 1', 'url': '/url1'},
+                        {'title': 'Button 2', 'url': '/url2'},
+                        // Add more buttons as needed
+                      ],
                     ),
-                    Container(
-                      // signinbuttonJiZ (403:31)
-                      margin: EdgeInsets.fromLTRB(
-                          1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
-                      child: TextButton(
-                        onPressed: () {
-                          print('sign_up_songs!');
-                          print(dotenv.env['SERVER_URL']);
-                          Navigator.pushNamed(context, '/sign_up_songs',
-                              arguments: {'pop': true});
-                        },
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: Container(
-                          width: double.infinity,
-                          height: 61 * fem,
-                          decoration: BoxDecoration(
-                            color: Color(0xff2c2c2c),
-                            borderRadius: BorderRadius.circular(20 * fem),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Sumbit songs',
-                              textAlign: TextAlign.center,
-                              style: SafeGoogleFont(
-                                'Plus Jakarta Sans',
-                                fontSize: 24 * ffem,
-                                fontWeight: FontWeight.w500,
-                                height: 1.26 * ffem / fem,
-                                color: Color(0xffffffff),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                    buildExpansionPanel(
+                      'Submit Songs',
+                      '/sign_up_songs',
+                      Icons.music_note,
+                      [
+                        {'title': 'Button 1', 'url': '/url1'},
+                        {'title': 'Button 2', 'url': '/url2'},
+                        // Add more buttons as needed
+                      ],
                     ),
-                    Container(
-                      // signinbuttonJiZ (403:31)
-                      margin: EdgeInsets.fromLTRB(
-                          1 * fem, 0 * fem, 0.47 * fem, 0 * fem),
-                      child: TextButton(
-                        onPressed: () {
-                          print('sign_up_filters!');
-                          print(dotenv.env['SERVER_URL']);
-                          Navigator.pushNamed(context, '/sign_up_filters',
-                              arguments: {'pop': true});
-                        },
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                        ),
-                        child: Container(
-                          width: double.infinity,
-                          height: 61 * fem,
-                          decoration: BoxDecoration(
-                            color: Color(0xff2c2c2c),
-                            borderRadius: BorderRadius.circular(20 * fem),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Adjust filters',
-                              textAlign: TextAlign.center,
-                              style: SafeGoogleFont(
-                                'Plus Jakarta Sans',
-                                fontSize: 24 * ffem,
-                                fontWeight: FontWeight.w500,
-                                height: 1.26 * ffem / fem,
-                                color: Color(0xffffffff),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                    buildExpansionPanel(
+                      'Adjust Filters',
+                      '/sign_up_filters',
+                      Icons.filter_list,
+                      [
+                        {'title': 'Button 1', 'url': '/url1'},
+                        {'title': 'Button 2', 'url': '/url2'},
+                        // Add more buttons as needed
+                      ],
                     ),
                   ],
                 ),
               ),
             ),
-            MyButtonBar('training_centre')
+            MyButtonBar('training_centre'),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildExpansionPanel(
+    String title,
+    String url,
+    IconData icon,
+    List<Map<String, String>> buttonsData,
+  ) {
+    return ExpansionPanelList(
+      elevation: 0,
+      expandedHeaderPadding: EdgeInsets.zero,
+      expansionCallback: (int index, bool isExpanded) {
+        print('wow!');
+        setState(() {
+          // Toggle the expansion state
+          // You can store the expansion state for each panel if needed
+          // and manage it accordingly
+        });
+      },
+      children: [
+        ExpansionPanel(
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return ListTile(
+              leading: Icon(icon),
+              title: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+              ),
+            );
+          },
+          body: Column(
+            children: buttonsData
+                .map(
+                  (data) =>
+                      buildExpansionPanelButton(data['title']!, data['url']!),
+                )
+                .toList(),
+          ),
+          isExpanded: false, // Set initial expansion state
+        ),
+      ],
+    );
+  }
+
+  Widget buildExpansionPanelButton(String title, String url) {
+    return TextButton(
+      onPressed: () {
+        print('Navigating to: $url');
+        print(dotenv.env['SERVER_URL']);
+        Navigator.pushNamed(context, url, arguments: {'pop': true});
+      },
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.zero,
+      ),
+      child: Container(
+        width: double.infinity,
+        height: 61,
+        margin: EdgeInsets.symmetric(vertical: 5),
+        decoration: BoxDecoration(
+          color: Color(0xff2c2c2c),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Center(
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+              color: Color(0xffffffff),
+            ),
+          ),
         ),
       ),
     );

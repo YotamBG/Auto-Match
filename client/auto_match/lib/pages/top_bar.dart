@@ -49,9 +49,11 @@ class _MyTopBarState extends State<MyTopBar> {
               ),
             ),
           ),
+          Spacer(),
           Container(
+            // alignment: Alignment.centerRight,
             // emailinputdTB (405:259)
-            margin: EdgeInsets.fromLTRB(90 * fem, 0 * fem, 0 * fem, 0 * fem),
+            margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 20 * fem, 0 * fem),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(30),

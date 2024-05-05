@@ -8,6 +8,9 @@ class Api {
   Api() : dio = Dio() {
     // Initialize Dio with shared preferences interceptor
     _initializeSharedPrefsInterceptor();
+    // Support flutter web:
+    dio.options.extra['withCredentials'] = true;
+    // TODO: test over HTTPS connection
   }
 
   Future<void> _initializeSharedPrefsInterceptor() async {
@@ -44,7 +47,6 @@ class Api {
     await prefs.remove('cookies');
   }
 }
-
 
 class SessionManager {
   late SharedPreferences prefs;
